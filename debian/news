@@ -1,0 +1,44 @@
+dictd (1.9.12-2) unstable; urgency=low
+
+  * Starting with version 2002.02.27-3 the mueller7-dict and
+    muller7accent-dict packages have been converted to utf-8 encoding,
+    so they now work properly with dictd.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 17 Mar 2004 10:04:11 -0500
+
+
+dictd (1.9.11-4) unstable; urgency=low
+
+  * dict-de-en, ver. 1.2-6, is now enocded in utf-8, so it works
+properly with dictd.  If your terminal doesn't support utf-8, use
+dictl.  I suggest symlinking dictl to dict for transparent conversion
+of character sets. 
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 04 Feb 2004 16:35:46 -0500
+
+
+dictd (1.9.11-1) unstable; urgency=low
+
+  * dict.conf has moved from /etc to /etc/dictd.
+
+  * The plugin shared libraries and example plugins are nolonger
+    shipped with the dictd binary.  If you wish to experiment with
+    plugins see /usr/share/doc/dictd/README.Plugins.gz.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Thu, 25 Dec 2003 11:51:31 -0500
+
+
+dictd (1.9.10-3) unstable; urgency=low
+
+  * Support for 8-bit character encodings is broken a this time, and
+    is not expected to be working properly until sometime after the
+    release of dictd 1.9.11.
+
+    This means that dict-de-en, mueller7-dict, and mueller7accent-dict
+    do not work properly.
+
+  * /usr/share/doc/README.Dictd-locales has been added in an attempt
+    to clarify the use of the --locale option.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Sun, 07 Dec 2003 14:43:07 -0500
+  

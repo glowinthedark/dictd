@@ -1,0 +1,34 @@
+dict client for Debian
+-----------------------
+
+     The default configuration file is set up to have dict try to
+access a dictd server on the local host, failing that, it will try a
+public server at dict.org, on the Internet.  (You must be online to
+access the public server; the dict client will not make a connection
+automatically.)  In many cases this will be slow, especially when it
+is trying to access a non-existent public server first, so you should
+comment out the line for the server that you don't want to use. To use
+any other server, enter its URL or IP address in place of "dict.org".
+
+     By default, the `dict' client returns all definitions found in
+all databases available to the server, in the order that the
+dictionaries are listed in the server's configuration file.  The
+systems default PAGER is used to display the results.  Command line
+switches are available for the client to restrict the searches to
+certain dictionaries, to select among the several available search
+strategies, and to use different pagers.  See the manual page, dict(1),
+for all command line options.
+
+     The DICT Group maintains a number of public servers, which are
+accessed in round-robin fashion by the address dict.org, so delays due
+to busy servers should be minimized.  
+
+     The public servers do not require any userid, password, or other
+authentication.  A private server, such as one on your own or a
+nearby network may require authentication.  See the manpage, `man dict',
+or the sample configuration file, in /etc/usr/share/doc/dict/examples.
+
+     dict will return definitions encoded in whatever character set
+the the dictionary uses.  If your dictionaries are encoded in utf-8
+and your pager doesn't display utf-8 properly, you should consider
+using /usr/bin/dictl.  Refer to the manual page dictl(1). 

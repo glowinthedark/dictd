@@ -54,19 +54,16 @@ be run from
 .P
 Databases are distributed separately from the server.
 .P
-By default, 
 .B dictd
-assumes that the index files are sorted alphabetically, and only
-alphanumeric characters from the 7-bit ASCII character set are used
-for search.  This default may be overridden by a header in the data
-file.  The only such features implemented at this time are the headers
-"00-database-allchars" which tells
+assumes that the index files are sorted alphabeticaly.  By default, only
+alphanumeric charactares are used for search.  This default may be
+overridden by a header in the data file.  The only such features
+implemented at this time are the headers "00-database-allchars" which
+tells
 .B dictd 
-that non-alphanumeric characters may also be used for search, the
+that non-alphanumeric characters may also be used for search, and the
 header "00-database-utf8" which indicates that the database uses utf8
-encoding, and the "00-database-8bit-new" which indicates that the database
-is encoded and sorted according to a locale that uses an 8-bit
-encoding.
+encoding. All headwords in the index file are sorted alphabetically.
 .P
 A header "00-database-plugin" may also be present and is used for
 integrating plugins into dictd. See "dictfmt_plugin --help" and
@@ -128,8 +125,8 @@ Be verbose.
 .TP
 .BI \-c " file\fR or "  \-\-config " file"
 Specify configuration file.  The default is
-.I /etc/dictd.conf (/etc/dictd/dictd.conf on Debian systems)
-, but may be changed in the
+.I /etc/dictd.conf (/etc/dictd/dictd.conf
+in Debian systems), but may be changed in the
 .I defs.h
 file at compile time (DICTD_CONFIG_FILE).
 .TP
@@ -145,16 +142,6 @@ Communicate on standard input/output, suitable for use from inetd.
 Although, due to its rather large startup time, this daemon was not
 intended to run from inetd, with a fast processor it is feasible to do
 so. This option also implies \-\-fast-start.
-.TP
-.BI \-\-pp " prog"
-Sets a preprocessor for configuarion file.
-like
-.I " m4"
-or
-.I " cpp".
-See example_complex.conf file
-from distribution. By default configuration file is parsed without
-preprocessor.
 .TP
 .BI \-\-depth " length"
 Specify the queue length for
@@ -208,12 +195,6 @@ the
 .I defs.h
 file at compile time (DICT_DAEMON_LIMIT).
 .TP
-.BI \-\-listen\-to " address"
-Binds socket to the specified address.
-If you want to allow connections to dict server from localhost only,
-apply 
-.B \-\-listen\-to 127.0.0.1
-.TP
 .BI \-\-locale " locale"
 Specifies the locale used for searching.  If no locale is specified, the
 "C" locale is used.  The locale used for the server should be the same
@@ -223,17 +204,6 @@ for both 8-bit and UTF-8 formats. If locale contains utf8 or utf-8
 substring, UTF-8 format is expected.
 Note that if your database is not in ASCII7 or UTF-8 format,
 then the dictd server will not be compliant to RFC 2229.
-.RS
-.P
-.BI NOTE 
-If utf-8 or 8-bit dictionaries are included in the configuration file,
-and the appropriate --locale has not been specified,
-.B dictd
-will fail to start.  This implies that
-.B dictd 
-will not run with both utf-8 and 8-bit dictionaries in the
-configuration file.
-.RE
 .TP
 .B \-s
 Log using the
@@ -258,13 +228,7 @@ logging has been enabled with the \-s or \-L option, or with a debugging
 option.)
 .TP
 .BI \-\-default-strategy " strategy"
-Set the server's default search strategy for MATCH search type.
-The default is 'lev'. It is also possible to set default strategy per database.
-See
-.I default_strategy
-keyword in
-.I Database specification
-section.
+Set the default strategy for MATCH search type. The default is 'lev'.
 .TP
 .BI \-\-without-strategy " strat1,strat2,..."
 Disable specified strategies.
@@ -294,6 +258,7 @@ self test -- set search type to MATCH. The default is DEFINE.
 By default, dictd creates (in memory) additional index
 to make the search faster.
 This option disables this behaviour and makes startup faster.
+Use of this option make sense on CYGWIN, but normally you should not use it.
 .TP
 .B \-\-without-mmap
 do not use the mmap() function and read entire files into memory instead.
@@ -457,7 +422,8 @@ in
 .TP
 .B Introduction
 The configuration file defaults to
-.I /etc/dictd.conf (/etc/dictd/dictd/conf on Debian systems),
+.I /etc/dictd.conf (/etc/dictd/dictd/conf 
+on Debian systems), 
 but can be specified on the command line with the
 .B \-c
 option (see above).
@@ -652,6 +618,8 @@ database compression.
 Specifies the filter command.  After the entry is extracted from the
 database, it will be filtered with this filter.  This may be used to
 provide formatting for the entry (e.g., for html).
+.B Warning:
+This is not currently implemented.
 .TP
 .BI name " string"
 Specifies the short name of the database (e.g., "1913 Webster's").  If the
@@ -674,29 +642,10 @@ Makes dictionary invisible to the clients i.e. this dictionary
 will not be recognized or shown by DEFINE, MATCH, SHOW INFO, SHOW SERVER and
 SHOW DB commands. If some definitions or matches are found in invisible
 dictionary,
-the name of the upper visible virtual dictionary is returned.
-Dictionaries '*' and '!' don't include invisible ones.
+the name of the upper visible virtual dictionary or '*' is returned.
 .B NOTE:
 There is no sense to make dictionary invisible unless it is included
 to the virtual dictionary.
-.TP
-.BI disable_strategy " string"
-Disables the specified strategy for database.
-This may be useful for slow dictionaries (plugins)
-or for dictionaries included to virtual ones.
-For an example see file example_complex.conf.
-.TP
-.BI default_strategy " string"
-Specifies the strategy which will be used
-if the database is accessed using the strategy '.'.
-I.e. this directive is the way to set the preferred search strategy
-per database. For example, instead of strategy
-.I lev
-, the strategy
-.I word
-may be prefered for databases mainly containing
-the multiword phrases but the single words.
-
 .RE
 .TP
 .B Virtual Database Specification
@@ -708,20 +657,15 @@ Specifies a list of databases which are included into the virtual database.
 Database names are in the string and are separated by comma.
 .TP
 .BI name " string"
-Specifies the short name of the database. See
-.I database specification
+Specifies the short name of the database. String beginning with '@' symbol
+is not treated as an entry name.
 .TP
 .BI info " string"
-Specifies the information about database. See
-.I database specification
+Specifies the information about database.  String beginning with '@' symbol
+is not treated as an entry name.
 .TP
 .BI invisible
 Makes dictionary invisible to the clients. See
-.I database specification
-.TP
-.BI disable_strategy " string"
-Disables the specified strategy for database.
-See
 .I database specification
 .TP
 .B NOTE:
@@ -739,34 +683,16 @@ Specifies a filename of the plugin.
 Specifies data for initializing plugin.
 .TP
 .BI name " string"
-Specifies the short name of the database.
-See
-.I Database Specification
-for more information.
+Specifies the short name of the database. See
+.I database specification
 .TP
 .BI info " string"
-Specifies the information about database.
-See
-.I Database Specification
-for more information.
+Specifies the information about database. See
+.I database specification
 .TP
 .BI invisible
-Makes dictionary invisible to the clients.
-See
-.I Database Specification
-for more information.
-.TP
-.BI disable_strategy " string"
-Disables the specified strategy for database.
-See
-.I Database Specification
-for more information.
-.TP
-.BI default_strategy " string"
-Sets the default search strategy for database.
-See
-.I Database Specification
-for more information.
+Makes dictionary invisible to the clients. See
+.I database specification
 .TP
 .B NOTE:
 Another way to configure plugin is to create
@@ -918,7 +844,7 @@ this search is much faster.
 Databases for
 .B dictd
 are distributed separately.  A database consists of two files.  One is a
-flat text file, the other is the index.
+flat text file, the other in the index.
 .P
 The flat text file contains dictionary entries (or any other suitable
 data), and the index contains tab-delimited tuples consisting of the
@@ -964,34 +890,6 @@ file using, for example,
 will destroy the random access characteristics of the file.  Always
 compress data files using
 .BR dictzip (1).)
-
-.SH "SIGNALS"
-.P
-.B SIGHUP
-causes dictd to reread configuration file and reinitialize databases.
-.P
-.B SIGUSR1
-causes dictd to unload databases. Then
-.I dictd
-returns 420 status (instead of 220). To load databases again, send
-.B SIGHUP
-signal. Because database files are
-.I mmap'ed(2)
-, it is impossible
-to update them while
-.I dictd
-is running.
-So, if you need to update database files and reread configuration file,
-first, send
-.B SIGUSR1
-signal
-to
-.I dictd
-to unload databases,
-update files, and then send
-.B SUGHUP
-signal to load them again.
-
 .SH "ACKNOWLEDGEMENTS"
 Special thanks to Jean-loup Gailly and Mark Adler for writing the
 .B zlib
@@ -1033,7 +931,7 @@ The main source files for the
 .B dictd
 server and the
 .B dictzip
-compression program were written by Rik Faith (faith@dict.org) and are
+compression program were written by Rik Faith (faith@dict) and are
 distributed under the terms of the GNU General Public License.  If you need
 to distribute under other terms, write to the author.
 .P
@@ -1046,19 +944,8 @@ more information, and consult with your attorney to resolve these issues.
 The regular expression searches do not ignore non-whitespace,
 non-alphanumeric characters as do the other searches.  In practice, this
 isn't much of a problem.
-
-The 'lev' strategy doesn't work with utf8 dictionaries.
-.SH "WARNINGS"
-Conformance of regular expressions
-(used by 're' and 'regexp' search strategies)
-to ERE and BRE depends on
-library you build dictd with.
-
-Whether 're' and 'regex' strategies support utf8 depends on 
-library you build dictd with.
-
 .SH "FILES"
-.I /etc/dictd.conf (/etc/dictd/dictd/conf on Debian systems)
+.I /etc/dictd.conf
 .br
 .I /usr/sbin/dictd
 .SH "SEE ALSO"

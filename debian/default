@@ -1,0 +1,11 @@
+# This file is sourced by /etc/init.d/dictd to obtain the value of
+# $DICTD_ARGS to be passed to dictd on startup.
+
+# Uncomment appropriate lines, change the text if desired, and/or add
+# new lines using the format of the sample lines.  (They must be legal
+# options, as shown in dictd(8).)
+
+DICTD_ARGS=""
+#DICTD_ARGS="$DICTD_ARGS --locale=en_US.utf-8"
+#DICTD_ARGS="$DICTD_ARGS --facility=user"
+#DICTD_ARGS="$DICTD_ARGS --log=min"

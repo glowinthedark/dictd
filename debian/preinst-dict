@@ -1,0 +1,30 @@
+#! /bin/sh 
+
+set -e
+
+case "$1" in
+    upgrade)
+
+# /etc/dict.conf moved to /etc/dictd/dict.conf in 1.9.11
+    if dpkg --compare-versions "$2" lt "1.9.11"; then
+       if [ -e /etc/dict.conf ]; then
+         echo "Moving dict.conf from /etc to /etc/dictd."
+         mkdir -p /etc/dictd
+         mv /etc/dict.conf /etc/dictd/dict.conf
+         touch /etc/dict.conf.moved_by_preinst
+       fi
+     fi             
+    exit 0
+    ;;
+
+    install|failed-upgrade|abort-install|abort-upgrade|disappear)
+     exit 0
+    ;;
+
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 0
+    ;;
+esac
+
+     exit 0

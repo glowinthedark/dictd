@@ -1,0 +1,28 @@
+#! /bin/sh
+
+set -e
+
+cleanup () {
+  if [ -e /etc/dict.conf.moved_by_preinst -a -d /etc/dictd ]; then 
+    if [ -e /etc/dictd/dict.conf ]; then
+       mv /etc/dictd/dict.conf /etc/dict.conf
+    fi
+    rmdir /etc/dictd/
+    rm /etc/dict.conf.moved by preinst
+  fi
+}
+
+case "$1" in
+   failed-install|abort-install|abort-upgrade|failed-upgrade)
+        cleanup
+        exit 0
+    ;;
+
+    remove|purge|upgrade|disappear)
+        exit 0
+    ;;
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 0
+    ;;
+esac

@@ -1,0 +1,17 @@
+--- dict.c.orig	2004-06-13 21:10:20.000000000 -0400
++++ dict.c	2004-06-13 21:15:21.000000000 -0400
+@@ -241,9 +241,11 @@
+ 				/* default */
+    dict_output = stdout;
+ 				/* use an empty string to avoid paging */
+-   if ((dict_pager || (dict_pager = getenv("PAGER")))
+-       && *dict_pager
+-       && strcmp(dict_pager, "-")) {
++   if (!dict_pager)
++     dict_pager = getenv("PAGER");
++   if (!dict_pager)
++      dict_pager = "/usr/bin/pager";
++   if (*dict_pager && strcmp(dict_pager, "-")) {
+       PRINTF(DBG_VERBOSE,("Using \"%s\" as pager\n",dict_pager));
+       pr_open( dict_pager, PR_CREATE_STDIN, &infd, NULL, NULL );
+       dict_output = fdopen( infd, "w" );

@@ -1,0 +1,5 @@
+/etc/init.d/dictd
+/etc/dictd/dictd.conf
+/etc/dictd/dictd.order
+/etc/dictd/dictdconfig.alias
+/etc/default/dictd

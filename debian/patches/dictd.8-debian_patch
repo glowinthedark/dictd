@@ -1,0 +1,29 @@
+--- dictd.8.orig	2004-11-19 14:42:12.000000000 -0500
++++ dictd.8	2005-01-13 13:42:37.000000000 -0500
+@@ -128,7 +128,7 @@
+ .TP
+ .BI \-c " file\fR or "  \-\-config " file"
+ Specify configuration file.  The default is
+-.I /etc/dictd.conf
++.I /etc/dictd.conf (/etc/dictd/dictd.conf on Debian systems)
+ , but may be changed in the
+ .I defs.h
+ file at compile time (DICTD_CONFIG_FILE).
+@@ -457,7 +457,7 @@
+ .TP
+ .B Introduction
+ The configuration file defaults to
+-.I /etc/dictd.conf 
++.I /etc/dictd.conf (/etc/dictd/dictd/conf on Debian systems),
+ but can be specified on the command line with the
+ .B \-c
+ option (see above).
+@@ -1058,7 +1058,7 @@
+ library you build dictd with.
+ 
+ .SH "FILES"
+-.I /etc/dictd.conf
++.I /etc/dictd.conf (/etc/dictd/dictd/conf on Debian systems)
+ .br
+ .I /usr/sbin/dictd
+ .SH "SEE ALSO"

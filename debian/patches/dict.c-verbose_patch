@@ -1,0 +1,13 @@
+--- dict.c.orig	2004-05-24 07:42:25.000000000 -0400
++++ dict.c	2004-06-13 21:10:20.000000000 -0400
+@@ -675,8 +675,8 @@
+ 	    }
+ 	 }
+          client_close_pager();
+-	 fprintf (stderr,
+-		  "Cannot connect to any servers (use -v to see why)\n");
++	 fprintf (stderr, "Cannot connect to any servers%s\n",\
++		  dbg_test(DBG_VERBOSE) ? "" : " (use -v to see why)" );
+ 	 exit (EXST_CONNECTION_FAILED);
+       }
+       cmd_reply.host    = c->host;

@@ -1,0 +1,985 @@
+dictd (1.9.15-1) unstable; urgency=low
+  
+  * New upstream version.
+  * Patched dictl so that the argument may conatain an apostrophe.
+    Closes: #263819
+  * Removed unused colorit script and man page.  Closes: #263012
+  
+ -- Kirk Hilliard <kirk@debian.org>  Thu, 13 Jan 2005 14:06:59 -0500
+
+
+dictd (1.9.14-2) unstable; urgency=low
+  
+  * Changed home diretory of system user dictd to /var/lib/dictd.
+    Closes: #253130
+  * Stop dictd --inetd from logging to stderr.  Closes: #257886
+  
+ -- Kirk Hilliard <kirk@debian.org>  Sat, 31 Jul 2004 04:32:57 -0400
+
+
+dictd (1.9.14-1) unstable; urgency=low
+  
+  * New upstream version.
+  
+ -- Kirk Hilliard <kirk@debian.org>  Sun, 13 Jun 2004 18:56:00 -0400
+
+
+dictd (1.9.13-1) unstable; urgency=low
+  
+  * New upstream version.
+  * New maintainer.
+  * Patched dict to use /usr/bin/pager as default pager.  Closes: #246981
+  * Added dictd | dict-server "suggests" for dict.  Closes: #240418
+  * Improved error message which had suggested -v option even when -v is
+    used.  Closes: #240274
+  
+ -- Kirk Hilliard <kirk@debian.org>  Tue,  8 Jun 2004 07:25:59 -0400
+
+
+dictd (1.9.12-3) unstable; urgency=low
+  
+  * Provided NEWS.Debian.gz in each binary package, not just in dictd.
+   Closes: #238612
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 19 Mar 2004 14:04:33 -0500
+
+  
+dictd (1.9.12-2) unstable; urgency=low
+
+  * Patched dict.1 to reflect the Debian location of dict.conf (this was
+    overlooked in 1.9.12-1).
+  
+  *  Updated NEWS.Debian.gz
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 17 Mar 2004 10:08:02 -0500
+
+  
+dictd (1.9.12-1) unstable; urgency=low
+  
+  * New upstream version.  See /usr/share/doc/dictd/NEWS for a summary of
+    major changes in this version.
+  
+  * Wrong DICTL_CHARSET evaluation has ben corrected in dictl, based on a
+    patch submitted by Roland Rosenfeld <roland@spinnaker.de>. Thanks
+    Roland.  Closes: #231545
+  
+  * Updated /usr/share/doc/dictd/README.Debian.gz to reflect the
+    conversion of the mueller7-dict and muller7accent-dict to utf-8
+    encoding, and to mention the broken status of the dict-freedict*
+    packages.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 15 Mar 2004 16:22:07 -0500
+
+dictd (1.9.11-5) unstable; urgency=low
+  
+  * Upstream didn't accept the modification to dictl in 1.9.11-2, so I have replaced dictl with dictl from CVS. Closes: #231401 (really this time).
+  
+  # Added Depends: recode to dict, needed to make dictl work.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Sat, 07 Feb 2004 18:43:45 -0500
+  
+  
+dictd (1.9.11-4) unstable; urgency=low
+  
+  * Kirk Hilliard <kirk@debian.org> has patched dictfmt.c to improve
+    handling of multipole headwords (added the --break-headwordsoption),
+    and modified dictfmt.1 accordingly.  Thanks, Kirk!
+  
+  * Updated /usr/share/doc/dictd/README.Debian.gz to reflect the
+    conversion of dict-de-en to utf-8 encoding.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 04 Feb 2004 16:35:46 -0500
+
+  
+dictd (1.9.11-3) unstable; urgency=low
+  
+  * Corrected typo in dictfmt.1
+  
+  * Patched dictfmt.c to corrrect formatting of database-info with the -f
+    option.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 26 Jan 2004 11:58:57 -0500
+
+  
+dictd (1.9.11-2) unstable; urgency=low
+  
+  * Modified dictl script to test for the presence of /usr/bin/recode, and default to using iconv if recode is not present.  Closes: #228700
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Tue, 20 Jan 2004 18:56:52 -0500
+  
+
+dictd (1.9.11-1) unstable; urgency=low
+  
+  * New upstream version.  See /usr/share/doc/dictd/NEWS for a summary of
+    major changes in this version.
+  
+  * Upstream now provides a NEWS file.  The changelog was inadvertenmtly
+    omitted from the distributed package.  Added symlink from NEWS.gz to
+    changelog.gz as a temporary correction.
+
+  * Moved dict.conf from /etc/ to /etc/dictd/.  This permits using
+    ./configure --sysconfdir=/etc/dictd instead of patching defs.h.
+  
+  * The dictd binary package no longer includes the plug-in shared
+    libraries (dictdplugin_exit.so and dictdplugin_popen.so) in
+    /usr/lib/dictd, and the man_popen files (man_popen.dict,
+    man_popen.index, and search_man) in /usr/share/dictd/examples.
+    /usr/share/doc/dictd/README.Plugins.gz has been modified to reflect
+    this change.
+  
+  * If dictd fails due to incompatiability of a database locale with
+    dictd's locale, it is now logged.  Closes: #216981
+  
+  * Edited dictfmt.1 to clarify what goes into the 00-database-info and
+    what is considered the first headword.  Closes: #209055
+
+  * dictfmt is broken in 1.9.11.  Inserted dictfmt.c, libmaa/string.c and
+    libmaa/maa.h from CVS (Mon, 06 Jan 2004) into source tree, and patched
+    dictfmt.c to fix some formatting problems.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 05 Jan 2004 14:06:28 -0500
+
+
+dictd (1.9.10-3) unstable; urgency=low
+
+  * Added /usr/share/doc/README.Dictd-locales.gz to clarify the use of the
+    --locale option.  Closes: #213745
+  
+  * Added /usr/share/doc/NEWS.Debian.gz
+  
+  * Applied patch from Grant Hollingworth <grant@antiflux.org> to
+    dictfmt.c.  This patch eliminates indentation errors in the first
+    headword of a .dict file. This makes `dict -i-' and `dict
+    00-database-info' work correctly.  Thanks, Grant. Closes: #221184
+  
+  * Added "Usage:" line to help screens for dict, dictd, and dictfmt.
+    Closes: #221945 
+  
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 10 Dec 2003 20:28:30 -0500
+
+
+dictd (1.9.10-2) unstable; urgency=low
+  
+  * quoted "$PAGER" in test in dictl Closes: #204284.
+  
+  * Applied patch by Kirk Hilliard to clientparse.y to accept the keyword
+    pager (/usr/bin/pager) as the name of the pager in dict.conf.
+    Closes: #204375
+  
+  * Modified manpage dictd.8 to clarify the necessity of dictd's --locale
+    setting matching the databases in the configuration file.
+  
+  * Modified manpage dict.1 to mention the default pager used.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 20 Aug 2003 18:37:12 -0400
+
+
+dictd (1.9.10-1) unstable; urgency=low
+
+  * New upstream version.  Major changes include:
+    Added -t option to dictfmt.
+    The predefined DICT servers dict.org and alt0.dict.org are disabled in
+    dict by default.
+    Implemented 'filter' option to dictd.
+    Added several configure variables to specify specific LD_FLAGS for
+    particular executables.  (Not meaningful for users of Debian binary
+    packages.) 
+  
+  * When purging dictd, postrm now uses rmdir --ignore-fail-on-non-empty
+    instead of rm -fr to remove configuration directories.
+  
+  * Patched defs.h to use /etc/dictd/ for dictd.conf
+  
+  * Added a conffile, /etc/default/dictd, containing startup options for
+    dictd.  This will make it easier to specify command line options, such
+    as the locale to be used by dictd, and logging options. 
+    Closes: #109461, #198402, #174696
+
+  * Added note specifying Debian location of dictd.conf under "FILES" in
+    dictd.8. Closes: #202951
+  
+  * Included a script, /usr/bin/dictl, as a wrapper for dict.  This script
+    converts characters encoded in utf-8 to the user's preferred character
+    set. Closes: #147482
+
+  * Deleted statement in dictd.8, under "BUGS", that says there is no way
+    to get a running server to re-read the configuration file.  (This
+    should have been done in 1.9.3-1.)
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 04 Aug 2003 15:53:01 -0400
+
+  
+dictd (1.9.9-4) unstable; urgency=low
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 30 May 2003 16:37:07 -0400
+
+  
+dictd (1.9.9-3) unstable; urgency=low
+
+  * Added #include <assert.h> in dictdplugin_popen.cpp Closes: # 195405
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 30 May 2003 16:37:07 -0400
+
+  
+dictd (1.9.9-2) unstable; urgency=low
+  
+  * Corrected references to configuration file in README.Debian and in
+    dictd.8
+  
+  * Changed dictd.8 to mention that a SIGHUP makes dictd re-read the
+    confioguration file.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 16 May 2003 18:26:18 -0400
+  
+
+dictd (1.9.9-1) unstable; urgency=low
+
+  * New upstream version (1.9.8 was not packaged).  Major changes since
+    1.9.7 include:
+  
+    debian inetd patch has been included by upstream.
+    dictd may now be compiled and run on Cygwin.
+    dict is patched to prevent segfaulting on abnormally long command
+    lines.  Closes: #166336
+  
+  * dictdconfig now recognizes *.sufix and *.word index files and creates
+    appropriate configuration entries.
+  
+  * Added `-D_REENTRANT' to CFLAGS for plugin libraries.
+  
+  # The definition of DICTD_CONFIG_NAME has moved from dictd.h to defs.h,
+    so patch for config files in /etc/dictd/ ha also moved to defs.h
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Sat, 19 Apr 2003 15:41:40 -0400
+
+  
+dictd (1.9.7-2) unstable; urgency=low
+  
+  * use -fPIC for plugin libraries Closes: #185092
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 17 Mar 2003 09:57:50 -0500
+
+  
+dictd (1.9.7-1) unstable; urgency=low
+  
+  * New upstream version.  (1.9.5, 1.9.6 and 1.9.7 were released too
+    quickly for me to package 1.9.5 and 1.9.6)  Major changes since 1.9.3
+    include: 
+   
+    Added --add-strategy option
+    Added ability to define plugins in the configuration file.
+    Added ability to define virtual dictionaries in the configuration file.
+    Added keyword 'invisible' for the databse specification of the
+    configuration file.
+    Various bugfixes and code cleanups.
+    
+  * Plugin libraries and sample plugin man_popen are compiled and included
+    in the dictd package as examples.
+  
+  * Removed emacs variables from changelog.
+  
+  * Use `./configure  --verbose --prefix=$(PREFIX) --libexecdir=/usr/lib/dictd
+     --datadir=/usr/share/dictd --sysconfdir=/etc' in
+    rules instead of tweaking Makefile.in
+  
+  * changelog for 1.9.3-1 failed to mention that changing the location
+    of dictd configuration files required patching dictd.h (since the
+    configuration directory is in CFLAGS, and all executables use the same
+    CFLAGS).  
+  
+  * The scripts dictfmt_index2suffix, dictfmt_index2word, dictfmt_virtual,
+    and dictunformat are included in the dictfmt package.
+    
+ -- Robert D. Hilliard <hilliard@debian.org>  Sun, 16 Mar 2003 15:14:58 -0500
+
+  
+dictd (1.9.3-2) unstable; urgency=low
+  
+  * Made postrm "rm -fr /etc/dictd when called with purge. Closes: #180562
+  
+  * Corected typo in rules file that installed dictfmt_virtual.1 under the
+    name of dictfmt_index2suffix.1
+   
+  * Modified default confile dictd.order to have the same order as the
+    dictdconfig default.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Tue, 18 Feb 2003 14:47:43 -0500
+
+  
+dictd (1.9.3-1.woody) unstable; urgency=low
+
+  * Compiled for woody (libc6 2.2.5-11.2)
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Sat,  1 Feb 2003 10:41:02 -0500
+
+
+dictd (1.9.3-1) unstable; urgency=low
+  
+  * New upstream version.  Major changes in this version include:
+  
+    Virtual dictionaries support; script to create them provided
+    New search strategy 'word'
+    Configuration file reloading by SIGHUP
+    A lot of plugin enhancements and two plugin examples.
+    Optional index_suffix and index_word files are supported, and scripts
+    are provided to create them.
+    dict_unformat script is provided to create raw database files from 
+    .dict and .index files. 
+    Servparse.y now works with bison 1.75.
+    dict -D and dict -S will display long dictionary or stratgey names
+    sanely.  Closes: #165787
+
+  * dictdconfig now reads /etc/dictdconfig.alias to optionally make
+    database name different than basename of .dict.dz file.  This enhances
+    the above fix to #165787.
+  
+  * Pached Makefile.in to fix configuration and installation directories
+  
+  * Modified init file to use SIGHUP for restart.
+  
+  * Patched index.c so dictd will startup without error if the config file
+    includes the  /dev/null default database.  Closes: #171943
+    
+  * Added inetd patch.
+  
+  * Patched dictzip.c to prevent segfault on excessively long command
+    lines.  Closes: #166325
+  
+  * Removed redundant `--' from deluser ----remove-home dictd &>/dev/null
+    in postrm.
+  
+  * Prepared manpages dictfmt_virtual.1, dictunformat.1,
+    dictfmt_index2suffix.1, dictfmt_index2word.1.
+  
+  * dictdconfig knows about the database_exit directive, and will insert
+    it in /var/lib/dictd/db.list if found in /etc/dictd/dictd.order.
+  
+  * Moved dictd and dictdconfig configuration files to /etc/dictd/.
+  
+  * Patched dict.c to make --serverinfo work as advertised.  
+    Closes: #179127
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 31 Jan 2003 13:37:52 -0500
+
+  
+dictd (1.8.0-1.woody) unstable; urgency=low
+  
+  *Compiled in woody, with bison 1.35
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Thu,  7 Nov 2002 15:44:00 -0500
+
+  
+dictd (1.8.0-1) unstable; urgency=low
+  
+  * New upstream version.  Major changes in this version include:
+  
+    Enhanced  8bit, UTF-8, and i18n support in both dictd and dictfmt.
+    dictd supports plugins (but they aren't documented)
+    dictfmt is now part of the dictd source package
+    dictd uses the system libz (the Debian package has done this since
+    1.5.5-10). 
+  
+  * Updated dictd and dictfmt manpages to reflect new options, and correct
+    the most egregious errors and omissions of the original dictfmt manpage.
+
+  * Patched dictfmt to prevent duplicating index entry for last item and
+    to correct help message.
+  
+  * Removed /usr/doc symlinks in all postinst and prerm files.
+  
+  * Applied inetd patch.
+  
+  * Regenerated configure using autoconf 2.54
+  
+  * Modified debugging support to comply with policy version 3.5.7.0.
+  
+  * Modified configure target as recommended in autotools-dev package.
+  
+  * Added Build-Depends: libltdl3-dev, autotools-dev
+  
+  * Bison 1.75 breaks servparse.y.  Hacked Makefile.in to use byacc - this
+    produces a ton of warnings, but seems to work.  
+    Changed Build-Depends: from bison to byacc
+  
+  * Corrected readme-inetd - s|/etc/init.d/dictd|/etc/inetd.d| Closes: #167596
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 04 Nov 2002 12:56:12 -0500
+
+
+dictd (1.7.1-2) unstable; urgency=low
+  
+  *  Moved dict | dict-client from Suggests: to Recommends:
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Sat, 20 Jul 2002 15:25:21 -0400
+  
+dictd (1.7.1-2) unstable; urgency=low
+  
+  *  Added `Conflicts: dictd (<< 1.7.1-1)' to dictzip control file.
+    Closes: #153228
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 17 Jul 2002 14:02:58 -0400
+
+dictd (1.7.1-1) unstable; urgency=low
+  
+  *  New upstream version - includes all previous debian patches except
+    inetd patch.  Major changes in this version include:
+  
+    Added sanity checks and moved logging so that people get information about
+    unreadable configuration files, unreadable databases files, and other
+    errors that prevent startup (and were previously silent).
+    Closes: #137500
+  
+    Improved reporting of authentication matching and access denial.
+  
+    Fixed dictunzip problem with single chunk files.
+    Closes: #142672
+  
+    Made -l connect log something (under :K:)
+  
+    Added --locale option, and applied patches from Aleksey Cheusov to
+    make dictd know about locale.   
+    If LC_CTYPE and LC_COLLATE are the same for dictfmt and dictd, then a
+    non C collating order should work. 
+  
+    Make sure pager is closed when reporting fatal error.
+    Closes: #141846
+  
+    Modified code for Access Specification to add a range of IP addresses
+    and an IP address followed by a netmask to the allowable forms of
+    allowed addresses.  
+    Closes: #137143
+  
+  *  Modified configure.in to link against system zlib instead of local
+    zlib, and modified dict.h, dictd.h, and dictzip.h to #include <zlib,h>
+    instead of "zlib.h".
+  
+  *  Modified Makefile.in and libmaa/Makefile.in to not remove configure
+    on distclean and to honor DEB_BUILD_OPTIONS.
+  
+  *  Applied inetd patch.
+    
+  *  Modified rules file to make a separate dictzip package.  To avoid
+    transition problems, dictd depends on dictzip.  This dependency may be
+    removed when woody+1 is released.
+    Closes: #141190
+  
+  *  Added dependencies on netbase and adduser.
+    Closes: #147784
+  
+  *  Added -c option to start-stop-daemon in /etc/init.d/dictd.
+    Closes: #140513
+  
+  *  Changed user, group and home directory removal in postrm to:
+    "deluser ----remove-home dictd &>/dev/null || true" 
+    This will permit this version of dictd to be purged, but, of course it
+    can't do anything about the previous version.  :-( 
+    Closes: #147989 
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Tue,  9 Jul 2002 15:18:34 -0400
+
+
+dictd (1.5.5-10) unstable; urgency=high
+  
+  * Security update for zlib vulnerability
+  
+  * Modified configure and dictzip.c to use system library zlib1g-dev and 
+    /usr/include/zlib.h instead of local zlib and zlib.h; compiled with
+    zlib1g 1.1.4-1
+  
+  * Add to postrm - remove user and group dictd and remove /home/dictd if
+    it is empty. closes: #137984
+ 
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 18 Mar 2002 12:19:59 -0500
+
+  
+dictd (1.5.5-9) unstable; urgency=low
+  
+  * Added \n to access denied error message. closes: #137499
+  
+  * Added  ``allow 127.0.0.1'' to access specification in dictd.conf to 
+    avoid failure when localhost is not the first name after the IP
+    address in the /etc/hosts file.  This is a temporary work around for
+    #137500 and #138156.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Thu, 14 Mar 2002 15:41:47 -0500
+
+
+dictd (1.5.5-8) unstable; urgency=low
+
+  * Corrected spelling in long description - s/Amrose/Ambrose/.
+  
+  * Patched servscan.l to fix parse error of IP addresses in the access
+    section of /etc/dictd.conf.  (This had been fixed in 1.4.9-3, but
+    wasn't included in 1.5.x.) closes: #136380
+  
+  * Added ``allow localhost'' to default /etc/dictd.conf file to prevent
+    unlimited access from the Internet.  Modified README.Debian.gz to
+    mention the default access specification.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Tue,  5 Mar 2002 17:09:02 -0500
+
+
+dictd (1.5.5-7) unstable; urgency=low
+  
+  * Really added --no-create-home option to adduser call in preinst
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon, 11 Feb 2002 18:13:56 -0500
+
+  
+dictd (1.5.5-6) unstable; urgency=low
+
+  * Added --quiet option an || true to adduser invocation in preinst
+    closes: #132968
+  
+  * Added closelog() to daemon_terminate() in daemon.c
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri,  8 Feb 2002 11:52:27 -0500
+  
+
+dictd (1.5.5-5) unstable; urgency=low
+
+  * Removed --html option from dict.c help message
+    closes: #113479
+
+  * Made numerous corrections and clarifications to dictd.8, including
+    conforming option documentation to the code.  Added a note about the
+    include keyword and the Debian dictdconfig script, which partially
+    addresses, but doesn't close Bug #104096.
+  
+  * Made dictd informative messages (-h, -L and -V) display on stdout
+    instead of stderr, while still using stderr for error messages.
+    
+  * Modified preinst to add user dictd if it doesn't already exist.
+    Patched dictd.c to run as user dictd if that user is present on the 
+    system, and as user nobody otherwise.  
+  
+  * Created an option (--facility) to permit the user to choose which
+    syslog logging facility dictd should use.
+  
+  * Included a patch by Joey Hess <joeyh@debian.org> to permit dictd to be
+    started by inetd; included README.inetd.gz explaining use of dictd with
+    inetd.  Thanks, Joey.
+    closes: #62998
+  
+  * Removed spurious character (`1') from dictd prerm.
+    closes: #131195
+  
+  * Included virtual packages dict-client and dict-server in dependency
+    relationships.
+  
+  * Removed -Wwrite-strings from WCFLAGS in configure script.  This
+    removes this flag from XTRACFLAGS in Makefile and avoids 70 compiler
+    warnings caused by libc6-dev Bug #111767.
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Mon,  4 Feb 2002 18:16:22 -0500
+
+  
+dictd (1.5.5-4) unstable; urgency=low
+  
+  * Removed redundant `echo $PID' from preinst
+    Closes: #101866
+  
+  * Modified control file and README.Debian to reflect new version of
+    WordNet. 
+  
+ -- Robert D. Hilliard <hilliard@debian.org>  Sat, 23 Jun 2001 15:59:21 -0400
+
+
+dictd (1.5.5-3) unstable; urgency=low
+  
+  * Modified Makefile.in and debian/rules to support the environment
+    variable `DEB_BUILD_OPTIONS', per policy section 11.1.
+  
+  * Modified debian/rules to strip the .note and .comment sections.
+  
+  * Modfied dictdconfig, debian/control and README.Debian to include
+    dict-cide. 
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 20 Jun 2001 16:22:50 -0400
+
+
+dictd (1.5.5-2) unstable; urgency=low
+
+  * Made dictunzip.1 and dictzcat.1 as symlinks to dictzip.1 
+
+  * Fixed the kludge for PID in preinst.
+    closes #81393
+
+  * Patched dictzip.c to make dictunzip work.  Added /usr/bin/dictunzip 
+    and /usr/bin/dictzcat as symlinks to /usr/bin/dictzip
+    closes #92694
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Wed, 25 Apr 2001 16:08:42 -0400
+
+
+dictd (1.5.5-1) unstable; urgency=low
+
+  * new upstream version - incorporates _all_ previous Debian patches
+
+  *  Previous release (1.5.4-1) fixed a parsing error in dict.c that
+     caused it to segauflt in certain unusual cases.  This fixed
+     Bug#77685, but it was omitted from the changelog.
+
+  * Modified Makefile.in and libmaa/Makefile.in as in previous
+    version.
+
+ -- Robert D. Hilliard <hilliard@debian.org>  Fri, 19 Jan 2001 13:28:43 -0500
+
+
+dictd (1.5.4-1) unstable; urgency=low
+  
+  * new upstream version - incorporates almost all previous debian patches,
+  and fixes the folowing bugs:
+    Fixed typo (s/deby/deny/) in dictd manpage
+    Closes: #78275
+    Corrected output streams so dict help messages (including -V and -L)
+    go to stdout and error messages still go to stderr.
+    Closes #78596
+    Corrected option listing in dict.c so getopt() will complain if
+    argument is omitted for -s, and extended manpage text for the -s
+    option.
+    Closes #78597
+    Disabled --html option in dict, and noted it in manpage.  This
+    responds to, but doesn't fix, Bug#78975.  
+
+  * Modified Makefile.in as done for previous version; made same changes
+    in libmaa/Makefile.in.  Fixed man directory in Makefile.in.
+
+  * Patched dict.c to fix pager problem.
+
+  * Changed readme-dictd and my @db_order in dictdconfig to mention
+    dict-devil. 
+ 
+ -- Bob Hilliard <hilliard@debian.org>  Sun, 31 Dec 2000 16:58:04 -0500
+
+  
+dictd (1.5.0-1) unstable; urgency=low
+  
+  * New upstream version, which includes mnost of the patches applied to
+    1.4.9 in earlier packages.
+  
+  * Modifies Makefile.in as done for previous version; made same changes
+    in libmaa/Makefile.in.  Fixed man directory in Makefile.in.
+  
+  * Patched dictd.c to make it drop root's groups and become group
+    nogroup.  Even though dictd dropped root privileges on starting,
+    it retained root's group memberships.
+    Closes: #75132
+  
+  * Patched dictd.c and servscan.l as was done in 1.4.9-5 and 1.4.9-3.
+  
+  * Patched dict.c to fix pager problem.
+
+ -- Bob Hilliard <hilliard@debian.org>  Thu, 26 Oct 2000 08:02:57 -0400
+
+
+dictd (1.4.9-9) stable; urgency=low
+  
+  * Note to ftp admins: This fixes a potential security hole, although
+    there is no known exploit.
+  
+  * Patched dictd.c to make it drop root's groups and become group
+    nogroup.  As reported by bug#75132, even though dictd dropped root
+    privileges on starting, it retained root's group memberships.   
+  
+ -- Bob Hilliard <hilliard@debian.org>  Wed, 25 Oct 2000 10:37:38 -0400
+
+
+dictd (1.4.9-8) unstable; urgency=low
+  
+  * Added vera to my @db_order in dictdconfig
+  
+  * Modified preinst, readm-dictd and control.
+  
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 12 May 2000 14:07:15 -0400
+
+
+dictd (1.4.9-7) frozen unstable; urgency=low
+  
+  * Rlease Manager: This should be safe for frozen since it only adds a
+    sleep command in /etc/init.d/dictd restart and uogrades the control
+    file for the latest versoinp of the policy manual.
+
+  * Restart is implemented in /etcinit.d/dictd restart by stopping and
+    restarting the daemon.  It is possible for the start command to be
+    issued before the daemon is stopped, in which case the daemon is not
+    started. 
+    
+    Added a pause between stopping and restarting the daemon. 
+    Closes: #59321
+
+  *  Updated to Standards-Version: 3.1.1.1
+  
+  *  Added Build-Depends 
+  
+  *  Postrm now removes automatically generated config file
+    /var/lib/dictd/db.list on purge.
+  
+ -- Bob Hilliard <hilliard@debian.org>  Tue,  7 Mar 2000 14:46:03 -0500
+
+  
+dictd (1.4.9-6) unstable; urgency=low
+  
+  * Upgraded dictdconfig to 1.1:
+  
+    No longer ignore uncompressed dictionaries.
+    Closes: bug#57618
+  
+    Directories in the order override file which are not absolute are
+    now relative to /usr/share/dictd/, as stated in dictdconfig(8).
+  
+    Fixed minor errors in dictdconfig(8).
+  
+  * Added -ips to dpkg-gencontrol in rules (two locations) to stop a
+    lintian warning.
+  
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 25 Feb 2000 13:47:45 -0500
+
+  
+dictd (1.4.9-5) unstable; urgency=low
+  * Add patch from Kirk Hilliard to terminate a string in
+    dict_setproctitle.  Thanks, Kirk  Closes: #54809
+  
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 14 Jan 2000 13:59:22 -0500
+
+
+dictd (1.4.9-4) unstable; urgency=low
+
+  * Remove postrm for dict since it does nothing except report
+    "postrm called with unknown argument `purge'" when purging.
+    Closes: bug#52555
+
+  * Minor changes in REEADME's
+
+ -- Bob Hilliard <hilliard@debian.org>  Sun, 12 Dec 1999 14:59:52 -0500
+
+
+dictd (1.4.9-3) unstable; urgency=low
+
+  * Update to Standards version 3.0.1.1:
+    Modified for FHS - /usr/share{doc, man}
+
+    Added scripts to provide and remove symlink  /usr/doc/dict-wn
+    to /usr/share/doc/dict-wn and to reconfigure and restart dictd
+    when this package is installed or removed.
+
+    Corrected location of GPL license
+
+    Fixed man1_prefix and man8_prefix in Makefile.in to include /share.
+
+  * Applied patches from Lars Wirzenius <liw@iki.fi> that add an
+    option to specify the pager used by dict to display the output,
+    and modifies the manpage to document this.  Thank you, Lars.
+    Closes: bug#47603
+
+  * Patched servscan.l based on e-mail from Rick Faith <faith@dict.org>
+    to make dict accept the configuration file syntax described in the
+    ditcd.8 manpage. 
+    Closes: bug#48489
+
+  * Patched dictd.c with patch from Kirk Hilliard <kirk@ghoti.com) to
+    cause dictd to drop root privileges as soon as it starts, and to
+    prevent dictd from trying to write a pidfile.  Thanks, Kirk.  This
+    permits eliminating `su nobody' from the init.d script.
+    Closes: bug#40762 
+ 
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 29 Oct 1999 17:11:57 -0400
+
+
+dictd (1.4.9-2) unstable; urgency=low
+
+  * Included greatly expanded mandage dictdconfig.8; enhanced README's.
+
+  * Removed references to dict-web1913 being in non-free
+
+ -- Bob Hilliard <hilliard@debian.org>  Tue, 15 Jun 1999 00:03:12 -0400
+
+
+dictd (1.4.9-1) unstable; urgency=low
+
+  * New upstream version
+
+  * Provided /usr/sbin/dictdconfig to read /usr/share/dictd, and
+    write a list of datbase files in /var/lib/dictd/db.list.
+    closes 24189, 36920
+    
+  * Call /usr/sbin/dictdconfig in the postinst. 
+
+  * Applied patch to optionally make dictd read the contents of
+    /var/lib/dictd/db.list in lieu of the database section of
+    /etc/ditd/conf 
+
+  * /etc/init.d.dictd:
+    displays a message when the unsupported `reload' command is given
+
+    Inserted `cd/' before `su -c nobody . .' to prevent an error when
+    dictd is started from a directory with restricted permissions -
+    closes #34907
+
+  * Applied all patches listed below for 1.4.8 to 1.4.9 source.
+
+  * made changes in Makefile.in and dictd.8 as listed below for 1.4.8-1
+
+ -- Bob Hilliard <hilliard@debian.org>  Tue,  8 Jun 1999 19:34:37 -0400
+
+
+dictd (1.4.8-11) unstable; urgency=low
+
+  * Changed test for null PID in preinst and postrm
+
+ -- Bob Hilliard <hilliard@debian.org>  Sun, 30 May 1999 14:45:52 -0400
+
+
+dictd (1.4.8-10) unstable; urgency=low
+
+  * Compiled with libc6_2.1.1-7 (potato)
+
+  * Patched servscan.l and clientscan.l to fix misaligned error messages.
+    Patch by Kirk Hilliard <kirk@debian.org> - fixes 37326
+
+  * Simplified dictd script.  Set interpreter to /bin/ash for testing,
+    then to /bin/sh for release.   
+
+  * Added prerm script
+
+  * Reordered sequence of foldoc,jargon and elements dictionaries in
+    dictd.conf.
+  
+  * Patched libmaa/hash.c to fix int/long mix up on Alpha.
+    Patch by Nikita Schmidt <cetus@snowball.ucd.ie> - fixes #36636
+
+  * Patched libmaa/hash.c to remove compiler warnings introduced by
+    libc6_21. Patch by Kirk Hilliard <kirk@debian.org>
+    
+  * Corrected format in /etc/init.d files to comply with console message
+    standard - fixes #35519 and #36919
+
+  * removed spurious `F' from /etc/init.d.dictd - fixes #35126 and #35519
+
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 28 May 1999 19:46:07 -0400
+
+
+dictd (1.4.8-9) frozen unstable; urgency=low
+  
+  * made /etc/init.d/dictd #!bash (most bashisms are gone, but I still
+    get one error message if run with #!ash)
+  
+  * Modified /etc/init.d/dictd to eliminate meaningless error mesage on
+    startup and reduced the numberof redundant kill commands
+  
+  * Modified preinst, postinst, and postrm to be consistent with
+    /etc/init.d/dictd 
+    
+  * noted in control file and README.Debian that dict-web1913 is found in
+    potato non-free.
+  
+  * modified README-dictd
+  
+ -- Bob Hilliard <hilliard@debian.org>  Wed, 27 Jan 1999 18:49:12 -0500
+
+
+dictd (1.4.8-8) frozen unstable; urgency=low
+  
+  * Removed spurious " character in /etc/init.d/dictd
+  
+ -- Bob Hilliard <hilliard@debian.org>  Mon, 18 Jan 1999 10:09:41 -0500
+  
+dictd (1.4.8-7) frozen unstable; urgency=low
+  
+  * On systems where su is secure-su, 'su nobody' gets a path that doesn't
+    include /sbin.  Changed 'su nobody -c "start-stop-daemon . . .' 
+    to 'su nobody -c "/sbin/start-stop-daemon . . .'
+    Fixes Bugs #31860 and #31861'
+  
+ -- Bob Hilliard <hilliard@debian.org>  Thu, 14 Jan 1999 14:43:06 -0500
+
+
+dictd (1.4.8-6) frozen unstable; urgency=high
+
+  * Modified /etc/init.d script so dictd daemon runs as noboby, thereby
+    eliminating a potential security risk.  Closes #31624.
+  
+  * Removed non-free package dict-web1913 from Sugests: list.
+
+ -- Bob Hilliard <hilliard@debian.org>  Tue, 12 Jan 1999 18:23:43 -0500
+
+  
+dictd (1.4.8-5) frozen unstable; urgency=low
+  
+  * Patched dict.c to initialize stdout as required for glibc2.1 (this may
+    only be needed for (Sparc) ports).
+    Patched decl.h and libmaa/decl.h to eliminate Sun OS stuff when compiling
+    on Sparc/Linux.  Patch supplied by Christian Meder
+    <meder@isr.uni-stuttgart.de> .  Closes #30176
+  
+  * Re-commented dictionary location lines in .conf; replaced dummy dict
+    and index in .conf and in rules, and added message in post-inst to 
+    advise user to uncomment lines for installed dictionaries.  Removed
+    preinst, modified postrm.
+    Closes #30137, 30212
+  
+  * Updated README.Debian.gz files
+  
+ -- Bob Hilliard <hilliard@debian.org>  Wed,  2 Dec 1998 16:59:13 -0500
+
+  
+dictd (1.4.8-4) frozen unstable; urgency=low
+  
+  * Patched dictd.c to remove superfluous %s in format line of "reaper"
+    (Thanks to alexander.schwartz@gmx.net)  Closes #29976
+
+  * Checked for Policy 2.5.0.0 and updated debian/control to
+    Standards-Version 2.5.0.0
+  
+  * Fixed typo s/gazetter/gazetteer/ in dictd.conf.
+
+ -- Bob Hilliard <hilliard@debian.org>  Sat, 28 Nov 1998 18:42:25 -0500
+
+  
+dictd (1.4.8-3) frozen unstable; urgency=low
+  
+  * Removed dummy dict and index from .conf and from rules
+  
+  * Uncommented dictionary location lines in .conf
+  
+  * Changed description in control file and in README.Debian.gz to reflect
+    dict-web1913 is now available in non-free - fixes #29467
+  
+  * Added dict-web1913 to "Suggests"
+
+  * Modified dict.conf to access a server on the local host and then one
+    at dict.org if the localhost server is not available.
+  
+ -- Bob Hilliard <hilliard@debian.org>  Sun, 22 Nov 1998 16:18:14 -0500
+
+
+  
+dictd (1.4.8-2) unstable; urgency=low
+  
+  * Removed "Recommends" for dict-web1913 from dictd - closes #23709
+
+  * Changed expected availability date for dict-web1913 to July 1988 in
+    dictd control
+  
+  * Fixed postrm so it doesn't give an error with an argument of upgrade
+
+ -- Bob Hilliard <hilliard@debian.org>  Thu,  2 Jul 1998 15:21:36 -0400
+  
+
+dictd (1.4.8-1) unstable; urgency=low
+
+  * Initial release
+  
+  * Corrected name of dictd configuration file in two places in the
+    manpage dictd.8 
+  
+  * Removed configure from the files removed by the distclean target in
+    Makefile.in in top level and libmaa directories so autoconf will not
+    be required to run configure after making distclean.  
+  
+  * Added doc/Makefile to rm -f line in top level Makefile.in distclean.
+    doc is excluded from $subdirs, so it isn't built or cleaned, but
+    configure makes Makefile.
+
+ -- Bob Hilliard <hilliard@debian.org>  Fri, 17 Apr 1998 18:54:26 -0400

@@ -1,0 +1,48 @@
+#! /bin/sh
+
+set -e
+
+PID=`pidof -x dictd` ||true
+
+cleanup () {
+  if [ -e /etc/dictd.conf.moved_by_preinst -a -d /etc/dictd ]; then 
+    if [ -e /etc/dictd/dictd.conf ]; then
+       mv /etc/dictd/dictd.conf /etc/dictd.conf
+    fi
+    if [ -e /etc/dictd/dictd.order ]; then
+       mv /etc/dictd/dictd.order /etc/dictd.order
+    fi
+    rmdir /etc/dictd/
+    rm /etc/dictd.conf.moved by preinst
+  fi
+}
+
+case "$1" in
+   failed-install|abort-install|abort-upgrade|failed-upgrade)
+        cleanup
+        exit 0
+    ;;
+
+    remove)
+        if [ "$PID" ]; then  kill $PID 2>/dev/null; fi
+        rm -fr /var/lib/dictd/
+        exit 0
+    ;;
+    purge)
+        if [ "$PID" ]; then  kill $PID 2>/dev/null; fi
+        update-rc.d dictd remove >/dev/null
+        rm -f /var/lib/dictd/db.list
+        rmdir --ignore-fail-on-non-empty /var/lib/dictd/  || true
+# remove user, group and home directory dictd
+        deluser --remove-home dictd &>/dev/null || true
+        rmdir  --ignore-fail-on-non-empty /etc/dictd || true
+        exit 0
+    ;;
+    upgrade|disappear)
+        exit 0
+    ;;
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 0
+    ;;
+esac

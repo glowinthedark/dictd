@@ -1,0 +1,51 @@
+#! /bin/sh
+# 
+# Script to start and stop dictionary server daemon (/usr/sbin/dictd)
+# written by Bob Hilliard <hilliard@debian.org> 15 April 1988, last
+# modified on 30 January 2003.
+# based on /etc/init.d/skeleton v1.7  05-May-1997  by miquels@cistron.nl
+
+# dictd now drops root permissions as soon as it starts, so it is no
+# longer necessary to use `su nobody' when starting it.
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/dictd
+NAME=dictd
+DESC="dictionary server"
+
+test -f $DAEMON || exit 0
+
+. /etc/default/dictd
+
+set -e
+
+case "$1" in
+  start)
+    echo -n "Starting $DESC: $NAME"
+    start-stop-daemon --start -o  -c dictd --exec $DAEMON -- ${DICTD_ARGS}
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping $DESC: $NAME"
+    start-stop-daemon --stop -o --name $NAME --exec $DAEMON
+    echo "."
+    ;;
+  restart|force-reload)
+    echo -n "Restarting $DESC: $NAME"
+    start-stop-daemon --stop -o --name $NAME --exec $DAEMON
+    sleep 1
+    start-stop-daemon --start -o -c dictd --exec $DAEMON -- ${DICTD_ARGS}
+    echo "."
+    ;;
+  reload)
+   echo -n "Reloading configuration files for $DESC: $NAME"
+    start-stop-daemon --stop --signal 1 -o --quiet --name $NAME --exec $DAEMON
+    echo "."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload}"
+    exit 1
+    ;;
+esac
+
+exit 0
