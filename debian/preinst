@@ -24,7 +24,7 @@ case "$1" in
     upgrade)
 
     if [ -e /var/run/dictd.pid ]; then rm -f /var/run/dictd.pid; fi
-    if [ "$PID" ]; then  kill $PID &>/dev/null; fi
+    if [ "$PID" ]; then  kill $PID >/dev/null 2>&1; fi
 # /etc/dictd.conf moved to /etc/dictd/dictd.conf in 1.9.x
     if dpkg --compare-versions "$2" lt "1.9"; then
        if [ -e /etc/dictd.conf ]; then
@@ -42,7 +42,7 @@ case "$1" in
 
     install)
      if [ -e /var/run/dictd.pid ]; then rm -f /var/run/dictd.pid; fi
-     if [ "$PID" ]; then  kill $PID &>/dev/null; fi
+     if [ "$PID" ]; then  kill $PID >/dev/null 2>&1; fi
      exit 0
     ;;
 

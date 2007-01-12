@@ -1,0 +1,20 @@
+--- dictd.c.orig	2005-04-14 03:52:16.000000000 -0400
++++ dictd.c	2005-12-05 08:56:59.000000000 -0500
+@@ -1572,14 +1572,14 @@
+    FILE *fd = fopen (pidFile, "w");
+ 
+    if (!fd){
+-      log_info(":E: cannot open pif file '%s'\n:E:    err msg: %s\n",
++      log_info(":E: cannot open pid file '%s'\n:E:    err msg: %s\n",
+ 	       pidFile, strerror (errno));
+       exit (1);
+    }
+ 
+-   fprintf (fd, "%lu", (unsigned long) getpid ());
++   fprintf (fd, "%lu\n", (unsigned long) getpid ());
+    if (fclose (fd)){
+-      log_info(":E: cannot write to pif file '%s'\n:E:    err msg: %s\n",
++      log_info(":E: cannot write to pid file '%s'\n:E:    err msg: %s\n",
+ 	       pidFile, strerror (errno));
+       exit (1);
+    }

@@ -1,3 +1,17 @@
+dictd (1.10.2-1) unstable; urgency=low
+
+  * dictd now uses internal implementations of UCS-2/UTF-8 functions.
+    Thus, dictd no longer need to specify a utf-8 locale with the
+    --locale option in order to use dictionaries encoded in utf-8.
+
+  * The pid file is back, so dictd no longer starts as user dictd, but
+    once again as root.  It still drops root privileges in favor of
+    dictd.dictd immediately after opening the log file and writing the
+    pid file.
+
+ -- Kirk Hilliard <kirk@debian.org>  Sun,  4 Dec 2005 20:34:50 -0500
+
+
 dictd (1.9.12-2) unstable; urgency=low
 
   * Starting with version 2002.02.27-3 the mueller7-dict and

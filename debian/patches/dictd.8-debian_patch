@@ -1,5 +1,5 @@
---- dictd.8.orig	2004-11-19 14:42:12.000000000 -0500
-+++ dictd.8	2005-01-13 13:42:37.000000000 -0500
+--- dictd.8.orig	2005-09-06 12:33:08.000000000 -0400
++++ dictd.8	2005-12-03 15:56:20.000000000 -0500
 @@ -128,7 +128,7 @@
  .TP
  .BI \-c " file\fR or "  \-\-config " file"
@@ -9,7 +9,7 @@
  , but may be changed in the
  .I defs.h
  file at compile time (DICTD_CONFIG_FILE).
-@@ -457,7 +457,7 @@
+@@ -303,7 +303,7 @@
  .TP
  .B Introduction
  The configuration file defaults to
@@ -18,12 +18,12 @@
  but can be specified on the command line with the
  .B \-c
  option (see above).
-@@ -1058,7 +1058,7 @@
+@@ -1339,7 +1339,7 @@
+ Whether 're' and 'regex' strategies support utf8 depends on 
  library you build dictd with.
- 
  .SH "FILES"
 -.I /etc/dictd.conf
 +.I /etc/dictd.conf (/etc/dictd/dictd/conf on Debian systems)
  .br
  .I /usr/sbin/dictd
- .SH "SEE ALSO"
+ .br

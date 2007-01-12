@@ -1,5 +1,5 @@
---- dict.1.orig	2004-05-24 07:42:25.000000000 -0400
-+++ dict.1	2004-06-13 20:48:37.000000000 -0400
+--- dict.1.orig	2005-05-28 08:44:44.000000000 -0400
++++ dict.1	2005-12-03 15:46:50.000000000 -0500
 @@ -94,7 +94,7 @@
  Specify the configuration file.  The default is to try
  .I ~/.dictrc
@@ -9,7 +9,7 @@
  using the first file that exists.  If a specific configuration file is
  specified, then the defaults will not be tried.
  .TP
-@@ -288,7 +288,7 @@
+@@ -303,7 +303,7 @@
  .SH FILES
  .I ~/.dictrc
  .br

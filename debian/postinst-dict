@@ -1,23 +1,17 @@
 #! /bin/sh
-
 set -e
 
-PACKAGE=dict
-
 case "$1" in 
-     configure)
-     if [ -e /etc/dict.conf.moved_by_preinst ]; then 
-        rm /etc/dict.conf.moved_by_preinst;
-     fi
-     exit 0
-     ;;
+configure)
+       rm -f /etc/dict.conf.moved_by_preinst;
+       ;;
 
-    failed-upgrade|abort-upgrade|abort-remove|abort-deconfigure|in-favour|removing)
-        exit 0;
-    ;;
+abort-upgrade|abort-remove|abort-deconfigure)
+       # No prerm script, so no need to roll back
+       ;;
 
-    *)
-        echo "postinst called with unknown argument \`$1'" >&2;
-        exit 0;
-    ;;
+*)
+       echo "postinst called with unknown argument \`$1'" >&2;
+       exit 1;
+       ;;
 esac

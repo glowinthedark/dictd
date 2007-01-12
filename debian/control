@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Kirk Hilliard <kirk@debian.org>
 Uploaders: Robert D. Hilliard <hilliard@debian.org>
 Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev
-Standards-Version: 3.6.0.0
+Standards-Version: 3.7.2
 
 Package: dictd 
 Section: text
@@ -16,7 +16,7 @@ Description: Dictionary Server
  .
  Many dictionary databases have been packaged for debian.  They are
  discussed in more detail in the file
- /usr/doc/dictd/README.Debian.gz
+ /usr/share/doc/dictd/README.Debian.gz
  .
  Either dict-gcide or dict-wn is essential for a useful English
  language dictionary server.  It is strongly recommended that both be

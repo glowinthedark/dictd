@@ -8,11 +8,6 @@ dictionaries are compliant.  However, when "utf-8" is used in the
 following discussion, it refers to character sets that include
 characters greater than 0x7F.
 
-     NOTE: Although dictd is documented to support non-compliant
-dictionaries using 8-bit encodings,, that support is broken at this
-time.  8-bit support is not expected to be working properly until
-sometime after the release of dictd 1.9.11.
-
      dictd and dict are utf-8 capable, but do not convert character
 encodings from utf-8 to the user's locale encoding.  If your system is
 not configured to display utf-8 characters by default, you may use the
@@ -21,13 +16,13 @@ the input to and output from utf-8 dictionaries to your preferred
 character set.  See dictl(1) for information on using dictl.
 
      Since the 7-bit ASCII encoding used in the English language
-dictionaries is a subset of utf-8, most users can use dictl routinely
+dictionaries is a subset of utf-8, many users can use dictl routinely
 in place of dict.  Such users might consider aliasing dict to dictl.
 
-     In order to use dictionaries encoded in utf-8, dictd must specify
-a utf-8 locale with the --locale option.  The conffile
-/etc/default/dictd may be used to specify command line options for
-dictd.   
+     As of version 1.10.1, dictd uses internal implementations of
+UCS-2/UTF-8 functions.  Thus, dictd no longer need to specify a utf-8
+locale with the --locale option in order to use dictionaries encoded
+in utf-8.
 
      This package does not include any of the dictionary databases
 needed to be useful.  The dictionary databases packaged for Debian
