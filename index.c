@@ -17,7 +17,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
  * 
- * $Id: index.c,v 1.96 2004/11/19 19:42:12 cheusov Exp $
+ * $Id: index.c,v 1.103 2005/08/14 15:58:52 cheusov Exp $
  * 
  */
 
@@ -49,12 +49,21 @@
 
 extern int mmap_mode;
 
-#define FIND_NEXT(pt,end) while (pt < end && *pt++ != '\n');
+#define FIND_PREV(begin, pt) while (pt > begin && pt [-1] != '\n') --pt;
+#define FIND_NEXT(pt, end) while (pt < end && *pt++ != '\n');
+
 #define MAXWORDLEN    512
 #define BMH_THRESHOLD   3	/* When to start using Boyer-Moore-Hoorspool */
 
-int utf8_mode;          /* dictd uses UTF-8 dictionaries */
-int bit8_mode;          /* dictd uses 8-BIT dictionaries */
+#ifndef SYSTEM_UTF8_FUNCS
+/* defaults to run in UTF-8 mode */
+int utf8_mode=1;        /* dictd uses UTF-8 dictionaries */
+#else
+/* defaults to run in ASCII mode */
+int utf8_mode=0;        /* dictd uses UTF-8 dictionaries */
+#endif
+int bit8_mode = 0;      /* dictd uses 8-BIT dictionaries */
+
 int optStart_mode = 1;	/* Optimize search range for constant start */
 
 dictConfig *DictConfig;
@@ -195,21 +204,23 @@ static void dict_table_init(void)
 
    if (dbg_test(DBG_SEARCH)) {
       for (i = 0; i <= UCHAR_MAX; ++i){
-	 if (p [i][0] <= CHAR_MAX)
-	    printf ("sorted list: %s\n", p [i]);
-	 else
-	    printf ("sorted list: %i\n", (unsigned char) p [i] [0]);
+	 if (p [i][0] <= CHAR_MAX){
+	    PRINTF (DBG_SEARCH,("sorted list: %s\n", p [i]));
+	 }else{
+	    PRINTF (DBG_SEARCH,("sorted list: %i\n", (unsigned char) p [i] [0]));
+	 }
       }
    }
 
    if (dbg_test(DBG_SEARCH)) {
       for (i = 0; i < charcount; i++)
-	 printf("%03d %d ('%c')\n", i, c(i), c(i));
+	 PRINTF(DBG_SEARCH,("%03d %d ('%c')\n", i, c(i), c(i)));
+
       for (i = 0; i <= UCHAR_MAX; i++)
-	 printf("c2i(%d/'%c') = %d; i2c(%d) = %d/'%c'\n",
+	 PRINTF(DBG_SEARCH,("c2i(%d/'%c') = %d; i2c(%d) = %d/'%c'\n",
 		i, (char) isgraph(i) ? i : '.',
 		c2i(i), c2i(i),
-		i2c(c2i(i)), (char) i2c(c2i(i)) ? i2c(c2i(i)) : '.');
+		i2c(c2i(i)), (char) i2c(c2i(i)) ? i2c(c2i(i)) : '.'));
    }
 
 
@@ -247,13 +258,14 @@ static int compare_allchars(
       c1 = * (unsigned char *) word;
 #endif
       if (c1 != c2) {
-	    if (c1 < c2){
-	       result = -2;
-	    }else{
-	       result = 1;
-	    }
+	 if (c1 < c2){
+	    result = -2;
+	 }else{
+	    result = 1;
+	 }
+
 	 if (dbg_test(DBG_SEARCH)){
-	    printf("   result = %d (%i != %i) \n", result, c1, c2);
+	    PRINTF(DBG_SEARCH,("   result = %d (%i != %i) \n", result, c1, c2));
 	 }
          return result;
       }
@@ -261,9 +273,10 @@ static int compare_allchars(
       ++start;
    }
 
-   PRINTF(DBG_SEARCH,("   result = %d\n",
-		      *word ? 1 : ((*start != '\t') ? -1 : 0)));
-   return  *word ? 1 : ((*start != '\t') ? -1 : 0);
+   result = (*word ? 1 : ((*start != '\t') ? -1 : 0));
+
+   PRINTF(DBG_SEARCH,("   result = %d\n", result));
+   return  result;
 }
 
 static int compare_alnumspace(
@@ -312,17 +325,18 @@ static int compare_alnumspace(
 	    result = (c2i (c1) < c2i (c2) ? -2 : 1);
 	 }
 	 if (dbg_test(DBG_SEARCH)){
-	    if (utf8_mode)
-	       printf(
-		  "   result = %d (%i != %i) \n", result, c1, c2);
-	    else
-	       printf(
+	    if (utf8_mode){
+	       PRINTF (DBG_SEARCH,(
+			 "   result = %d (%i != %i) \n", result, c1, c2));
+	    }else{
+	       PRINTF (DBG_SEARCH,(
 		  "   result = %d ('%c'(c2i=%i) != '%c'(c2i=%i)) \n",
 		  result,
 		  c1,
 		  c2i (c1),
 		  c2,
-		  c2i (c2));
+		  c2i (c2)));
+	    }
 	 }
          return result;
       }
@@ -376,8 +390,9 @@ static int compare(
       }
 
       *d = '\0';
-      printf( "compare \"%s\" with \"%s\" (sizes: %lu and %lu)\n",
-         word, buf, (unsigned long) strlen( word ), (unsigned long) strlen( buf ) );
+      PRINTF(DBG_SEARCH,
+	     ("compare \"%s\" with \"%s\" (sizes: %lu and %lu)\n",
+	      word, buf, (unsigned long) strlen( word ), (unsigned long) strlen( buf ) ));
    }
 
    ++_dict_comparisons;		/* counter for profiling */
@@ -404,14 +419,15 @@ static const char *binary_search(
    PRINTF(DBG_SEARCH,("%s %p %p\n", word, start, end));
 
    pt = start + (end-start)/2;
-   FIND_NEXT(pt,end);
-   while (pt < end) {
+   FIND_PREV(start, pt);
+   while (start < end) {
       switch (compare( word, dbindex, pt, end )){
 	 case -2: case -1: case 0:
 	    end = pt;
 	    break;
 	 case 1:
 	    start = pt;
+	    FIND_NEXT(start, end)
 	    break;
 	 case  2:
 	    return end;     /* ERROR!!! */
@@ -420,7 +436,7 @@ static const char *binary_search(
       }
       PRINTF(DBG_SEARCH,("%s %p %p\n",word,start,end));
       pt = start + (end-start)/2;
-      FIND_NEXT(pt,end);
+      FIND_PREV(start, pt);
    }
 
    return start;
@@ -441,8 +457,8 @@ static const char *binary_search_8bit(
    PRINTF(DBG_SEARCH,("word/start/end %s/%p/%p\n",word,start,end));
 
    pt = start + (end-start)/2;
-   FIND_NEXT(pt,end);
-   while (pt < end) {
+   FIND_PREV(start, pt);
+   while (start < end) {
       if (dbg_test(DBG_SEARCH)) {
          for (
 	    d = buf, s = pt;
@@ -466,20 +482,21 @@ static const char *binary_search_8bit(
       }
 
       switch (cmp){
-	 case -2: case -1: case 0:
-	    end = pt;
-	    break;
-	 case 1:
-	    start = pt;
-	    break;
-	 case  2:
-	    return end;     /* ERROR!!! */
-	 default:
-	    assert (0);
+      case -2: case -1: case 0:
+	 end = pt;
+	 break;
+      case 1:
+	 start = pt;
+	 FIND_NEXT(start, end)
+	 break;
+      case  2:
+	 return end;     /* ERROR!!! */
+      default:
+	 assert (0);
       }
       PRINTF(DBG_SEARCH,("%s %p %p\n",word,start,end));
       pt = start + (end-start)/2;
-      FIND_NEXT(pt,end);
+      FIND_PREV(start, pt);
    }
 
    return start;
@@ -541,6 +558,10 @@ static const char *dict_index_search( const char *word, dictIndex *idx )
 
       end   = idx->optStart [last];
       start = idx->optStart [first];
+#if 0
+      fprintf (stderr, "start1 = %p\n", start);
+      fprintf (stderr, "end1   = %p\n", end);
+#endif
    }else{
       start = idx->start;
       end   = idx->end;
@@ -1033,6 +1054,8 @@ static int dict_search_regexpr( lst_List l,
 
    assert (dbindex);
 
+#if 1
+   /* optimization code */
    if (optStart_mode){
       if (
 	 *word == '^'
@@ -1044,10 +1067,18 @@ static int dict_search_regexpr( lst_List l,
 	 end   = dbindex->optStart[i2c(c2i(first)+1)];
 	 start = dbindex->optStart[first];
 
+#if 0
+	 fprintf (stderr, "optStart_regexp [%i] = %p\n", first, start);
+	 fprintf (stderr, "optStart_regexp [%i] = %p\n", i2c(c2i(first)+1), end);
+#endif
+
 	 if (end < start)
 	    end = dbindex->end;
+
+//	 FIND_NEXT(end, dbindex -> end);
       }
    }
+#endif
 
    if ((err = regcomp(&re, word, REG_ICASE|REG_NOSUB|type))) {
       regerror(err, &re, erbuf, sizeof(erbuf));
@@ -1260,7 +1291,7 @@ static int stranagram_utf8 (char *str)
    memset (&ps,  0, sizeof (ps));
 
    for (p = str; *p; ){
-      len = mbrlen (p, MB_CUR_MAX, &ps);
+      len = mbrlen__ (p, MB_CUR_MAX__, &ps);
       if ((int) len < 0)
 	 return 0; /* not a UTF-8 string */
 
@@ -1474,6 +1505,7 @@ int dict_search (
    const char *const word,
    const dictDatabase *database,
    int strategy,
+   int option_mime,
    int *extra_result,
    const dictPluginData **extra_data,
    int *extra_data_size)
@@ -1503,48 +1535,65 @@ int dict_search (
       return 0;
    }
 
-      PRINTF (DBG_SEARCH, (":S: Searching in '%s'\n", database -> databaseName));
+   PRINTF (DBG_SEARCH, (":S: Searching in '%s'\n", database -> databaseName));
 
 #if 0
-      fprintf (stderr, "STRATEGY: %x\n", strategy);
+   fprintf (stderr, "STRATEGY: %x\n", strategy);
 #endif
 
-      if (database -> index){
-	 PRINTF (DBG_SEARCH, (":S:   database search\n"));
-	 count = dict_search_database_ (l, word, database, norm_strategy);
-      }
+   if (database -> index){
+      PRINTF (DBG_SEARCH, (":S:   database search\n"));
+      count = dict_search_database_ (l, word, database, norm_strategy);
+   }
 
 #ifdef USE_PLUGIN
-      if (!count && database -> plugin){
-	 PRINTF (DBG_SEARCH, (":S:   plugin search\n"));
-	 count = dict_search_plugin (
-	    l, word, database, strategy,
-	    extra_result, extra_data, extra_data_size);
+   if (!count && database -> plugin){
+      PRINTF (DBG_SEARCH, (":S:   plugin search\n"));
+      count = dict_search_plugin (
+	 l, word, database, strategy,
+	 extra_result, extra_data, extra_data_size);
 
-	 if (count)
-	    return count;
-      }
+      if (count)
+	 return count;
+   }
 #endif
 
-      if (!count && database -> virtual_db_list){
-	 lst_Position db_list_pos;
-	 dictDatabase *db = NULL;
-	 int old_count = lst_length (l);
+   if (!count && database -> virtual_db_list){
+      lst_Position db_list_pos;
+      dictDatabase *db = NULL;
+      int old_count = lst_length (l);
 
-	 assert (lst_init_position (database -> virtual_db_list));
+      assert (lst_init_position (database -> virtual_db_list));
 
-	 LST_ITERATE (database -> virtual_db_list, db_list_pos, db){
-	    count += dict_search (
-	       l, word, db, strategy,
-	       extra_result, extra_data, extra_data_size);
-	 }
-
-	 if (count > 0){
-	    replace_invisible_databases (
-	       lst_nth_position (l, old_count + 1),
-	       database);
-	 }
+      LST_ITERATE (database -> virtual_db_list, db_list_pos, db){
+	 count += dict_search (
+	    l, word, db, strategy, option_mime,
+	    extra_result, extra_data, extra_data_size);
       }
+
+      if (count > old_count){
+	 replace_invisible_databases (
+	    lst_nth_position (l, old_count + 1),
+	    database);
+      }
+   }
+
+   if (!count && database -> mime_db){
+      int old_count = lst_length (l);
+
+      count += dict_search (
+	 l, word,
+	 (option_mime ? database -> mime_mimeDB :
+	  database -> mime_nomimeDB),
+	 strategy, 0,
+	 extra_result, extra_data, extra_data_size);
+
+      if (count > old_count){
+	 replace_invisible_databases (
+	    lst_nth_position (l, old_count + 1),
+	    database);
+      }
+   }
 
    if (count > 0 && extra_result)
       *extra_result = DICT_PLUGIN_RESULT_FOUND;
@@ -1686,19 +1735,6 @@ dictIndex *dict_index_open(
 
 	    i->optStart [first_char_uc] = i->optStart [first_char];
 	 }
-
-	 if (dbg_test (DBG_SEARCH)){
-	    if (!utf8_mode || first_char <= CHAR_MAX)
-	       printf (
-		  "optStart [%c] = %p\n",
-		  first_char,
-		  i->optStart [first_char]);
-	    else
-	       printf (
-		  "optStart [%i] = %p\n",
-		  first_char,
-		  i->optStart [first_char]);
-	 }
       }
 
       for (j = '0'; j <= '9'; j++) {
@@ -1709,6 +1745,23 @@ dictIndex *dict_index_open(
 
       i->optStart[UCHAR_MAX]   = i->end;
       i->optStart[UCHAR_MAX+1] = i->end;
+
+      if (dbg_test (DBG_SEARCH)){
+	 for (j=0; j <= UCHAR_MAX; ++j){
+	    if (!utf8_mode || j <= CHAR_MAX)
+	       printf (
+		  "optStart [%c] = (%p) %10s\n",
+		  j,
+		  i->optStart [j],
+		  i->optStart [j]);
+	    else
+	       printf (
+		  "optStart [%i] = (%p) %10s\n",
+		  j,
+		  i->optStart [j],
+		  i->optStart [j]);
+	 }
+      }
    }
 
    return i;
