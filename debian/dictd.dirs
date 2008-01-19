@@ -1,0 +1,4 @@
+usr/bin
+usr/sbin
+var/lib/dictd
+usr/lib/dictd

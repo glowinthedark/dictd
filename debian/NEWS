@@ -24,9 +24,9 @@ dictd (1.9.12-2) unstable; urgency=low
 dictd (1.9.11-4) unstable; urgency=low
 
   * dict-de-en, ver. 1.2-6, is now enocded in utf-8, so it works
-properly with dictd.  If your terminal doesn't support utf-8, use
-dictl.  I suggest symlinking dictl to dict for transparent conversion
-of character sets. 
+    properly with dictd.  If your terminal doesn't support utf-8, use
+    dictl.  I suggest symlinking dictl to dict for transparent conversion
+    of character sets. 
 
  -- Robert D. Hilliard <hilliard@debian.org>  Wed, 04 Feb 2004 16:35:46 -0500
 

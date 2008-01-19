@@ -1,42 +1,13 @@
-#! /usr/bin/make -f
+#!/usr/bin/make -f
+# 
+# $Id: rules 21 2008-01-19 22:02:00Z robert $
+# 
+# Uncomment this to turn on verbose mode. 
+#export DH_VERBOSE=1
 
-include /usr/share/quilt/quilt.make
-
-############################ -*- Mode: Makefile -*- ###########################
-## rules ---
-## Author           : Robert D. Hilliard <hilliard@debian.org>
-## Created On       : Tue,  7 Apr 1998 20:30:10 -0400
-## Last Modified By : Kirk D. Hilliard <kirk@debian.org>
-## Last Modified On : Wed Dec  7 17:27:51 EST 2005
-## Last Changes     : Revision 1.50  2005/12/07 17:27:51  kirk
-## Last Changes     : Link libmaa/config.{guess,sub} to local version
-## Last Changes     :
-## Last Changes     : Revision 1.49  2005/12/03 17:23:43  kirk
-## Last Changes     : Removed README.Dictd-locales
-## Last Changes     :
-## Last Changes     : Revision 1.48  2004/03/19 19:21:26  bob
-## Last Changes     : fixed install directories for NEWS.Debian
-## Last Changes     :
-## Last Changes     : Revision 1.47  2004/03/19 19:09:55  bob
-## Last Changes     : added News.Debian.gz to dict, dictfmt, and dictzip
-## Last Changes     :
-## Last Changes     : Revision 1.46  2004/03/15 22:19:06  bob
-## Last Changes     : Removed -v option to dpkg-gencontrol for dictfmt
-## Last Changes     :
-## Last Changes     : Revision 1.45  2003/12/08 21:24:09  bob
-## Last Changes     : Added News.Debian and README.Dictd-locales
-## Description      : debian/rules for dictd
-## Acknowledgment   : This debian/rules file is based on Manoj Srivasta's
-##                  : <srivasta@debian.org> sample debian/rules files.
-##                  : Any errors belong to me alone.
-###############################################################################
-
-# The name of the package (for example, `emacs').
-pkg     := dictd
-pkg_2 	:= dict
-pkg_3   := dictzip
-pkg_4   := dictfmt
-
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+#
 # Configuration variables (these should be pretty generic)
 CC = cc
 CFLAGS=  -O2
@@ -71,10 +42,18 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 install_binary += -s
 endif
 
-all build: stamp-build
+build: autotools patch configure-stamp build-stamp
 # Builds the binary package.
 
-autotools:
+
+configure: autotools patch configure-stamp build-stamp
+
+
+include /usr/share/quilt/quilt.make
+
+
+
+autotools: autotools-clean
 	tar cvzf configs.tgz  config.sub config.guess libmaa/config.guess libmaa/config.sub
 	rm -f config.sub config.guess libmaa/config.guess libmaa/config.sub
 	ln -s /usr/share/misc/config.sub config.sub
@@ -82,251 +61,125 @@ autotools:
 	ln -s /usr/share/misc/config.sub libmaa/config.sub
 	ln -s /usr/share/misc/config.guess libmaa/config.guess
 
-configure: patch stamp-configure
+autotools-clean:
+	if [  -f configs.tgz ] ; then \
+		set -e ; \
+		rm -f config.sub config.guess libmaa/config.sub libmaa/config.guess ; \
+		tar xvzf configs.tgz ; \
+		rm -f configs.tgz ; \
+	fi
 
-stamp-configure: autotools
-	./configure  --verbose --prefix=$(PREFIX) --libexecdir=/usr/lib/dictd --datadir=/usr/share/dictd --sysconfdir=/etc/dictd && touch stamp-configure
+	
 
-stamp-build:
-# Builds the binary package.
-	$(checkdir)
-	-test -f stamp-configure || $(MAKE) -f debian/rules configure
-	$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)"
 
-	$(MAKE) CFLAGS+='-fPIC -D_REENTRANT' samples
+configure-stamp: 
+	dh_testdir
+
+	./configure  	--verbose \
+			--prefix=$(PREFIX) \
+			--libexecdir=/usr/lib/dictd \
+			--datadir=/usr/share/dictd \
+			--sysconfdir=/etc/dictd 
+	touch "$@"
+
+build-stamp: 
+	dh_testdir
 
 ## Upstream Makefile uses different values for CFLAGS for differnt
 ## compile statements.  It seems simpler to leave CFLAGS up to the
 ## Makefile.
 
-	touch stamp-build
+	$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)"
 
-clean: unpatch
-# Undoes the effect of `$(MAKE) -f debian/rules build'.
-	$(checkdir)
-	-test -f Makefile && $(MAKE) recursive-clean
-	-test -f Makefile && $(MAKE) distclean
+	$(MAKE) CFLAGS+='-fPIC -D_REENTRANT' samples
+
+	touch "$@"
+
+clean: unpatch autotools-clean
+	dh_testdir
+	dh_testroot
+	rm -f configure-stamp build-stamp
+
+	test ! -f Makefile || $(MAKE) recursive-clean
+	test ! -f Makefile || $(MAKE) distclean
 	-rm -f  $(FILES_TO_CLEAN) $(STAMPS_TO_CLEAN)
 	-rm -rf $(DIRS_TO_CLEAN)
 	-rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	if [ -f configs.tar ] ; then \
-		rm -f config.sub config.guess libmaa/config.sub libmaa/config.guess ; \
-		tar xvzf configs.tgz ; \
-		rm -f configs.tgz ; \
-	fi		
 
 	rm -f libmaa/arggram2c
 
+	dh_clean
+
+install: DH_OPTIONS=
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	# Add here commands to install the package into debian/tmp.
+	#$(MAKE) prefix=`pwd`/debian/tmp/usr install
+
+	dh_install
+
+# This single target is used to build all the packages, all at once, or
+# one at a time. So keep in mind: any options passed to commands here will
+# affect _all_ packages. Anything you want to only affect one package
+# should be put in another target, such as the install target.
+binary-common:
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs -k NEWS
+	dh_installdocs
+	dh_installexamples
+	dh_installmenu
+#	dh_installdebconf
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installcatalogs
+#	dh_installpam
+#	dh_installmime
+	dh_installinit
+	dh_installman
+#	dh_installcron
+#	dh_installinfo
+#	dh_installwm
+#	dh_installudev
+#	dh_undocumented
+	dh_strip
+	dh_link
+	dh_compress
+	dh_fixperms
+
+	rm -f debian/dictd/usr/share/doc/dictd/examples/example.dictrc
+	find debian -mindepth 6 -maxdepth 7 -path "*/usr/share/doc/*" \
+		'!' -name "*.gz" -name "README.*" -exec gzip -9 {} \;
+	find debian -mindepth 4 -maxdepth 5 -path "*/dictd/etc/dictd/*" \
+		-name dictdconfig.alias -exec chmod 755 {} \;
+
+	dh_perl
+#	dh_python
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture independant packages using the common target.
+binary-indep: build install
+# (Uncomment this next line if you have such packages.)
+#	 $(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+# Any other binary targets build just one binary package at a time.
+binary-%: build install
+	make -f debian/rules binary-common DH_OPTIONS=-p$*
+
 binary: binary-indep binary-arch
-
-binary-indep: build
-
-
-binary-arch: build stamp-dictd stamp-dict stamp-dictzip stamp-dictfmt
-
-stamp-dictd:
-# Makes a binary package.
-	@test root = "`whoami`" || (echo need root priviledges; exit 1)
-	$(checkdir)
-	test -f stamp-build  || $(MAKE) -f debian/rules build
-	rm -rf               debian/tmp debian/tmp_2 debian/tmp_3 debian/tmp_4
-	$(make_directory)    debian/tmp
-	$(make_directory)    debian/tmp/DEBIAN
-	$(make_directory)    debian/tmp/usr
-	$(make_directory)    debian/tmp/usr/bin
-	$(make_directory)    debian/tmp/usr/sbin
-	$(make_directory)    debian/tmp/etc
-	$(make_directory)    debian/tmp/etc/dictd
-	$(make_directory)    debian/tmp/etc/default
-	$(make_directory)    debian/tmp/etc/init.d
-	$(make_directory)    debian/tmp/usr/share/man/man8
-	$(make_directory)    debian/tmp/usr/share/doc
-	$(make_directory)    debian/tmp/usr/share/doc/$(pkg)
-	$(make_directory)    debian/tmp/usr/share/doc/$(pkg)/examples
-	$(make_directory)    debian/tmp/var
-	$(make_directory)    debian/tmp/var/lib
-	$(make_directory)    debian/tmp/var/lib/$(pkg)
-	$(make_directory)    debian/tmp/usr/lib/$(pkg)
-	$(install_binary)    dictd  debian/tmp/usr/sbin
-	$(install_file)      debian/readme-plugins \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Plugins
-	$(install_file)      NEWS \
-			      debian/tmp/usr/share/doc/$(pkg)/NEWS
-	$(install_file)      debian/changelog \
-			      debian/tmp/usr/share/doc/$(pkg)/changelog.Debian
-	$(install_file)      debian/readme-dictd \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Debian
-	$(install_file)      debian/news \
-			      debian/tmp/usr/share/doc/$(pkg)/NEWS.Debian
-	$(install_file)      debian/readme-debugging \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Debugging
-	$(install_file)      debian/readme-inetd \
-			      debian/tmp/usr/share/doc/$(pkg)/README.inetd
-	$(install_file)      debian/readme-index2suffix \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Index2suffix
-	$(install_file)      debian/readme-index2word \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Index2word
-	$(install_file)      debian/readme-virtual_dictionaries \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Virtual_dictionaries
-	$(install_file)      debian/readme-dictunformat \
-			      debian/tmp/usr/share/doc/$(pkg)/README.Unformat
-	gzip -9frq           debian/tmp/usr/share/doc/$(pkg)/
-	ln -sf NEWS.gz debian/tmp/usr/share/doc/$(pkg)/changelog.gz
-	$(install_script)    debian/dictd debian/tmp/etc/init.d/dictd
-	$(install_script)    debian/dictdconfig debian/tmp/usr/sbin/dictdconfig
-	$(install_script)    debian/dictdconfig.alias debian/tmp/etc/dictd/dictdconfig.alias
-	$(install_file)      debian/dictd.conf debian/tmp/etc/dictd/dictd.conf
-	$(install_file)      debian/dictd.order debian/tmp/etc/dictd/dictd.order
-	$(install_file)      debian/default debian/tmp/etc/default/dictd
-# Make sure the copyright file is not compressed
-	$(install_file)      debian/copyright \
-	                     debian/tmp/usr/share/doc/$(pkg)/copyright
-	$(install_file)      debian/dictdconfig.8 debian/tmp/usr/share/man/man8/dictdconfig.8
-	$(install_file)      dictd.8 debian/tmp/usr/share/man/man8/dictd.8
-	gzip -9frq           debian/tmp/usr/share/man/man8/
-	$(install_file)      example* debian/tmp/usr/share/doc/$(pkg)/examples/
-	$(make_directory)    debian/tmp_2/usr/share/doc/$(pkg_2)/examples
-	mv -f  debian/tmp/usr/share/doc/$(pkg)/examples/example.dictrc \
-	 debian/tmp_2/usr/share/doc/$(pkg_2)/examples/example.dictrc
-	$(install_file)      debian/example_virtual2.conf debian/tmp/usr/share/doc/$(pkg)/examples/
-#	$(install_file) -s   dictdplugin_exit.so dictdplugin_popen.so debian/tmp/usr/lib/$(pkg)/
-#	$(install_file)      man_popen.* search_man debian/tmp/usr/share/doc/$(pkg)/examples/
-	$(install_script)    debian/preinst  debian/tmp/DEBIAN/preinst
-	$(install_script)    debian/postinst  debian/tmp/DEBIAN/postinst
-	$(install_script)    debian/postrm debian/tmp/DEBIAN/postrm
-	$(install_file)      debian/conffiles-dictd debian/tmp/DEBIAN/conffiles
-	dpkg-shlibdeps       debian/tmp/usr/sbin/dictd
-	dpkg-gencontrol      -isp -pdictd -Pdebian/tmp
-	chown -R root.root   debian/tmp
-	dpkg --build         debian/tmp ..
-	touch                stamp-dictd
-
-stamp-dict:
-	$(make_directory)    debian/tmp_2
-	$(make_directory)    debian/tmp_2/DEBIAN
-	$(make_directory)    debian/tmp_2/usr
-	$(make_directory)    debian/tmp_2/usr/bin
-	$(make_directory)    debian/tmp_2/etc
-	$(make_directory)    debian/tmp_2/etc/dictd
-	$(make_directory)    debian/tmp_2/usr/share/man/man1
-	$(make_directory)    debian/tmp_2/usr/share/doc
-	$(make_directory)    debian/tmp_2/usr/share/doc/$(pkg_2)
-	$(install_binary)    dict debian/tmp_2/usr/bin
-	$(install_script)    dictl debian/tmp_2/usr/bin
-	$(install_file)      NEWS \
-			      debian/tmp_2/usr/share/doc/$(pkg_2)/NEWS
-	$(install_file)      debian/changelog \
-			      debian/tmp_2/usr/share/doc/$(pkg_2)/changelog.Debian
-	$(install_file)      debian/readme-dict \
-			      debian/tmp_2/usr/share/doc/$(pkg_2)/README.Debian
-	$(install_file)      debian/news \
-			      debian/tmp_2/usr/share/doc/$(pkg_2)/NEWS.Debian
-	gzip -9frq           debian/tmp_2/usr/share/doc/$(pkg_2)/
-	ln -sf NEWS.gz debian/tmp_2/usr/share/doc/$(pkg_2)/changelog.gz
-	$(install_file)      debian/dict.conf debian/tmp_2/etc/dictd/dict.conf
-# Make sure the copyright file is not compressed
-	$(install_file)      debian/copyright \
-			      debian/tmp_2/usr/share/doc/$(pkg_2)/copyright
-	$(install_file)      dict.1 debian/tmp_2/usr/share/man/man1/dict.1
-	$(install_file)      dictl.1 debian/tmp_2/usr/share/man/man1/dictl.1
-	gzip -9frq            debian/tmp_2/usr/share/man/man1/
-	$(install_file)      debian/conffiles-dict \
-			      debian/tmp_2/DEBIAN/conffiles
-	$(install_script)    debian/preinst-dict  debian/tmp_2/DEBIAN/preinst
-	$(install_script)    debian/postinst-dict  debian/tmp_2/DEBIAN/postinst
-	$(install_script)    debian/postrm-dict  debian/tmp_2/DEBIAN/postrm
-	dpkg-shlibdeps       debian/tmp_2/usr/bin/dict
-	dpkg-gencontrol      -isp -pdict -Pdebian/tmp_2
-	chown -R root.root   debian/tmp_2
-	dpkg --build         debian/tmp_2 ..
-	touch                stamp-dict
-
-stamp-dictzip:
-# Makes a binary package.
-	$(make_directory)    debian/tmp_3
-	$(make_directory)    debian/tmp_3/DEBIAN
-	$(make_directory)    debian/tmp_3/usr
-	$(make_directory)    debian/tmp_3/usr/bin
-	$(make_directory)    debian/tmp_3/usr/share/man/man1
-	$(make_directory)    debian/tmp_3/usr/share/doc
-	$(make_directory)    debian/tmp_3/usr/share/doc/$(pkg_3)
-	$(install_binary)    dictzip debian/tmp_3/usr/bin
-	ln -sf dictzip debian/tmp_3/usr/bin/dictunzip
-	ln -sf dictzip debian/tmp_3/usr/bin/dictzcat
-	$(install_file)      NEWS \
-			      debian/tmp_3/usr/share/doc/$(pkg_3)/NEWS
-	$(install_file)      debian/changelog \
-			      debian/tmp_3/usr/share/doc/$(pkg_3)/changelog.Debian
-	$(install_file)      debian/news \
-			      debian/tmp_3/usr/share/doc/$(pkg_3)/NEWS.Debian
-	gzip -9frq           debian/tmp_3/usr/share/doc/$(pkg_3)/
-# Make sure the copyright file is not compressed
-	ln -sf NEWS.gz debian/tmp_3/usr/share/doc/$(pkg_3)/changelog.gz
-	$(install_file)      debian/copyright \
-	                     debian/tmp_3/usr/share/doc/$(pkg_3)/copyright
-	$(install_file)      dictzip.1 debian/tmp_3/usr/share/man/man1/dictzip.1
-	gzip -9fq            debian/tmp_3/usr/share/man/man1/dictzip.1
-	ln -sf dictzip.1.gz debian/tmp_3/usr/share/man/man1/dictunzip.1.gz
-	ln -sf dictzip.1.gz debian/tmp_3/usr/share/man/man1/dictzcat.1.gz
-	dpkg-shlibdeps       debian/tmp_3/usr/bin/dictzip
-	dpkg-gencontrol      -isp -pdictzip -Pdebian/tmp_3
-	chown -R root.root   debian/tmp_3
-	dpkg --build         debian/tmp_3 ..
-	touch                stamp-dictzip
-
-stamp-dictfmt:
-	$(make_directory)    debian/tmp_4
-	$(make_directory)    debian/tmp_4/DEBIAN
-	$(make_directory)    debian/tmp_4/usr
-	$(make_directory)    debian/tmp_4/usr/bin
-	$(make_directory)    debian/tmp_4/usr/share/man/man1
-	$(make_directory)    debian/tmp_4/usr/share/doc
-	$(make_directory)    debian/tmp_4/usr/share/doc/$(pkg_4)
-	$(install_binary)    dictfmt debian/tmp_4/usr/bin
-	$(install_script)    dictfmt_index2suffix dictfmt_index2word dictfmt_virtual dictunformat debian/tmp_4/usr/bin
-	$(install_file)      debian/readme-index2suffix \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/README.Index2suffix
-	$(install_file)      debian/readme-index2word \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/README.Index2word
-	$(install_file)      debian/readme-virtual_dictionaries \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/README.Virtual_dictionaries
-	$(install_file)      debian/readme-dictunformat \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/README.Unformat
-	$(install_file)      NEWS \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/NEWS
-	$(install_file)      debian/changelog \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/changelog.Debian
-	$(install_file)      debian/news \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/NEWS.Debian
-	gzip -9frq debian/tmp_4/usr/share/doc/$(pkg_4)/
-# Make sure the copyright file is not compressed
-	ln -sf NEWS.gz debian/tmp_4/usr/share/doc/$(pkg_4)/changelog.gz
-	$(install_file)      debian/copyright \
-			      debian/tmp_4/usr/share/doc/$(pkg_4)/copyright
-	$(install_file)      dictfmt.1 debian/tmp_4/usr/share/man/man1/dictfmt.1
-	$(install_file)      dictfmt_index2suffix.1 debian/tmp_4/usr/share/man/man1/dictfmt_index2suffix.1
-	$(install_file)      dictfmt_index2word.1 debian/tmp_4/usr/share/man/man1/dictfmt_index2word.1
-	$(install_file)      dictfmt_virtual.1 debian/tmp_4/usr/share/man/man1/dictfmt_virtual.1
-	$(install_file)      dictunformat.1 debian/tmp_4/usr/share/man/man1/dictunformat.1
-	gzip -9frq           debian/tmp_4/usr/share/man/man1/
-	dpkg-shlibdeps       debian/tmp_4/usr/bin/dictfmt
-	dpkg-gencontrol      -isp -pdictfmt -Pdebian/tmp_4
-	chown -R root.root   debian/tmp_4
-	dpkg --build         debian/tmp_4 ..
-	touch                stamp-dictfmt
-
-
-checkroot:
-	@test root = "`whoami`" || (echo need root priviledges; exit 1)
-
-define checkdir
-	test -f  dictd.h -a -f debian/rules
-endef
-
-source diff:
-	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
-
-
-.PHONY: binary binary-arch binary-indep clean
+.PHONY: build clean binary-indep binary-arch binary-common binary install

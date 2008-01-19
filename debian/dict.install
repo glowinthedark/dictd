@@ -1,0 +1,3 @@
+debian/script/dict.conf         etc/dictd/
+dict                            usr/bin/
+dictl                           usr/bin/

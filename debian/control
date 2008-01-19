@@ -2,10 +2,10 @@ Source: dictd
 Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
-Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45)
+Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 6)
 Standards-Version: 3.7.2
 
-Package: dictd 
+Package: dictd
 Section: text
 Priority: optional
 Architecture: any 
@@ -13,7 +13,7 @@ Description: Dictionary Server
  dictd is a TCP based server that allows a client to access dictionary
  definitions from a set of natural language dictionary databases.  
  .
- Many dictionary databases have been packaged for debian.  They are
+ Many dictionary databases have been packaged for Debian.  They are
  discussed in more detail in the file
  /usr/share/doc/dictd/README.Debian.gz
  .
