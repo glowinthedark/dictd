@@ -1,13 +1,14 @@
-dictd (1.10.2.dfsg-4~1) UNRELEASED; urgency=low
+dictd (1.10.2.dfsg-4) unstable; urgency=low
 
   * Adopted package (closes: #461566).
   * Switch hand-made build system to debhelper v6.
   * Use quilt for maintaining patches.
+  * Reorganize source package's debian dir.
   * Fix broken lines in debian/NEWS (lintian).
   * Fix spelling error in description: debian -> Debian (lintian).
   * Add debian/watch file.
 
- -- Robert Luberda <robert@debian.org>  Sat, 19 Jan 2008 20:04:01 +0100
+ -- Robert Luberda <robert@debian.org>  Sat, 19 Jan 2008 23:25:03 +0100
 
 dictd (1.10.2.dfsg-3.2) unstable; urgency=low
 

@@ -1,5 +1,5 @@
-dictd usr/sbin
-debian/script/dictdconfig usr/sbin/
-debian/script/dictdconfig.alias etc/dictd/
-debian/script/dictd.conf etc/dictd
-debian/script/dictd.order etc/dictd
+debian/sources/dictdconfig.alias        etc/dictd/
+debian/sources/dictdconfig              usr/sbin/
+debian/sources/dictd.conf               etc/dictd/
+debian/sources/dictd.order              etc/dictd/
+dictd                                   usr/sbin/

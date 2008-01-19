@@ -1,4 +1,5 @@
-#! /bin/sh
+#!/bin/sh
+# $Id: dictd.postinst 22 2008-01-19 22:25:57Z robert $
 
 set -e
 
@@ -9,9 +10,7 @@ case "$1" in
      if [ -e /etc/dictd.conf.moved_by_preinst ]; then 
         rm /etc/dictd.conf.moved_by_preinst;
      fi
-     update-rc.d dictd defaults >/dev/null
      if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ;fi
-     if [ -x /etc/init.d/dictd ]; then invoke-rc.d dictd start ;fi
 
      exit 0
      ;;
@@ -25,3 +24,5 @@ case "$1" in
         exit 0;
     ;;
 esac
+
+#DEBHELPER#

@@ -1,4 +1,6 @@
-#! /bin/sh
+#!/bin/sh
+# $Id: dict.postinst 22 2008-01-19 22:25:57Z robert $
+
 set -e
 
 case "$1" in 
@@ -15,3 +17,5 @@ abort-upgrade|abort-remove|abort-deconfigure)
        exit 1;
        ;;
 esac
+
+#DEBHELPER#

@@ -1,4 +1,5 @@
-#! /bin/sh 
+#!/bin/sh
+# $Id: dictd.preinst 22 2008-01-19 22:25:57Z robert $
 
 # Some older versions of dictd relied on a ps|grep|cut kludge to stop
 # the daemon.  With procps version 2.0.2 the output format from ps
@@ -12,7 +13,7 @@
 
 set -e
 
-PID=`pidof -x dictd` ||true
+#DEBHELPER#
 
 adduser --quiet --system --home /var/lib/dictd --no-create-home \
         --group dictd || true
@@ -24,7 +25,6 @@ case "$1" in
     upgrade)
 
     if [ -e /var/run/dictd.pid ]; then rm -f /var/run/dictd.pid; fi
-    if [ "$PID" ]; then  kill $PID >/dev/null 2>&1; fi
 # /etc/dictd.conf moved to /etc/dictd/dictd.conf in 1.9.x
     if dpkg --compare-versions "$2" lt "1.9"; then
        if [ -e /etc/dictd.conf ]; then
@@ -42,7 +42,6 @@ case "$1" in
 
     install)
      if [ -e /var/run/dictd.pid ]; then rm -f /var/run/dictd.pid; fi
-     if [ "$PID" ]; then  kill $PID >/dev/null 2>&1; fi
      exit 0
     ;;
 
@@ -57,4 +56,4 @@ case "$1" in
 esac
 
 
-     exit 0
+exit 0

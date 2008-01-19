@@ -1,4 +1,6 @@
-#! /bin/sh
+#!/bin/sh
+# $Id: dict.postrm 22 2008-01-19 22:25:57Z robert $
+
 set -e
 
 cleanup ()
@@ -23,3 +25,5 @@ remove|purge|upgrade|failed-upgrade|disappear)
        exit 1
        ;;
 esac
+
+#DEBHELPER#

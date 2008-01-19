@@ -1,8 +1,8 @@
-#! /bin/sh
+#!/bin/sh
+# $Id: dictd.postrm 22 2008-01-19 22:25:57Z robert $
 
 set -e
 
-PID=`pidof -x dictd` ||true
 
 cleanup () {
   if [ -e /etc/dictd.conf.moved_by_preinst -a -d /etc/dictd ]; then 
@@ -17,6 +17,8 @@ cleanup () {
   fi
 }
 
+#DEBHELPER# 
+
 case "$1" in
    failed-install|abort-install|abort-upgrade|failed-upgrade)
         cleanup
@@ -24,13 +26,10 @@ case "$1" in
     ;;
 
     remove)
-        if [ "$PID" ]; then  kill $PID 2>/dev/null; fi
         rm -fr /var/lib/dictd/
         exit 0
     ;;
     purge)
-        if [ "$PID" ]; then  kill $PID 2>/dev/null; fi
-        update-rc.d dictd remove >/dev/null
         rm -f /var/lib/dictd/db.list
         rmdir --ignore-fail-on-non-empty /var/lib/dictd/  || true
 # remove user, group and home directory dictd

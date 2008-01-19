@@ -1,4 +1,6 @@
-#! /bin/sh 
+#!/bin/sh
+# $Id: dict.preinst 22 2008-01-19 22:25:57Z robert $
+
 set -e
 
 move_conffile ()
@@ -26,3 +28,5 @@ abort-upgrade)
        exit 1
        ;;
 esac
+
+#DEBHELPER#
