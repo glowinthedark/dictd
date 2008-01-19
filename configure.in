@@ -1,0 +1,530 @@
+dnl Process this file with autoconf to produce a configure script for dict.
+dnl
+dnl Created: Wed Apr 24 14:11:05 1996 by faith@dict.org
+dnl Revised: Sat Mar 30 11:01:57 2002 by faith@dict.org
+dnl Copyright 1996-1999, 2001-2002 Rickard E. Faith (faith@dict.org)
+dnl
+dnl This program is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU General Public License as published by the
+dnl Free Software Foundation; either version 1, or (at your option) any
+dnl later version.
+dnl
+dnl This program is distributed in the hope that it will be useful, but
+dnl WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+dnl General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License along
+dnl with this program; if not, write to the Free Software Foundation, Inc.,
+dnl 675 Mass Ave, Cambridge, MA 02139, USA.
+dnl
+dnl $Id: configure.in,v 1.80 2004/12/23 18:56:44 cheusov Exp $
+dnl
+dnl Flag conventions:
+dnl     CFLAGS and LDFLAGS should be settable on the make commandline
+dnl             for optimization and stripping.
+dnl     WCFLAGS and WLDFLAGS are warnings and stuff that we like (e.g., -pipe)
+dnl     XTRACFLAGS, XTRALDFLAGS are for things like dmalloc
+dnl     LIBOBJS is an automatically-generated list of extra objects we need
+dnl These aren't used for libmaa:
+dnl     XCFLAGS and XLDFLAGS are for X11
+dnl     YCFLAGS is for yacc
+dnl     LCFLAGS is for lex
+
+
+define(VERSION, 1.9.15)
+
+
+AC_PREREQ(2.53)
+AC_REVISION($Revision: 1.80 $)
+
+AC_INIT([dict],[VERSION],["dict-beta@dict.org"])
+
+AC_CONFIG_SRCDIR([dictd.c])
+AC_CONFIG_HEADER(config.h)
+
+echo Configuring for dict
+echo .
+
+DICT_VERSION=VERSION
+
+AC_ARG_WITH(cc,
+[  --with-cc               with cc (instead of gcc)],
+[
+if test "x${withval}" = xyes; then
+    CC=cc
+fi
+])
+
+AC_CANONICAL_HOST
+AC_PROG_CC
+dnl AC_PROG_CXX
+
+AC_ISC_POSIX
+
+REALCC="$CC"
+if test "$CC" = gcc; then
+    CFLAGS='-g -O'
+    WCFLAGS='-Wall'
+    case "$host" in
+      dnl did include: -Winline
+      *linux*)
+	WCFLAGS="$WCFLAGS -pipe -Wwrite-strings -Wcast-align \
+	 -Wmissing-prototypes -Wshadow -Wnested-externs -Waggregate-return";;
+	sparc-sun-sunos*)
+	  WCFLAGS="$WCFLAGS -pipe";;
+    esac
+				# Silence flex/bison output
+    SCFLAGS="-Wno-implicit -Wno-unused"
+else
+    CFLAGS='-g'
+fi
+
+local_dmalloc=0
+local_libmaa=1 # will be remove later
+local_zlib=0
+local_regex=0
+
+AC_ARG_WITH(cflags,
+[  --with-cflags=FLAGS     use FLAGS for CFLAGS],
+CFLAGS="$withval")
+
+AC_ARG_WITH(prof,
+[  --with-prof             with prof profiling],
+[
+if test "x${withval}" = xyes; then
+    CFLAGS="$CFLAGS -p"
+    LDFLAGS="$LDFLAGS -p"
+fi
+])
+
+AC_ARG_WITH(nec-socks5,
+[  --with-nec-socks5       with NEC socks5 library],
+[
+if test "x${withval}" = xyes; then
+    CFLAGS="$CFLAGS -Dconnect=Rconnect \
+    -Dgetsockname=Rgetsockname -Dgetpeername=Rgetpeername \
+    -Dbind=Rbind -Daccept=Raccept \
+    -Dselect=Rselect -DRconnect=SOCKSconnect \
+    -DRgetsockname=SOCKSgetsockname -DRgetpeername=SOCKSgetpeername \
+    -DRbind=SOCKSbind -DRaccept=SOCKSaccept -DRlisten=SOCKSlisten \
+    -DRselect=SOCKSselect -Drecvfrom=SOCKSrecvfrom -Dsendto=SOCKSsendto \
+    -Drecv=SOCKSrecv -Dsend=SOCKSsend -Dread=SOCKSread -Dwrite=SOCKSwrite \
+    -Drresvport=SOCKSrresvport -Dshutdown=SOCKSshutdown -Dlisten=SOCKSlisten \
+    -Dclose=SOCKSclose -Ddup=SOCKSdup -Ddup2=SOCKSdup2 \
+    -Dgethostbyname=SOCKSgethostbyname"
+    REALLIBS="$REALLIBS -lsocks5"
+fi
+])
+
+AC_ARG_WITH(gprof,
+[  --with-gprof            with gprof profiling],
+[
+if test "x${withval}" = xyes; then
+    CFLAGS="$CFLAGS -pg"
+    LDFLAGS="$LDFLAGS -pg"
+fi
+])
+
+AC_ARG_WITH(dmalloc,
+[  --with-dmalloc          with Gray Watson's debugging malloc],
+[
+if test "x${withval}" = xyes; then
+    needs_dmalloc=1
+    needs_xmalloc=0
+fi
+])
+
+AC_ARG_WITH(local-dmalloc,
+[  --with-local-dmalloc    with dmalloc built in local source tree],
+[
+if test "x${withval}" = xyes; then
+    needs_dmalloc=1
+    local_dmalloc=1
+    needs_xmalloc=0
+fi
+])
+
+AC_ARG_WITH(local-libmaa,
+[  --with-local-libmaa     with libmaa built in local source tree],
+[
+if test "x${withval}" = xyes; then
+    local_libmaa=1
+fi
+])
+
+AC_ARG_WITH(local-zlib,
+[  --with-local-zlib       with zlib built in local source tree],
+[
+if test "x${withval}" = xyes; then
+    local_zlib=1
+fi
+])
+
+AC_ARG_WITH(local-regex,
+[  --with-local-regex      with regex built in local source tree],
+[
+if test "x${withval}" = xyes; then
+    local_regex=1
+fi
+])
+
+REGEX_INCLUDE='regex.h'
+AC_ARG_WITH(regex-include,
+[  --with-regex-include=FILE  set an alternative to regex.h],
+[
+    REGEX_INCLUDE=${withval}
+])
+
+AC_ARG_WITH(checker,
+[  --with-checker          with Checker support (Linux only)],
+[
+if test "x${withval}" = xyes; then
+    REALCC=checkergcc
+fi
+])
+
+AC_ARG_WITH(efence,
+[  --with-efence           with Electric Fence (by Bruce Perens)],
+[
+if test "x${withval}" = xyes; then
+    REALLIBS="$REALLIBS -lefence"
+fi
+])
+
+AC_ARG_WITH(insure,
+[  --with-insure           with Insure support (from ParaSoft Corp.)],
+[
+if test "x${withval}" = xyes; then
+    REALCC=insight
+fi
+])
+
+AC_ARG_WITH(purify,
+[  --with-purify           with Purify support (from Pure, Inc.)],
+[
+if test "x${withval}" = xyes; then
+    REALCC="purify gcc"
+fi
+])
+
+AC_ARG_ENABLE([plugin],[  --disable-plugin        without plugin support])
+if test "x${enableval}" != xno; then
+    AC_CHECK_LIB(c, dlopen,
+        [USE_PLUGIN=2],
+        AC_CHECK_LIB(dl, dlopen,
+            [LIBS="$LIBS -ldl"; USE_PLUGIN=2],
+            AC_CHECK_LIB(ltdl,lt_dlopen,
+                [LIBS="$LIBS -lltdl"; USE_PLUGIN=1])))
+
+#                [AC_MSG_ERROR(
+#                    [Install ltdl library and appropriate header files
+#                           or run ./configure --disable-plugin])])))
+fi
+
+AC_ARG_ENABLE([dictorg],[  --enable-dictorg        use predefined dict servers])
+if test "x${enableval}" = xyes; then
+    CFLAGS="$CFLAGS -DUSE_DICT_ORG"
+    USE_DICT_ORG=1
+fi
+
+dnl Checks for programs.
+echo Checking for programs
+
+AC_PROG_AWK
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+AC_PROG_MAKE_SET
+dnl AC_PROG_LIBTOOL
+dnl AC_LIBTOOL_DLOPEN
+
+AC_PROG_YACC
+if ! which `echo $YACC | cut -f 1 -d ' '` >/dev/null 2>&1; then
+   AC_MSG_ERROR(['yacc' is missing on your system.
+You can get `bison' from any GNU archive site.])
+fi
+
+AC_PROG_LEX
+if ! which `echo $LEX | cut -f 1 -d ' '` >/dev/null 2>&1; then
+   AC_MSG_ERROR(['lex' is missing on your system.
+You can get `flex' from any GNU archive site.])
+fi
+
+AC_CHECK_PROG(AR,ar,ar)
+
+dnl AC_PROG_LIBTOOL
+dnl AC_LIBTOOL_DLOPEN
+
+AC_CHECK_PROGS(NROFF,gnroff nroff)
+AC_CHECK_PROGS(TROFF,groff troff)
+AC_CHECK_PROGS(COL,col cat)
+AC_CHECK_PROGS(EXPAND,expand cat)
+
+echo .
+echo Checking for libraries
+
+if test "$local_libmaa" = 0; then
+    AC_CHECK_LIB(maa,maa_shutdown,REALLIBS="$REALLIBS -lmaa",local_libmaa=1)
+fi
+
+if test "$local_libmaa" = 1; then
+    AC_MSG_CHECKING(for libmaa in local source tree)
+    if test -d libmaa; then
+        REALLIBS="$REALLIBS -Llibmaa -lmaa"
+        XTRACFLAGS="$XTRACFLAGS -Ilibmaa"
+        subdirs="$subdirs libmaa"
+
+        AC_CONFIG_SUBDIRS(libmaa)
+
+        allsubdirs="$allsubdirs libmaa"
+        AC_MSG_RESULT(yes)
+    else
+        AC_MSG_RESULT(no)
+        AC_MSG_ERROR([Libmaa not found, cannot continue])
+    fi
+fi
+
+if test "$local_zlib" = 0; then
+    AC_CHECK_LIB(z,zlibVersion,LIBS="$LIBS -lz",local_zlib=1)
+fi
+
+if test "$local_zlib" = 1; then
+    AC_MSG_CHECKING(for zlib in local source tree)
+    if cd zlib && ./configure && cd ..; then
+        REALLIBS="$REALLIBS -Lzlib -lz"
+        XTRACFLAGS="$XTRACFLAGS -Izlib"
+        allsubdirs="$allsubdirs zlib"
+
+        AC_MSG_RESULT(yes)
+    else
+        AC_MSG_RESULT(no)
+        AC_MSG_ERROR([Zlib not found, cannot continue])
+    fi
+fi
+
+if test "$local_regex" = 0; then
+    AC_CHECK_LIB(c,regcomp,[true],local_regex=1)
+fi
+
+if test "$local_regex" = 1; then
+    AC_MSG_CHECKING(for regex in local source tree)
+    if test -d regex; then
+        REALLIBS="$REALLIBS -Lregex -lregex"
+        XTRACFLAGS="$XTRACFLAGS -Iregex"
+        allsubdirs="$allsubdirs regex"
+
+        AC_MSG_RESULT(yes)
+    else
+        AC_MSG_RESULT(no)
+        AC_MSG_ERROR([Regex not found, cannot continue])
+    fi
+fi
+
+AC_CHECK_LIB(Judy, JudySLNext, [JUDYLIB=-lJudy])
+AC_CHECK_LIB(dbi,  dbi_shutdown, [DBILIB=-ldbi])
+
+AC_CHECK_LIB(socket,main)
+AC_CHECK_LIB(c,inet_ntoa,
+	[true],
+	[AC_CHECK_LIB(nsl,inet_ntoa)])
+
+if test "$local_dmalloc" = 0 -a "$needs_dmalloc" = 1; then
+    AC_CHECK_LIB(dmalloc,main,
+        REALLIBS="$REALLIBS -ldmalloc"
+        XTRACFLAGS="$XTRACFLAGS -DDMALLOC_FUNC_CHECK",
+    local_dmalloc=1)
+fi
+
+if test "$local_dmalloc" = 1; then
+    AC_MSG_CHECKING(for dmalloc in local source tree)
+    if test -d dmalloc; then
+        REALLIBS="$REALLIBS -Ldmalloc -ldmalloc"
+        XTRACFLAGS="$XTRACFLAGS -DDMALLOC_FUNC_CHECK -Idmalloc"
+        XTRAHEADERS="$XTRAHEADERS dmalloc/dmalloc.h"
+        allsubdirs="$allsubdirs dmalloc"
+
+        AC_CONFIG_SUBDIRS(dmalloc)
+
+        subdirs="$subdirs dmalloc"
+        AC_MSG_RESULT(yes)
+    else
+        AC_MSG_RESULT(no)
+    fi
+fi
+
+echo .
+echo Checking for header files
+
+AC_HEADER_STDC
+AC_HEADER_TIME
+
+if test "x${USE_PLUGIN}" = "x2"; then
+   # We use native dlopen
+
+   AC_CHECK_HEADERS(dlfcn.h, [CFLAGS="$CFLAGS -DUSE_PLUGIN"], [USE_PLUGIN=])
+#		[AC_DEFINE(HAVE_DLFCN_H, 1,
+#			[Define if you have the <dlfcn.h> header file.])],
+#			[AC_MSG_ERROR([Install dl library and appropriate header files
+#                           or run ./configure --disable-plugin])])
+fi
+
+if test "x${USE_PLUGIN}" = "x1"; then
+   # We use libltdl
+
+   AC_CHECK_HEADERS(ltdl.h, [CFLAGS="$CFLAGS -DUSE_PLUGIN"], [USE_PLUGIN=])
+#		[AC_DEFINE(HAVE_LTDL_H, 1,
+#			[Define if you have the <ltdl.h> header file.])],
+#			[AC_MSG_ERROR([Install ltdl library and appropriate header files
+#                           or run ./configure --disable-plugin])])
+fi
+
+AC_CHECK_HEADERS(unistd.h strings.h limits.h)
+AC_CHECK_HEADERS(sys/resource.h sys/time.h sys/param.h sys/wait.h)
+AC_CHECK_HEADERS(wctype.h wchar.h)
+AC_CHECK_HEADER([Judy.h], ,[JUDYLIB=])
+AC_CHECK_HEADER([dbi/dbi.h], ,[DBILIB=])
+AC_CHECK_HEADERS(langinfo.h)
+
+AC_CHECK_TYPES(wint_t,,, [#include <wchar.h>])
+AC_CHECK_TYPES(mbstate_t, , , [#include <wchar.h>])
+AC_CHECK_TYPES(wchar_t,   , , [#include <stddef.h>])
+AC_CHECK_TYPES(size_t)
+
+echo .
+echo Checking for system constants
+
+AC_C_CONST
+AC_C_INLINE
+
+echo .
+echo Checking for library functions
+
+AC_FUNC_ALLOCA
+AC_FUNC_FORK
+AC_FUNC_MALLOC
+#AC_FUNC_STAT
+AC_FUNC_STRCOLL
+AC_FUNC_STRFTIME
+AC_FUNC_VPRINTF
+
+AC_FUNC_WAIT3
+AC_CHECK_FUNCS(waitpid)
+
+#AC_FUNC_MMAP
+AC_CHECK_FUNCS(mmap munmap)
+
+AC_CHECK_FUNCS(strdup strtol strtoul semget strerror inet_aton)
+AC_CHECK_FUNCS(strdup strtol strtoul)
+AC_CHECK_FUNCS(alarm gethostbyaddr gethostbyname gethostname gettimeofday)
+AC_CHECK_FUNCS(inet_ntoa memmove memset regcomp setlocale)
+AC_CHECK_FUNCS(socket strcasecmp strchr strrchr strstr uname)
+
+AC_CHECK_FUNCS(dlopen)
+AC_CHECK_FUNCS(getopt)
+AC_CHECK_FUNCS(wcwidth)
+AC_CHECK_FUNCS(initgroups)
+
+AC_REPLACE_FUNCS(setenv)
+AC_REPLACE_FUNCS(wcrtomb wctomb mbrlen mbrtowc mbstowcs mbtowc)
+AC_REPLACE_FUNCS(strlcpy strlcat)
+AC_REPLACE_FUNCS(getopt_long)
+AC_REPLACE_FUNCS(nl_langinfo)
+#   [AC_LIBOBJ([getopt_long])
+#   AC_LIBOBJ([getopt])])
+AC_REPLACE_FUNCS(snprintf vsnprintf)
+AC_REPLACE_FUNCS(iswspace iswalnum towlower)
+
+echo .
+echo Making output files
+
+CC="$REALCC"
+LIBS="$REALLIBS $LIBS"
+
+AC_SUBST(DICT_VERSION)
+
+AC_SUBST(WCFLAGS)
+AC_SUBST(SCFLAGS)
+AC_SUBST(XTRACFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(CFLAGS)
+
+AC_SUBST(WLDFLAGS)
+AC_SUBST(XTRALDFLAGS)
+
+AC_SUBST(XTRAHEADERS)
+
+AC_SUBST(USE_PLUGIN)
+AC_SUBST(EXEEXT)
+AC_SUBST(allsubdirs)
+AC_SUBST(USE_DICT_ORG)
+AC_SUBST(REGEX_INCLUDE)
+AC_SUBST(local_regex)
+AC_SUBST(local_zlib)
+AC_SUBST(local_libmaa)
+AC_SUBST(JUDYLIB)
+AC_SUBST(DBILIB)
+
+AC_CONFIG_FILES([Makefile doc/Makefile include_regex.h])
+AC_CONFIG_FILES([dictdplugin-config], [chmod +x dictdplugin-config])
+AC_CONFIG_FILES([dictl], [chmod +x dictl])
+AC_CONFIG_FILES([colorit], [chmod +x colorit])
+
+AC_OUTPUT
+
+printf '\n\n'
+
+# MAA
+printf "maa:             "
+if test "_$local_libmaa" = "_0"; then
+  echo system
+else
+  echo local
+fi
+
+# ZLIB
+printf "zlib:            "
+if test "_$local_zlib" = "_0"; then
+  echo system
+else
+  echo local
+fi
+
+# REGEX
+printf "regex:           "
+if test "_$local_regex" = "_0"; then
+  echo system
+else
+  echo local
+fi
+
+# PLUGIN SUPPORT
+printf "plugin support:  "
+if test "_$USE_PLUGIN" = "_"; then
+  echo disabled
+else
+  case "$USE_PLUGIN" in
+    1) echo libltdl;;
+    2) echo native
+  esac
+
+  printf " judy plugin:    "
+  if test "_$JUDYLIB" = "_"; then
+    echo "disabled"
+  else
+    echo "enabled"
+  fi
+
+  printf " dbi plugin:     "
+  if test "_$DBILIB" = "_"; then
+    echo "disabled"
+  else
+    echo "enabled"
+  fi
+fi
+
+printf '\n\n'
+
+date > stamp-h.in
+date > stamp-h
+#echo .
+#echo Done
