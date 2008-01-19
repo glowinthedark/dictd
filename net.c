@@ -189,7 +189,7 @@ void net_detach( void )
    
    chdir("/");		/* cd to safe directory */
    
-   umask(022);		/* set safe umask */
+   umask(0);		/* set safe umask */
    
    setpgid(0,getpid());	/* Get process group */
 

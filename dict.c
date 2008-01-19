@@ -242,11 +242,9 @@ static void client_open_pager( void )
 				/* default */
    dict_output = stdout;
 				/* use an empty string to avoid paging */
-   if (!dict_pager)
-     dict_pager = getenv("PAGER");
-   if (!dict_pager)
-      dict_pager = "/usr/bin/pager";
-   if (*dict_pager && strcmp(dict_pager, "-")) {
+   if ((dict_pager || (dict_pager = getenv("PAGER")))
+       && *dict_pager
+       && strcmp(dict_pager, "-")) {
       PRINTF(DBG_VERBOSE,("Using \"%s\" as pager\n",dict_pager));
       pr_open( dict_pager, PR_CREATE_STDIN, &infd, NULL, NULL );
       dict_output = fdopen( infd, "w" );
@@ -681,8 +679,8 @@ end:				/* Ready to send buffer, but are we
 	    }
 	 }
          client_close_pager();
-	 fprintf (stderr, "Cannot connect to any servers%s\n",\
-		  dbg_test(DBG_VERBOSE) ? "" : " (use -v to see why)" );
+	 fprintf (stderr,
+		  "Cannot connect to any servers (use -v to see why)\n");
 	 exit (EXST_CONNECTION_FAILED);
       }
       cmd_reply.host    = c->host;

@@ -1572,14 +1572,14 @@ static void create_pid_file ()
    FILE *fd = fopen (pidFile, "w");
 
    if (!fd){
-      log_info(":E: cannot open pid file '%s'\n:E:    err msg: %s\n",
+      log_info(":E: cannot open pif file '%s'\n:E:    err msg: %s\n",
 	       pidFile, strerror (errno));
       exit (1);
    }
 
-   fprintf (fd, "%lu\n", (unsigned long) getpid ());
+   fprintf (fd, "%lu", (unsigned long) getpid ());
    if (fclose (fd)){
-      log_info(":E: cannot write to pid file '%s'\n:E:    err msg: %s\n",
+      log_info(":E: cannot write to pif file '%s'\n:E:    err msg: %s\n",
 	       pidFile, strerror (errno));
       exit (1);
    }

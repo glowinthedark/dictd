@@ -1,5 +1,7 @@
 #! /usr/bin/make -f
 
+include /usr/share/quilt/quilt.make
+
 ############################ -*- Mode: Makefile -*- ###########################
 ## rules ---
 ## Author           : Robert D. Hilliard <hilliard@debian.org>
@@ -73,13 +75,14 @@ all build: stamp-build
 # Builds the binary package.
 
 autotools:
-	-rm -f config.sub config.guess libmaa/config.guess libmaa/config.sub
+	tar cvzf configs.tgz  config.sub config.guess libmaa/config.guess libmaa/config.sub
+	rm -f config.sub config.guess libmaa/config.guess libmaa/config.sub
 	ln -s /usr/share/misc/config.sub config.sub
 	ln -s /usr/share/misc/config.guess config.guess
 	ln -s /usr/share/misc/config.sub libmaa/config.sub
 	ln -s /usr/share/misc/config.guess libmaa/config.guess
 
-configure: stamp-configure
+configure: patch stamp-configure
 
 stamp-configure: autotools
 	./configure  --verbose --prefix=$(PREFIX) --libexecdir=/usr/lib/dictd --datadir=/usr/share/dictd --sysconfdir=/etc/dictd && touch stamp-configure
@@ -98,7 +101,7 @@ stamp-build:
 
 	touch stamp-build
 
-clean:
+clean: unpatch
 # Undoes the effect of `$(MAKE) -f debian/rules build'.
 	$(checkdir)
 	-test -f Makefile && $(MAKE) recursive-clean
@@ -108,8 +111,12 @@ clean:
 	-rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	rm -f config.sub config.guess
-	rm -f libmaa/config.sub libmaa/config.guess
+	if [ -f configs.tar ] ; then \
+		rm -f config.sub config.guess libmaa/config.sub libmaa/config.guess ; \
+		tar xvzf configs.tgz ; \
+		rm -f configs.tgz ; \
+	fi		
+
 	rm -f libmaa/arggram2c
 
 binary: binary-indep binary-arch

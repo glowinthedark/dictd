@@ -1,9 +1,8 @@
 Source: dictd
 Section: text
 Priority: optional
-Maintainer: Kirk Hilliard <kirk@debian.org>
-Uploaders: Robert D. Hilliard <hilliard@debian.org>
-Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev
+Maintainer: Robert Luberda <robert@debian.org>
+Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45)
 Standards-Version: 3.7.2
 
 Package: dictd 
