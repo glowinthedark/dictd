@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
- * $Id: dict.h,v 1.14 2000/12/22 14:15:25 faith Exp $
- * 
  */
 
 #ifndef _DICT_H_
@@ -60,8 +57,6 @@ typedef struct dictToken {
 } dictToken;
 
 extern lst_List   dict_Servers;	/* List of servers to try */
-extern const char *dict_pager;	/* Pager to use if isatty() */
-extern FILE       *dict_output;	/* Pid of paging process */
 
 				/* dmalloc must be last */
 #ifdef DMALLOC_FUNC_CHECK
