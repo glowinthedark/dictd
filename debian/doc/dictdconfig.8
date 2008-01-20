@@ -3,8 +3,9 @@
 .\" any later version of the GNU General Public License.  You should
 .\" have received a copy of the GNU General Public License with your
 .\" Debian GNU/Linux system as /usr/share/common-licenses/GPL.
+.\" $Id: dictdconfig.8 24 2008-01-20 10:15:09Z robert $
 .\"
-.TH DICTDCONFIG 8 "January 20, 2003" "DEBIAN" "Debian User's Manual"
+.TH DICTDCONFIG 8 "January 20, 2008" "DEBIAN" "Debian User's Manual"
 .SH NAME
 dictdconfig \- write dictd database configuration section
 .SH SYNOPSIS
@@ -52,7 +53,7 @@ The default order in which database entries are written is hard coded
 into
 .BR dictdconfig ,
 but it may be overridden via the optional order override file
-.IR /etc/dictd.order .
+.IR /etc/dictd/dictd.order .
 This may be desired because
 .B dictd
 returns definitions from dictionary databases in the order in which
@@ -61,7 +62,7 @@ The order override file may also be used to include local dictionary
 databases which may not necessarily reside in
 .IR /usr/share/dictd/ .
 .PP
-.IR /etc/dictd.order ,
+.IR /etc/dictd/dictd.order ,
 if present, should be a whitespace separated list of basenames and
 directories.  It may also include comments starting with # and
 extending to the end of the line.  Virtual dictionaries and the directive 
@@ -108,7 +109,7 @@ An order override file should also use this technique, both for
 and for any other directory where local dictionary database might be
 installed.
 .PP
-The -o option may be used to make
+The \-o option may be used to make
 .B dictdconfig
 display the default order information along with the order override
 information if
@@ -122,14 +123,14 @@ dictionary database entry will be generated with
 for both data and index.  This allows dictd to start without error.
 .SS DATABASE ALIASES
 If an executable script named 
-.I /etc/dictdconfig.alias 
+.I /etc/dictd/dictdconfig.alias 
 exists, dictdconfig will filter database names through it.  The script
 can be bash, sed, perl, or whatever.  Although 
-.I dict -D 
+.I dict \-D 
 will display database names of any length, names longer than 16
 characters are displayed in a ragged format.  Appropriate entries in
 this alias file can be used to cause 
-.I dict -D 
+.I dict \-D 
 to display the database names in a reasonable format.
 .SH OPTIONS
 .TP
@@ -154,12 +155,12 @@ Display version information and exit.
 Output of
 .BR dictdconfig .
 .TP
-.I /etc/dictd.config
+.I /etc/dictd/dictd.config
 .B dictd
 configuration file which "includes"
 .IR /var/lib/dictd/db.list .
 .TP
-.I /etc/dictd.order
+.I /etc/dictd/dictd.order
 Optional
 .B dictdconfig
 order override file.

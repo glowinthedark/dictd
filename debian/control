@@ -26,11 +26,12 @@ Description: Dictionary Server
  The client program, dict, is packaged in dict*.deb  If you are 
  running a server, you will want the client for all machines in your 
  network, and for testing server operations.
-Depends: ${shlibs:Depends}, netbase, adduser, dictzip
+Depends: ${shlibs:Depends}, netbase, adduser, dictzip, lsb-base (>= 3.1)
 Recommends: dict | dict-client 
 Suggests: dict-gcide | dict-web1913, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server
 Conflicts: dict-server
+Homepage: http://sourceforge.net/projects/dict/
 
 Package: dict
 Section: text
@@ -44,7 +45,7 @@ Description: Dictionary Client
  The DICT Development Group maintains several public servers which can 
  be accessed from any machine connected to the Internet.  The default 
  configuration is to query one of these servers first, but this may be 
- changed in the configuration file /etc/dict.conf.
+ changed in the configuration file /etc/dictd/dict.conf.
  .
  Queries may be customized by numerous command line options, including 
  specifying the database(s) to be queried and the search strategy to 
@@ -55,6 +56,7 @@ Description: Dictionary Client
 Depends: ${shlibs:Depends}, netbase, recode
 Suggests: dictd | dict-server
 Provides: dict-client
+Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictzip
 Section: text
@@ -69,6 +71,7 @@ Description: Compression utility for dictionary databases
  and dictzcat for viewing dictzipped files.
 Depends: ${shlibs:Depends}
 Replaces: dictd (<< 1.7.1-1)
+Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictfmt
 Section: utils
@@ -79,3 +82,4 @@ Description: Utility to format a file for use by the dictd server
  to the DICT protocol, and creates a corresponding index file.
 Depends: ${shlibs:Depends}
 Recommends: dictzip
+Homepage: http://sourceforge.net/projects/dict/

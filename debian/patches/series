@@ -1,3 +1,4 @@
+dictl-konwert.patch
 dict.1-debian_patch
 dict.c-1-verbose_patch
 dict.c-2-debian_pager_patch

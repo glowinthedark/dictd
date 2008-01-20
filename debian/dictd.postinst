@@ -1,5 +1,6 @@
 #!/bin/sh
-# $Id: dictd.postinst 22 2008-01-19 22:25:57Z robert $
+# vim: ts=4:et:sts=4
+# $Id: dictd.postinst 24 2008-01-20 10:15:09Z robert $
 
 set -e
 
@@ -7,22 +8,20 @@ PACKAGE=dictd
 
 case "$1" in 
      configure)
-     if [ -e /etc/dictd.conf.moved_by_preinst ]; then 
-        rm /etc/dictd.conf.moved_by_preinst;
-     fi
-     if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ;fi
+        if [ -e /etc/dictd.conf.moved_by_preinst ]; then 
+            rm /etc/dictd.conf.moved_by_preinst;
+        fi
+        if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ; fi
 
-     exit 0
-     ;;
+        ;;
 
     failed-upgrade|abort-upgrade|abort-remove|abort-deconfigure|in-favour|removing)
-        exit 0;
-    ;;
+        ;;
 
     *)
         echo "postinst called with unknown argument \`$1'" >&2;
-        exit 0;
-    ;;
+        exit 1;
+        ;;
 esac
 
 #DEBHELPER#
