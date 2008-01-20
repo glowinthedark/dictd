@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
- * $Id: index.c,v 1.103 2005/08/14 15:58:52 cheusov Exp $
- * 
  */
 
 #include "dictP.h"
@@ -46,6 +43,7 @@
 #endif
 
 #include <stdio.h>
+#include <sys/stat.h>
 
 extern int mmap_mode;
 
@@ -82,11 +80,12 @@ char global_alphabet_ascii [UCHAR_MAX + 2];
 static int chartab [UCHAR_MAX + 1];
 static int charcount = 0;
 
+static int define_or_match = 0; /* 1 if define */
+
 /* #define isspacealnum(x) (isspacealnumtab[(unsigned char)(x)]) */
 #define c2i(x) (char2indextab[(unsigned char)(x)])
 #define i2c(x) (index2chartab[(unsigned char)(x)])
 #define c(x)   (((x) < charcount) ? chartab[(unsigned char)(x)] : 0)
-#define altcompare(a,b,c) (1)
 
 /*
   compares two 8bit strings (containing one character)
@@ -159,10 +158,10 @@ static void dict_table_init(void)
 	 }
       }
 
-      if (isspace(i) || ispunct(i)){
-	 isspacepuncttab [i] = 1;
-      }else{
+      if (utf8_mode && i >= 0x80){
 	 isspacepuncttab [i] = 0;
+      }else{
+	 isspacepuncttab [i] = isspace(i) || ispunct(i);
       }
 
       isspacealnumtab_allchars [i] = 1;
@@ -236,8 +235,7 @@ static int compare_allchars(
 
    PRINTF(DBG_SEARCH,("   We are inside index.c:compare_allchars\n"));
 
-   /* FIXME.  Optimize this inner loop. */
-   while (*word && start < end && *start != '\t') {
+   while (*word && *word != '\t' && start < end && *start != '\t') {
 //      if (!isspacealnum(*start)) {
 //	 ++start;
 //	 continue;
@@ -273,7 +271,7 @@ static int compare_allchars(
       ++start;
    }
 
-   result = (*word ? 1 : ((*start != '\t') ? -1 : 0));
+   result = (*word && *word != '\t' ? 1 : ((*start != '\t') ? -1 : 0));
 
    PRINTF(DBG_SEARCH,("   result = %d\n", result));
    return  result;
@@ -286,31 +284,27 @@ static int compare_alnumspace(
 {
    int c1, c2;
    int result;
+   int ret;
 
    assert (dbindex);
 
    PRINTF(DBG_SEARCH,("   We are inside index.c:compare_alnumspace\n"));
 
    /* FIXME.  Optimize this inner loop. */
-   while (*word && start < end && *start != '\t') {
+   while (*word && *word != '\t' && start < end && *start != '\t') {
       if (!dbindex -> isspacealnum[* (const unsigned char *) start]) {
 	 ++start;
 	 continue;
       }
-#if 0
-      if (isspace( (unsigned char) *start ))
-	 c2 = ' ';
-      else
-	 c2 = tolowertab [* (unsigned char *) start];
 
-      if (isspace( (unsigned char) *word ))
-	 c1 = ' ';
-      else
-	 c1 = tolowertab [* (unsigned char *) word];
-#else
-      c2 = tolowertab [* (unsigned char *) start];
-      c1 = tolowertab [* (unsigned char *) word];
-#endif
+      c1 = (unsigned char) *word;
+      c2 = (unsigned char) *start;
+
+      if (!dbindex -> flag_casesensitive){
+	 c2 = tolowertab [c2];
+	 c1 = tolowertab [c1];
+      }
+
       if (c1 != c2) {
 	 if (utf8_mode){
 	    if (
@@ -351,9 +345,11 @@ static int compare_alnumspace(
       ++start;
    }
 
-   PRINTF(DBG_SEARCH,("   result = %d\n",
-		      *word ? 1 : ((*start != '\t') ? -1 : 0)));
-   return  *word ? 1 : ((*start != '\t') ? -1 : 0);
+   ret = *word && *word != '\t' ? 1 : ((*start != '\t') ? -1 : 0);
+
+   PRINTF(DBG_SEARCH,("   result = %d\n", ret));
+
+   return ret;
 }
 
 /* Compare:
@@ -583,17 +579,18 @@ static const char *dict_index_search( const char *word, dictIndex *idx )
 static dictWord *dict_word_create(
     const char *entry,
     const dictDatabase *database,
-    dictIndex *dbindex)
+    const dictIndex *dbindex)
 {
-   int        firstTab  = 0;
-   int        secondTab = 0;
-   int        newline   = 0;
+   int        offs_word   = 0;
+   int        offs_offset = 0;
+   int        offs_length = 0;
+   int        offset      = 0;
+
+   int        word_len    = 0;
+
    dictWord   *dw       = xmalloc( sizeof( struct dictWord ) );
-   char       *buf;
-   int        offset    = 0;
-   int        state     = 0;
    const char *pt       = entry;
-   char       *s, *d;
+   char       *d;
 
    assert (dbindex);
    assert (pt >= dbindex -> start && pt < dbindex -> end);
@@ -602,42 +599,48 @@ static dictWord *dict_word_create(
 
    for (;pt < dbindex->end && *pt != '\n'; pt++, offset++) {
       if (*pt == '\t') {
-	 switch (++state) {
-	 case 1: firstTab = offset;  break;
-	 case 2: secondTab = offset; break;
-	 default:
+	 if (!offs_offset)
+	    offs_offset = offset + 1;
+	 else if (!offs_length)
+	    offs_length = offset + 1;
+	 else if (!offs_word)
+	    offs_word = offset + 1;
+	 else{
 	    err_internal( __FUNCTION__,
 			  "Too many tabs in index entry \"%*.*s\"\n",
-			  secondTab, secondTab, entry );
+			  offs_length, offs_length, entry );
 	 }
       }
    }
-   newline = offset;
-   
-   if (state != 2)
+
+   if (!offs_length)
       err_internal( __FUNCTION__,
 		    "Too few tabs in index entry \"%20.20s\"\n", entry );
 
-   buf = alloca( newline + 1 );
-   memcpy (buf, entry, newline);
-   buf[firstTab] = buf[secondTab] = buf [newline] = '\0';
+   dw->start    = b64_decode_buf (entry + offs_offset, offs_length - offs_offset - 1);
+   if (offs_word > 0){
+      word_len  = offset - offs_word;
+      dw->end   = b64_decode_buf (entry + offs_length, offs_word - offs_length - 1);
+   }else{
+      word_len  = offs_offset - 1;
+      dw->end   = b64_decode_buf (entry + offs_length, offset - offs_length);
+   }
 
-   dw->start    = b64_decode( buf + firstTab + 1 );
-   dw->end      = b64_decode( buf + secondTab + 1 );
    dw->def      = NULL;
    dw->def_size = 0;
    dw->database = database;
 
 				/* Apply quoting to word */
-   dw->word     = xmalloc(strlen(buf) * 2 + 1);
-   for (s = buf, d = (char *)dw->word; *s;) {
-       switch (*s) {
+   dw->word     = xmalloc (word_len*2 + 1);
+   entry += offs_word;
+
+   for (d = (char *)dw->word; word_len--;) {
+       switch (*entry) {
        case '"':
        case '\\':
 	   *d++ = '\\';
-       default:
-	   *d++ = *s++;
        }
+       *d++ = *entry++;
    }
    *d = '\0';
 
@@ -684,14 +687,40 @@ void dict_destroy_list( lst_List list )
    lst_destroy( list );
 }
 
+/* returns NULL if limits exceeded */
+static dictWord *dict_add_word_to_list (
+   lst_List l,
+   const dictDatabase *database,
+   const dictIndex *dbindex,
+   const char *pt)
+{
+   dictWord * datum;
+
+   assert (l);
+
+   if (define_or_match){
+      if (_dict_daemon_limit_defs
+	  && lst_length (l) >= _dict_daemon_limit_defs)
+	 return NULL;
+   }else{
+      if (_dict_daemon_limit_matches
+	  && lst_length (l) >= _dict_daemon_limit_matches)
+	 return NULL;
+   }
+
+   datum = dict_word_create (pt, database, dbindex);
+   lst_append (l, datum);
+   return datum;
+}
+
 static int dict_search_exact( lst_List l,
 			      const char *word,
 			      const dictDatabase *database,
-			      dictIndex *dbindex)
+			      dictIndex *dbindex,
+			      int uniq_only)
 {
    const char *pt   = NULL;
    int        count = 0;
-   dictWord   *datum;
    const char *previous = NULL;
 
    assert (dbindex);
@@ -700,51 +729,22 @@ static int dict_search_exact( lst_List l,
 
    while (pt && pt < dbindex->end) {
       if (!compare( word, dbindex, pt, dbindex->end )) {
-	 if (!previous || altcompare(previous, pt, dbindex->end)) {
+	 if (!uniq_only || !previous
+	     || compare(previous, dbindex, pt, dbindex->end))
+	 {
 	    ++count;
 	    if (l){
-	       datum = dict_word_create( previous = pt, database, dbindex );
-	       lst_append( l, datum );
+	       if (!dict_add_word_to_list
+		   (l, database, dbindex, previous = pt))
+	       {
+		  break;
+	       }
 	    }
 	 }
-      } else break;
-      FIND_NEXT( pt, dbindex->end );
-   }
-
-   return count;
-}
-
-static int dict_search_prefix( lst_List l,
-			       const char *word,
-			       const dictDatabase *database,
-			       dictIndex *dbindex)
-{
-   const char *pt   = dict_index_search( word, dbindex );
-   int        count = 0;
-   dictWord   *datum;
-   const char *previous = NULL;
-
-   assert (dbindex);
-
-   while (pt && pt < dbindex->end) {
-      switch (compare( word, dbindex, pt, dbindex->end )) {
-	 case -2:
-	    return count;
-	 case -1:
-	 case 0:
-	    if (!previous || altcompare(previous, pt, dbindex->end)) {
-	       ++count;
-	       datum = dict_word_create( previous = pt, database, dbindex );
-	       lst_append( l, datum );
-	    }
-	    break;
-	 case 1:
-	    return count;
-	 case 2:
-	    return count; /* ERROR!!! */
-	 default:
-	    assert (0);
+      }else{
+	 break;
       }
+
       FIND_NEXT( pt, dbindex->end );
    }
 
@@ -753,9 +753,92 @@ static int dict_search_prefix( lst_List l,
 
 enum {
    BMH_SUBSTRING,
+   BMH_PREFIX,
    BMH_SUFFIX,
    BMH_WORD,
+   BMH_FIRST,
+   BMH_LAST,
 };
+
+static int dict_search_prefix_first( lst_List l,
+			       const char *word,
+			       const dictDatabase *database,
+			       dictIndex *dbindex,
+			       int flag,
+			       int skip_count,
+			       int item_count)
+{
+   const char *pt   = dict_index_search( word, dbindex );
+   int        count = 0;
+   const char *previous = NULL;
+   int wordlen          = strlen (word);
+   int c                = 0;
+
+   assert (dbindex);
+
+   if (item_count <= 0){
+      return 0;
+   }
+
+   while (pt && pt < dbindex->end) {
+      switch (compare( word, dbindex, pt, dbindex->end )) {
+	 case -2:
+	    return count;
+	 case -1:
+	 case 0:
+	    if (!previous || compare(previous, dbindex, pt, dbindex->end)) {
+	       if (flag == BMH_FIRST){
+		  c = (unsigned char) pt [wordlen];
+		  if (c != '\t' && !isspacepuncttab [c])
+		     break;
+	       }
+
+	       if (skip_count == 0){
+		  ++count;
+
+		  if (!dict_add_word_to_list (l, database, dbindex, pt))
+		     return count;
+
+		  --item_count;
+		  if (!item_count){
+		     return count;
+		  }
+	       }else{
+		  --skip_count;
+	       }
+	    }
+	    previous = pt;
+	    break;
+	 case 1:
+	    return count;
+	 case 2:
+	    return count; /* ERROR!!! */
+	 default:
+	    assert (0);
+      }
+
+      FIND_NEXT( pt, dbindex->end );
+   }
+
+   return count;
+}
+
+static int dict_search_prefix (
+   lst_List l, const char *word,
+   const dictDatabase *database, dictIndex *dbindex,
+   int skip_count, int item_count)
+{
+   dict_search_prefix_first (l, word, database, dbindex,
+			     BMH_PREFIX, skip_count, item_count);
+}
+
+static int dict_search_first (
+   lst_List l, const char *word,
+   const dictDatabase *database, dictIndex *dbindex)
+{
+   dict_search_prefix_first (l, word, database, dbindex,
+			     BMH_FIRST, 0, INT_MAX);
+}
 
 static int dict_search_brute( lst_List l,
 			      const unsigned char *word,
@@ -768,9 +851,9 @@ static int dict_search_brute( lst_List l,
    const unsigned char *const end   = dbindex->end;
    const unsigned char *p, *pt;
    int        count = 0;
-   dictWord   *datum;
    int        result;
    const char *previous = NULL;
+   int c;
 
    assert (dbindex);
 
@@ -782,17 +865,25 @@ static int dict_search_brute( lst_List l,
 	 ++p;
 	 while (p < end && !dbindex -> isspacealnum[*p]) ++p;
       }
-      if (tolowertab [*p] == *word) {
+
+      c = *p;
+      if (!dbindex -> flag_casesensitive){
+	 c = tolowertab [c];
+      }
+
+      if (c == *word) {
 	 result = compare( word, dbindex, p, end );
 	 if (result == -1 || result == 0) {
 	    switch (flag){
 	    case BMH_SUBSTRING:
 	       break;
+
 	    case BMH_SUFFIX:
 	       if (result)
 		  continue;
 
 	       break;
+
 	    case BMH_WORD:
 	       if (p > start && !isspacepuncttab [p [-1]])
 		  continue;
@@ -800,19 +891,30 @@ static int dict_search_brute( lst_List l,
 		  continue;
 
 	       break;
+
+	    case BMH_LAST:
+	       if (result)
+		  continue;
+	       if (p > start && !isspacepuncttab [p [-1]])
+		  continue;
+
+	       break;
+	    default:
+	       abort ();
 	    }
 
 	    for (pt = p; pt >= start && *pt != '\n'; --pt)
-	       if (*pt == '\t') goto continue2;
-	    if (!previous || altcompare(previous, pt + 1, end)) {
+	       if (*pt == '\t')
+		  goto continue2;
+
+	    if (!previous || compare(previous, dbindex, pt + 1, end)) {
 	       ++count;
-	       datum = dict_word_create( previous = pt + 1, database, dbindex );
-#if 0
-	       fprintf( stderr, "Adding %d %s\n",
-			compare( word, dbindex, p, end ),
-			datum->word);
-#endif
-	       lst_append( l, datum );
+
+	       if (!dict_add_word_to_list
+		   (l, database, dbindex, previous = pt + 1))
+	       {
+		  break;
+	       }
 	    }
 	    FIND_NEXT(p,end);
 	    --p;
@@ -842,13 +944,13 @@ static int dict_search_bmh( lst_List l,
    int        skip[UCHAR_MAX + 1];
    int        i;
    int        j;
+   int c;
 #if 0
    int k;
 #endif
    const unsigned char *p, *pt, *ptr;
    int        count = 0;
    const unsigned char *f = NULL; /* Boolean flag, but has to be a pointer */
-   dictWord   *datum;
    const unsigned char *wpt;
    const unsigned char *previous = NULL;
 
@@ -866,7 +968,7 @@ static int dict_search_bmh( lst_List l,
    for (i = 0; i < patlen-1; i++)
       skip[(unsigned char)word[i]] = patlen-i-1;
 
-   for (p = start+patlen-1; p < end; f ? (f=NULL) : (p += skip [tolowertab [*p]])) {
+   for (p = start+patlen-1; p < end; ) {
       while (*p == '\t') {
 	 FIND_NEXT(p,end);
 	 p += patlen-1;
@@ -887,7 +989,12 @@ static int dict_search_bmh( lst_List l,
 	    --pt;
 	 }
 
-	 if (tolowertab [*pt--] != *wpt--)
+	 c = *pt--;
+	 if (!dbindex -> flag_casesensitive){
+	    c = tolowertab [c];
+	 }
+
+	 if (c != *wpt--)
 	    break;
       }
 
@@ -897,16 +1004,26 @@ static int dict_search_bmh( lst_List l,
 	    break;
 	 case BMH_SUFFIX:
 	    if (p[1] != '\t')
-	       continue;
+	       goto continue2;
 
 	    break;
 	 case BMH_WORD:
 	    ptr = p - patlen + 1;
 
 	    if (ptr > start && !isspacepuncttab [ptr [-1]])
-	       continue;
+	       goto continue2;
 	    if (p < end && !isspacepuncttab [p [1]])
-	       continue;
+	       goto continue2;
+
+	    break;
+	 case BMH_LAST:
+	    if (p[1] != '\t')
+	       goto continue2;
+
+	    ptr = p - patlen + 1;
+
+	    if (ptr > start && !isspacepuncttab [ptr [-1]])
+	       goto continue2;
 
 	    break;
 	 }
@@ -919,24 +1036,31 @@ static int dict_search_bmh( lst_List l,
 
 	 assert (pt >= start && pt < end);
 
-	 if (!previous || altcompare(previous, pt, dbindex->end)) {
+	 if (!previous || compare(previous, dbindex, pt, dbindex->end)) {
 	    ++count;
-	    datum = dict_word_create( previous = pt, database, dbindex );
-#if 0
-	    fprintf( stderr, "Adding %d %s, word = %s\n",
-		     compare( word, dbindex, p, dbindex->end ),
-		     datum->word,
-		     word );
-#endif
-	    if (l)
-	       lst_append( l, datum );
+	    if (l){
+	       if (!dict_add_word_to_list
+		   (l, database, dbindex, previous = pt))
+	       {
+		  return count;
+	       }
+	    }
 	 }
 	 FIND_NEXT(p,end);
 	 f = p += patlen-1;	/* Set boolean flag to non-NULL value */
-	 if (p > end) return count;
+	 if (p > end)
+	    return count;
       }
 continue2:
-      ;
+      if (f){
+	 f = NULL;
+      }else{
+	 c = *p;
+	 if (!dbindex -> flag_casesensitive){
+	    c = tolowertab [c];
+	 }
+	 p += skip [c];
+      }
    }
 
    return count;
@@ -967,13 +1091,13 @@ static int dict_search_word(
    assert (database -> index);
 
    if (database->index_word){
-      ret2 = dict_search_exact( l, word, database, database->index );
+      ret2 = dict_search_exact( l, word, database, database->index, 0 );
       if (ret2 < 0)
 	 return ret2;
 
       count = lst_length (l);
 
-      ret1 = dict_search_exact( l, word, database, database->index_word );
+      ret1 = dict_search_exact( l, word, database, database->index_word, 0 );
       if (ret1 < 0)
 	 return ret1;
 
@@ -990,23 +1114,6 @@ static int dict_search_word(
 	    dw -> word [len] = 0;
 	    dw -> start = -2;
 	    dw -> end   = 0;
-#if 1
-	    p += len + 1;
-	    len = strchr (p, '\t') - p;
-	    ptr = (char *) alloca (len + 1);
-	    memcpy (ptr, p, len);
-	    ptr [len] = '\0';
-
-	    dw -> start = b64_decode (ptr);
-
-	    p += len + 1;
-	    len = strchr (p, '\n') - p;
-	    ptr = (char *) alloca (len + 1);
-	    memcpy (ptr, p, len);
-	    ptr [len] = '\0';
-
-	    dw -> end = b64_decode (ptr);
-#endif
 	 }
       }
 
@@ -1045,7 +1152,6 @@ static int dict_search_regexpr( lst_List l,
    const char    *end   = dbindex->end;
    const char    *p, *pt;
    int           count = 0;
-   dictWord      *datum;
    regex_t       re;
    char          erbuf[100];
    int           err;
@@ -1092,15 +1198,13 @@ static int dict_search_regexpr( lst_List l,
       ++_dict_comparisons;
 
       if (dict_match (&re, pt, p - pt, 0)) {
-	 if (!previous || altcompare(previous, pt, end)) {
+	 if (!previous || compare(previous, dbindex, pt, end)) {
 	    ++count;
-	    datum = dict_word_create( previous = pt, database, dbindex );
-#if 0
-	    fprintf( stderr, "Adding %d %s\n",
-		     compare( word, dbindex, pt, end ),
-		     datum->word);
-#endif
-	    lst_append( l, datum );
+	    if (!dict_add_word_to_list
+		(l, database, dbindex, previous = pt))
+	    {
+	       break;
+	    }
 	 }
       }
       pt = p + 1;
@@ -1136,7 +1240,6 @@ static int dict_search_soundex( lst_List l,
    const char *pt;
    const char *end;
    int        count = 0;
-   dictWord   *datum;
    char       soundex  [10];
    char       soundex2 [5];
    char       buffer[MAXWORDLEN];
@@ -1170,9 +1273,13 @@ static int dict_search_soundex( lst_List l,
 
       txt_soundex2 (buffer, soundex2);
       if (!strcmp (soundex, soundex2)) {
-	 if (!previous || altcompare(previous, pt, end)) {
-	    datum = dict_word_create( previous = pt, database, dbindex );
-	    lst_append( l, datum );
+	 if (!previous || compare(previous, dbindex, pt, end)) {
+	    if (!dict_add_word_to_list
+		(l, database, dbindex, previous = pt))
+	    {
+	       break;
+	    }
+
 	    ++count;
 	 }
       }
@@ -1211,8 +1318,7 @@ typedef struct lev_args_ {
       if (!set_member(s,(word))) {                       \
 	 ++count;                                        \
 	 set_insert(s,str_find((word)));                 \
-	 datum = dict_word_create(pt, (args) -> database, (args) -> dbindex);\
-	 lst_append((args) -> l, datum);                        \
+	 if (!dict_add_word_to_list ((args) -> l, (args) -> database, (args) -> dbindex, pt)) return count; \
          PRINTF(DBG_LEV,("  %s added\n",(word)));     \
       }                                               \
    }
@@ -1350,7 +1456,49 @@ static int dict_search_suffix(
       count = lst_length (l);
 
       PRINTF(DBG_SEARCH, ("'%s'\n", buf));
-      ret = dict_search_prefix ( l, buf, database, database->index_suffix);
+      ret = dict_search_prefix (
+	 l, buf, database, database->index_suffix, 0, INT_MAX);
+
+      LST_ITERATE (l, p, dw) {
+	 if (count <= 0){
+	    stranagram (dw -> word, utf8_mode);
+	 }
+
+	 --count;
+      }
+      return ret;
+   }else{
+      return dict_search_bmh( l, word, database, database -> index, BMH_SUFFIX );
+   }
+}
+
+static int dict_search_last (
+   lst_List l,
+   const char *word,
+   const dictDatabase *database)
+{
+   int ret;
+   lst_Position p;
+   dictWord *dw;
+   char *buf = NULL;
+   int count;
+
+   assert (database);
+
+   if (database->index_suffix){
+      buf = (char *) alloca (strlen (word));
+      strcpy (buf, word);
+
+      PRINTF(DBG_SEARCH, ("anagram: '%s' ==> ", buf));
+      if (!stranagram (buf, utf8_mode)){
+	 PRINTF(DBG_SEARCH, ("failed building anagram\n"));
+	 return 0; /* invalid utf8 string */
+      }
+
+      count = lst_length (l);
+
+      PRINTF(DBG_SEARCH, ("'%s'\n", buf));
+      ret = dict_search_first (l, buf, database, database->index_suffix);
 
       LST_ITERATE (l, p, dw) {
 	 if (count-- <= 0){
@@ -1359,7 +1507,7 @@ static int dict_search_suffix(
       }
       return ret;
    }else{
-      return dict_search_bmh( l, word, database, database -> index, BMH_SUFFIX );
+      return dict_search_bmh( l, word, database, database -> index, BMH_LAST );
    }
 }
 
@@ -1374,14 +1522,20 @@ error: The request is not a valid UTF-8 string";
 */
 int dict_search_database_ (
    lst_List l,
-   const char *const word,
+   const char *word,
    const dictDatabase *database,
-   int strategy )
+   int strategy_or_define )
 {
    char       *buf      = NULL;
 #if HAVE_UTF8
    dictWord   *dw       = NULL;
 #endif
+   unsigned int skip_count       = 0;
+   unsigned int item_count       = INT_MAX;
+
+   int strategy = strategy_or_define & ~DICT_MATCH_MASK;
+
+   define_or_match = (strategy == strategy_or_define);
 
    assert (database);
    assert (database -> index);
@@ -1390,13 +1544,24 @@ int dict_search_database_ (
       strategy = database -> default_strategy;
    }
 
+   if (strategy == DICT_STRAT_NPREFIX){
+      if (2 == sscanf (word, "%u#%u#", &skip_count, &item_count)){
+	 while (*word++ != '#');
+	 ++word;
+	 while (*word++ != '#');
+      }
+   }
+
    buf = alloca( strlen( word ) + 1 );
 
 #if HAVE_UTF8
    if (
       !strcmp(utf8_err_msg, word) ||
       tolower_alnumspace (
-	 word, buf, database -> index -> flag_allchars, utf8_mode))
+	 word, buf,
+	 database -> index -> flag_allchars,
+	 database -> index -> flag_casesensitive,
+	 utf8_mode))
    {
       PRINTF(DBG_SEARCH, ("tolower_... ERROR!!!\n"));
       
@@ -1409,11 +1574,15 @@ int dict_search_database_ (
       dw -> word     = strdup (word);
       
       lst_append (l, dw);
-      
+
       return -1;
    }
 #else
-   tolower_alnumspace (word, buf, database -> index -> flag_allchars, utf8_mode);
+   tolower_alnumspace (
+      word, buf,
+      database -> index -> flag_allchars,
+      database -> index -> flag_casesensitive,
+      utf8_mode);
 #endif
 
    if (!buf [0] && word [0]){
@@ -1425,23 +1594,15 @@ int dict_search_database_ (
       return 0;
    }
 
-/*
-   if (!database->index)
-      database->index =
-	  dict_index_open( database->indexFilename, 1, 0, 0 );
-   if (!database->index_suffix && database->indexsuffixFilename)
-      database->index_suffix =
-	  dict_index_open(
-	      database->indexsuffixFilename,
-	      0, database->index->flag_utf8, database->index->flag_allchars );
-*/
-
    switch (strategy) {
    case DICT_STRAT_EXACT:
-      return dict_search_exact( l, buf, database, database->index );
+      return dict_search_exact( l, buf, database, database->index,
+				strategy_or_define != strategy);
 
    case DICT_STRAT_PREFIX:
-      return dict_search_prefix( l, buf, database, database->index );
+   case DICT_STRAT_NPREFIX:
+      return dict_search_prefix (l, buf, database, database->index,
+				 skip_count, item_count);
 
    case DICT_STRAT_SUBSTRING:
       return dict_search_substring( l, buf, database, database->index );
@@ -1464,11 +1625,15 @@ int dict_search_database_ (
    case DICT_STRAT_WORD:
       return dict_search_word( l, buf, database);
 
+   case DICT_STRAT_FIRST:
+      return dict_search_first( l, buf, database, database->index );
+
+   case DICT_STRAT_LAST:
+      return dict_search_last( l, buf, database );
+
    default:
+      /* plugins may support unusual search strategies */
       return 0;
-/*
-      err_internal( __FUNCTION__, "Search strategy %d unknown\n", strategy );
-*/
    }
 }
 
@@ -1543,7 +1708,7 @@ int dict_search (
 
    if (database -> index){
       PRINTF (DBG_SEARCH, (":S:   database search\n"));
-      count = dict_search_database_ (l, word, database, norm_strategy);
+      count = dict_search_database_ (l, word, database, strategy);
    }
 
 #ifdef USE_PLUGIN
@@ -1603,7 +1768,8 @@ int dict_search (
 
 dictIndex *dict_index_open(
    const char *filename,
-   int init_flags, int flag_utf8, int flag_allchars)
+   int init_flags,
+   const dictIndex *base)
 {
    struct stat sb;
    static int  tabInit = 0;
@@ -1661,8 +1827,11 @@ dictIndex *dict_index_open(
    i->end = i->start + i->size;
 
    i->flag_8bit     = 0;
-   i->flag_utf8     = flag_utf8;
-   i->flag_allchars = flag_allchars;
+   if (base){
+      i->flag_utf8          = base -> flag_utf8;
+      i->flag_allchars      = base -> flag_allchars;
+      i->flag_casesensitive = base -> flag_casesensitive;
+   }
    i->isspacealnum  = isspacealnumtab;
 
    if (optStart_mode){
@@ -1674,19 +1843,26 @@ dictIndex *dict_index_open(
       memset (&db, 0, sizeof (db));
       db.index = i;
 
+      /* for exact search */
       i->flag_allchars = 1;
       i->isspacealnum = isspacealnumtab_allchars;
 
+      /* allchars flag */
       i->flag_allchars =
 	 0 != dict_search_database_ (NULL, DICT_FLAG_ALLCHARS, &db, DICT_STRAT_EXACT);
       PRINTF(DBG_INIT, (":I:     \"%s\": flag_allchars=%i\n", filename, i->flag_allchars));
+
+      /* case-sensitive flag */
+      i->flag_casesensitive =
+	 0 != dict_search_database_ (NULL, DICT_FLAG_CASESENSITIVE, &db, DICT_STRAT_EXACT);
+      PRINTF(DBG_INIT, (":I:     \"%s\": flag_casesensitive=%i\n", filename, i->flag_casesensitive));
 
       /* utf8 flag */
       if (!i -> flag_allchars)
 	 i -> isspacealnum = isspacealnumtab;
 
       i->flag_utf8 =
-	 0 != dict_search_database_ (NULL, DICT_FLAG_UTF8, &db, DICT_STRAT_EXACT);
+         0 != dict_search_database_ (NULL, DICT_FLAG_UTF8, &db, DICT_STRAT_EXACT);
       PRINTF(DBG_INIT, (":I:     \"%s\": flag_utf8=%i\n", filename, i->flag_utf8));
       if (i->flag_utf8 && !utf8_mode){
 	 log_info( ":E: locale '%s' can not be used for utf-8 dictionaries. Exiting\n", locale );
@@ -1787,11 +1963,6 @@ void dict_index_close( dictIndex *i )
       if (i -> start)
 	 xfree ((char *) i -> start);
    }
-
-   i->start = i->end = NULL;
-   i->flag_utf8      = 0;
-   i->flag_allchars  = 0;
-   i->isspacealnum   = NULL;
 
    xfree (i);
 }

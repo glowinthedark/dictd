@@ -48,7 +48,25 @@ INSTALL_DATA=	@INSTALL_DATA@
 
 dicf: dicf.txt
 
-all:
+all: 
+#all: rfc.txt
+
+rfc.txt: rfc.ms toc.ms
+	@echo "Building table of contents, pass 1"
+	@echo "" > rfc.toc
+	@$(NROFF) -ms toc.ms | @AWK@ '/STARTTOC/ { p = 1 } \
+		/\..\..\../ { if (p == 1) print }' > rfc.toc.new
+	@cp rfc.toc.new rfc.toc
+	@echo "Building table of contents, pass 2"
+	@$(NROFF) -ms toc.ms | @AWK@ '/STARTTOC/ { p = 1 } \
+		/\..\..\../ { if (p == 1) print }' > rfc.toc.new
+	@cp rfc.toc.new rfc.toc
+	@echo "Building table of contents, pass 3 (verification)"
+	@$(NROFF) -ms toc.ms | @AWK@ '/STARTTOC/ { p = 1 } \
+		/\..\..\../ { if (p == 1) print }' > rfc.toc.new
+	@cmp -s rfc.toc.new rfc.toc || echo "WARNING: Contents Changed!"
+	@echo "Building document..."
+	$(NROFF) -ms rfc.ms | ./rfc.sh | $(EXPAND) > rfc.txt
 
 dicf.txt: dicf.ms dicftoc.ms
 	@echo "Building table of contents, pass 1"
@@ -66,6 +84,10 @@ dicf.txt: dicf.ms dicftoc.ms
 	@cmp -s dicf.toc.new dicf.toc || echo "WARNING: Contents Changed!"
 	@echo "Building document..."
 	$(NROFF) -ms dicf.ms | ./rfc.sh | $(EXPAND) > dicf.txt
+
+# This is pretty ugly
+rfc.ps: rfc.ms
+	$(TROFF) -ms rfc.ms > rfc.ps
 
 .PHONY: clean distclean tags
 clean:

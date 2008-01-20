@@ -17,7 +17,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  * 
- * $Id: maaP.h,v 1.23 2005/09/05 18:00:02 cheusov Exp $
+ * $Id: maaP.h,v 1.27 2006/04/09 08:53:00 cheusov Exp $
  */
 
 #ifndef _MAAP_H_
@@ -29,23 +29,18 @@
 #include "config.h"
 #endif
 
-#ifndef __GNUC__
-#define __FUNCTION__ __FILE__
-#endif
-
-/* AIX requires this to be the first thing in the file.  */
-#ifndef HAVE_ALLOCA
 #if HAVE_ALLOCA_H
 # include <alloca.h>
-#else
-# ifdef _AIX
-#  pragma alloca
-# else
-#  ifndef alloca /* predefined by HP cc +Olibcalls */
-    char *alloca ();
+#endif
+
+#ifndef HAVE_ALLOCA
+# ifndef alloca /* predefined by HP cc +Olibcalls */
+#  ifdef _AIX
+#    pragma alloca
+#  else
+     void *alloca(size_t size);
 #  endif
 # endif
-#endif
 #endif
 
 /* Get string functions */
@@ -138,11 +133,6 @@ extern void     srandom( unsigned int );
 
 /* Provide stdarg support */
 #include <stdarg.h>
-
-/* System dependent declarations: Many brain damaged systems don't provide
-declarations for standard library calls.  We provide them here for
-situations that we know about. */
-#include "decl.h"
 
 #if HAVE_LIMITS_H
 #include <limits.h>

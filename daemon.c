@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
- * $Id: daemon.c,v 1.83 2005/07/26 16:16:42 cheusov Exp $
- * 
  */
 
 #include "dictd.h"
@@ -33,9 +30,11 @@
 #include <ctype.h>
 #include <setjmp.h>
 
+int stdin2stdout_mode = 0; /* copy stdin to stdout ( dict_dictd function ) */
+
 static int          _dict_defines, _dict_matches;
 static int          daemonS_in  = 0;
-static int          daemonS_out = 0;
+static int          daemonS_out = 1;
 static const char   *daemonHostname  = NULL;
 static const char   *daemonIP        = NULL;
 static int          daemonPort       = -1;
@@ -909,7 +908,8 @@ static int count_databases( void )
    while (NULL != (db = next_database (&databasePosition, "*"))){
       assert (!db -> invisible);
 
-      ++count;
+      if (!db -> exit_db)
+	 ++count;
    }
 
    return count;
@@ -1264,17 +1264,20 @@ static void daemon_show_server (
    char          buffer[1024];
    const dictDatabase  *db;
    double        uptime;
-   
-   lst_Position databasePosition = first_database_pos ();
 
-   tim_stop("dictd");
-   uptime = tim_get_real("dictd");
-   
    daemon_printf( "%d server information\n", CODE_SERVER_INFO );
    daemon_mime();
-   daemon_printf( "%s\n", dict_get_banner(0) );
 
-   if (!inetd){
+   /* banner: dictd and OS */
+   if (!site_info_no_banner){
+      daemon_printf( "%s\n", dict_get_banner(0) );
+   }
+
+   /* uptime and forks */
+   if (!site_info_no_uptime && !inetd){
+      tim_stop("dictd");
+      uptime = tim_get_real("dictd");
+
       daemon_printf (
 	 "On %s: up %s, %d fork%s (%0.1f/hour)\n",
 	 net_hostname(),
@@ -1282,11 +1285,16 @@ static void daemon_show_server (
 	 _dict_forks,
 	 _dict_forks > 1 ? "s" : "",
 	 (_dict_forks/uptime)*3600.0 );
+
+      daemon_printf ("\n");
    }
 
-   if (count_databases()) {
-      daemon_printf( "\nDatabase      Headwords         Index"
+   if (!site_info_no_dblist && count_databases()) {
+      daemon_printf( "Database      Headwords         Index"
 		     "          Data  Uncompressed\n" );
+
+      lst_Position databasePosition = first_database_pos ();
+
       while ((db = next_database (&databasePosition, "*"))) {
 	 int headwords       = db->index ? db->index->headwords : 0;
 
@@ -1337,11 +1345,11 @@ static void daemon_show_server (
 	    data_length,
 	    data_length_uom);
       }
+
+      daemon_printf ("\n");
    }
 
-   if (DictConfig->site && (str = fopen( DictConfig->site, "r" ))) {
-      daemon_printf( "\nSite-specific information for %s:\n\n",
-		     net_hostname() );
+   if (site_info && (str = fopen( site_info, "r" ))) {
       while ((fgets( buffer, 1000, str ))) daemon_printf( "%s", buffer );
       fclose( str );
    }
@@ -1471,9 +1479,9 @@ static void daemon_quit( const char *cmdline, int argc, const char **argv )
 }
 
 /* The whole sub should be moved here, but I want to keep the diff small. */
-int _handleconn (int delay, int error);
+int _handleconn (int error);
 
-int dict_inetd (char ***argv0, int delay, int error)
+int dict_inetd (char ***argv0, int error)
 {
    if (setjmp(env)) return 0;
 
@@ -1483,12 +1491,12 @@ int dict_inetd (char ***argv0, int delay, int error)
    daemonHostname = daemonIP;
 
    daemonS_in        = 0;
-   daemonS_out       = 0;
+   daemonS_out       = 1;
 
-   return _handleconn(delay, error);
+   return _handleconn (error);
 }
 
-int dict_daemon( int s, struct sockaddr_in *csin, char ***argv0, int delay,
+int dict_daemon( int s, struct sockaddr_in *csin, char ***argv0,
 		 int error )
 {
    struct hostent *h;
@@ -1506,10 +1514,11 @@ int dict_daemon( int s, struct sockaddr_in *csin, char ***argv0, int delay,
    daemonS_in        = s;
    daemonS_out       = s;
 
-   return _handleconn(delay, error);
+   return _handleconn (error);
 }
 
-int _handleconn (int delay, int error) {
+int _handleconn (int error) {
+   int            query_count = 0;
    char           buf[4096];
    int            count;
    arg_List       cmdline;
@@ -1539,12 +1548,28 @@ int _handleconn (int delay, int error) {
       daemon_printf( "%d access denied\n", CODE_ACCESS_DENIED );
       daemon_terminate( 0, "access denied" );
    }
-	      
+
    daemon_banner();
 
-   alarm(delay);
-   while ((count = daemon_read( buf, 4000 )) >= 0) {
-      alarm(0);
+   if (!_dict_daemon_limit_time)
+      alarm (client_delay);
+
+   while (count = daemon_read( buf, 4000 ), count >= 0) {
+      ++query_count;
+
+      if (_dict_daemon_limit_queries &&
+	  query_count >= _dict_daemon_limit_queries)
+      {
+	 daemon_terminate (0, "query limit");
+      }
+
+      if (stdin2stdout_mode){
+	 daemon_printf( "# %s\n", buf );
+      }
+
+      if (!_dict_daemon_limit_time)
+	 alarm(0);
+
       tim_start( "c" );
       if (!count) {
 #if 0
@@ -1562,7 +1587,9 @@ int _handleconn (int delay, int error) {
 	 daemon_printf( "%d unknown command\n", CODE_SYNTAX_ERROR );
       }
       arg_destroy(cmdline);
-      alarm(delay);
+
+      if (!_dict_daemon_limit_time)
+	 alarm (client_delay);
    }
 #if 0
    printf( "%d %d\n", count, errno );

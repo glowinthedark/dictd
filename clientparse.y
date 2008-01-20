@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
- * $Id: clientparse.y,v 1.6 2003/10/11 16:51:37 cheusov Exp $
- * 
  */
 
 %{
@@ -36,22 +33,15 @@ static dictServer *s;
 
 				/* Terminals */
 
-%token <token> '{' '}' TOKEN_SERVER TOKEN_PORT TOKEN_USER TOKEN_FILTER TOKEN_PAGER
+%token <token> '{' '}' TOKEN_SERVER TOKEN_PORT TOKEN_USER TOKEN_FILTER
 
 %token <token>  TOKEN_STRING
-%type  <list>   Options Pager Server ServerList
+%type  <list>   Options Server ServerList
 
 %%
 
 Options : ServerList
-        | ServerList Pager
-        | Pager ServerList
-        | Pager
         ;
-
-Pager : TOKEN_PAGER TOKEN_STRING { if (!dict_pager) dict_pager = $2.string; }
-      | TOKEN_PAGER TOKEN_PAGER  { if (!dict_pager) dict_pager = "pager"; }
-      ;
 
 ServerList : Server { $$ = dict_Servers = lst_create(); lst_append($$, $1); }
            | ServerList Server { lst_append($1, $2); $$ = $1; }

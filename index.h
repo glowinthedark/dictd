@@ -15,8 +15,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- * $Id: index.h,v 1.4 2005/03/29 16:12:52 cheusov Exp $
  */
 
 #ifndef _INDEX_H_
@@ -25,10 +23,12 @@
 #include "dictP.h"
 #include "defs.h"
 
-/* initialize .index file */
+/* init dictIndex structure (.index file) */
 extern dictIndex  *dict_index_open(
    const char *filename,
-   int init_flags, int flag_utf8, int flag_allchars );
+   int init_flags,
+   const dictIndex *base);
+
 /* */
 extern void dict_index_close (dictIndex *i);
 
@@ -37,7 +37,7 @@ extern void dict_index_close (dictIndex *i);
 //   dictIndex *idx);
 extern int dict_search_database_ (
    lst_List l,
-   const char *const word,
+   const char *word,
    const dictDatabase *database,
    int strategy );
 extern int dict_search (

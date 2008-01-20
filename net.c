@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
- * $Id: net.c,v 1.27 2004/10/06 14:43:03 cheusov Exp $
- * 
  */
 
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/termios.h>
+#include <sys/socket.h>
 
 #include "dictP.h"
 
@@ -152,50 +150,6 @@ int net_open_tcp (
 		       service, ntohs(ssin.sin_port) );
    
    return s;
-}
-
-void net_detach( void )
-{
-   int i;
-   int fd;
-
-   switch (fork()) {
-   case -1: err_fatal_errno( __FUNCTION__, "Cannot fork\n" ); break;
-   case 0:  break;		/* child */
-   default: exit(0);		/* parent */
-   }
-   
-   /* The detach algorithm is a modification of that presented by Comer,
-      Douglas E. and Stevens, David L. INTERNETWORKING WITH TCP/IP, VOLUME
-      III: CLIENT-SERVER PROGRAMMING AND APPLICATIONS (BSD SOCKET VERSION).
-      Englewood Cliffs, New Jersey: Prentice Hall, 1993 (Chapter 27). */
-
-   for (i=getdtablesize()-1; i >= 0; --i)
-      close(i); /* close everything */
-
-#if defined(__hpux__) || defined(__CYGWIN__) || defined(__INTERIX) || defined(__OPENNT)
-#ifndef TIOCNOTTY
-#define NO_IOCTL_TIOCNOTTY
-#endif /* TIOCNOTTY */
-#endif /* strange platforms */
-
-#ifndef NO_IOCTL_TIOCNOTTY
-   if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
-				/* detach from controlling tty */
-      ioctl(fd, TIOCNOTTY, 0);
-      close(fd);
-   }
-#endif
-   
-   chdir("/");		/* cd to safe directory */
-   
-   umask(0);		/* set safe umask */
-   
-   setpgid(0,getpid());	/* Get process group */
-
-   fd = open("/dev/null", O_RDWR);    /* stdin */
-   dup(fd);			      /* stdout */
-   dup(fd);			      /* stderr */
 }
 
 int net_read( int s, char *buf, int maxlen )
