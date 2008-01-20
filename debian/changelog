@@ -1,3 +1,27 @@
+dictd (1.10.10.dfsg-1~0) UNRELEASED; urgency=low
+
+  * New upstream release (closes: #390046, #386390):
+    + pager is gone (closes: #254662). This makes a few other bugs irrelevant
+     (closes: #389424, #332372, #324653).
+    + dictfmt_virtual was removed
+    + all out patches seem to be applied.
+  * dictdplugin_popen-g++-4.3compile.patch: Fix FTBFS with GCC 4.3
+    (closes: 454819).
+
+  * configure-without-plugins.patch: Don't compile plugins even if
+     libjudy-dev or libdb-dev is installed
+  * man-hyphens.patch: Fix lintian's `hyphen-used-as-minus-sign' warning.
+  * dictl-translit.patch: use iconv's //TRANSLIT suffix (closes: #378792).
+  * debian/rules:
+     + Add support for DEB_BUILD_OPTIONS=noopt
+     + Don't compile samples
+     + Pass -Wl,-z,defs -Wl,--as-needed to LDFLAGS
+   * Use upstream dictd(8) man pages instead of our local one
+  * Refer to GPL v2 instead of v1 in debian/copyright (closes: #441060).
+  * 
+
+ -- Robert Luberda <robert@debian.org>  Sun, 20 Jan 2008 17:39:19 +0100
+
 dictd (1.10.2.dfsg-5) unstable; urgency=low
 
   * Remove non-free doc/rfc* files from debian diff (closes: #393365).

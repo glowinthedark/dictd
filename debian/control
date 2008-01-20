@@ -26,7 +26,7 @@ Description: Dictionary Server
  The client program, dict, is packaged in dict*.deb  If you are 
  running a server, you will want the client for all machines in your 
  network, and for testing server operations.
-Depends: ${shlibs:Depends}, netbase, adduser, dictzip, lsb-base (>= 3.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1)
 Recommends: dict | dict-client 
 Suggests: dict-gcide | dict-web1913, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server
@@ -53,7 +53,7 @@ Description: Dictionary Client
  .
  dict includes dictl, which simplifies using utf-8 encoded dictionaries
  with terminals that do not support utf-8.   
-Depends: ${shlibs:Depends}, netbase, recode
+Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, recode
 Suggests: dictd | dict-server
 Provides: dict-client
 Homepage: http://sourceforge.net/projects/dict/
@@ -69,7 +69,7 @@ Description: Compression utility for dictionary databases
  of about 57kb without the overhead of decompressing the entire file. 
  This package also includes dictunzip to decompress dictzipped files
  and dictzcat for viewing dictzipped files.
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: dictd (<< 1.7.1-1)
 Homepage: http://sourceforge.net/projects/dict/
 
@@ -80,6 +80,6 @@ Architecture: any
 Description: Utility to format a file for use by the dictd server
  dictfmt converts an input file to a dictionary database that conforms
  to the DICT protocol, and creates a corresponding index file.
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: dictzip
 Homepage: http://sourceforge.net/projects/dict/

@@ -1,5 +1,4 @@
 dictfmt_index2suffix            usr/bin/
 dictfmt_index2word              usr/bin/        
-dictfmt_virtual                 usr/bin/
 dictfmt                         usr/bin/
 dictunformat                    usr/bin/

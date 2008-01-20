@@ -41,7 +41,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <climits>
 #include <errno.h>
 #include <string>
 #include <unistd.h>

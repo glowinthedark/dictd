@@ -1,0 +1,27 @@
+Don't compile plugins even if libjudy-dev or libdb-dev is installed
+That really should be a ./configure flag for this
+
+Index: dictd/configure
+===================================================================
+--- dictd.orig/configure	2008-01-20 19:32:35.000000000 +0100
++++ dictd/configure	2008-01-20 19:34:37.000000000 +0100
+@@ -4126,7 +4126,8 @@
+ { echo "$as_me:$LINENO: result: $ac_cv_lib_Judy_JudySLNext" >&5
+ echo "${ECHO_T}$ac_cv_lib_Judy_JudySLNext" >&6; }
+ if test $ac_cv_lib_Judy_JudySLNext = yes; then
+-  JUDYLIB=-lJudy
++#  JUDYLIB=-lJudy
++  JUDYLIB=
+ fi
+ 
+ { echo "$as_me:$LINENO: checking for dbi_shutdown in -ldbi" >&5
+@@ -4191,7 +4192,8 @@
+ { echo "$as_me:$LINENO: result: $ac_cv_lib_dbi_dbi_shutdown" >&5
+ echo "${ECHO_T}$ac_cv_lib_dbi_dbi_shutdown" >&6; }
+ if test $ac_cv_lib_dbi_dbi_shutdown = yes; then
+-  DBILIB=-ldbi
++#  DBILIB=-ldbi
++  DBILIB=
+ fi
+ 
+ 

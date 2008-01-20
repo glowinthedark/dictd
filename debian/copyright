@@ -11,30 +11,28 @@ sources obtained from http://sf.net/projects/dict, and was based on
 the original Debian dict packages built and maintained until June 2004
 by Robert D. Hilliard <hilliard@debian.org>.
 
-Changes:
- * added Debian GNU/Linux package maintenance system files
 
-The following copyright notice applies to the client/server software:
+License:
 
-* Copyright 1997-2000, 2002 Rickard E. Faith (faith@dict.org)
-# 
-# This program is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the
-# Free Software Foundation; either version 1, or (at your option) any
-# later version.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+    Copyright 1997-2000, 2002 Rickard E. Faith (faith@dict.org)
 
-On Debian GNU/Linux systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'
+    This package is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+ 
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-A copy of the GNU General Public License is also available at
-<URL:http://www.gnu.org/copyleft/gpl.html>.  You may also obtain it by
-writing to the Free Software Foundation, Inc., 51 Franklin Street,
-Fifth Floor, Boston, MA 02110-1301 USA.
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
 
 The several dictionary databases that are available for use with this
 software (which are not included in this package) each have their own

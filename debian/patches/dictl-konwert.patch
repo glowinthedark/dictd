@@ -1,11 +1,13 @@
+Patch for #401666: dictl: doesn't work with DICTL_USE_KONWERT
+
 Index: dictd/dictl.in
 ===================================================================
---- dictd.orig/dictl.in	2008-01-20 10:02:36.000000000 +0100
-+++ dictd/dictl.in	2008-01-20 10:08:49.000000000 +0100
-@@ -38,11 +38,25 @@
- charset2charset (){
-     if test "$DICTL_USE_ICONV"; then
- 	iconv -f $1 -t $2
+--- dictd.orig/dictl.in	2008-01-20 17:58:41.000000000 +0100
++++ dictd/dictl.in	2008-01-20 18:02:40.000000000 +0100
+@@ -24,11 +24,25 @@
+ 	# `iconv --help' gives more options than `man iconv' (on my SuSE 9.0 system at least)
+ 	# the -c makes iconv omit invalid characters from output
+ 	iconv -c -f $1 -t $2
 -    else if test "$DICTL_USE_KONWERT"; then
 -	konwert $1-$2
 +    elif test "$DICTL_USE_KONWERT"; then
