@@ -1,4 +1,4 @@
-     Because the dictd dameon has a significant startup time, the
+     Because the dictd daemon has a significant startup time, the
 author felt it should not be started from inetd.  However, the fast
 processors that are commonly used today make it feasible to start
 dictd from inetd.
@@ -15,7 +15,7 @@ may be achieved by editing /etc/runlevel.conf.
 
 dict      stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/dictd -i
 
-     (inetd must be restarted by running `invokde-rc.d /inetd reload' as
+     (inetd must be restarted by running `invoke-rc.d /inetd reload' as
 root, or made to re-read its configuration file by sending a SIGHUP
 signal to inetd, to give effect to this configuration change.)
 
@@ -27,7 +27,7 @@ manual page `hosts_access(5)' for more information on access controls.
 
 4.  The dictd configuration file, /etc/dictd/dictd.conf, must allow
 access to dictd by inetd.  If there is no access specification in
-/etc/dictd.conf there is no restriction on access to the dictd daemon.
+/etc/dictd/dictd.conf there is no restriction on access to the dictd daemon.
 If there is any access specification present, the following line must
 be present to allow access by inetd:
           allow inetd

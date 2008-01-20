@@ -17,7 +17,7 @@ dictionaries.
 
      The dictdconfig script will insert virtual dictionaries and the
 "database_exit" directive in /var/lib/dictd/db.list as specified in
-/etc/dictd.order.
+/etc/dictd/dictd.order.
 
      Alternatively, a virtual dictionary may defined in the
 configuration file ) see "Virtual Database Specification" in

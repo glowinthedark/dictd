@@ -21,11 +21,11 @@ for all command line options.
 
      The DICT Group maintains a number of public servers, which are
 accessed in round-robin fashion by the address dict.org, so delays due
-to busy servers should be minimized.  
+to busy servers should be minimised.  
 
      The public servers do not require any userid, password, or other
 authentication.  A private server, such as one on your own or a
-nearby network may require authentication.  See the manpage, `man dict',
+nearby network may require authentication.  See the man page, `man dict',
 or the sample configuration file, in /etc/usr/share/doc/dict/examples.
 
      dict will return definitions encoded in whatever character set

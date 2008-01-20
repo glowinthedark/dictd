@@ -2,7 +2,7 @@
 support for Judy-based implementations.  Since this increases the
 number of files required, and because plugin creation is not likely to
 interest many Debian users, the plug-in shared libraries and the
-man_popen files are no longer shipped with the dictd bianry package.
+man_popen files are no longer shipped with the dictd binary package.
      
      Debian users who wish to work with plugins should get the source
 package - "apt-get source dictd".  In addition to the files listed
@@ -28,7 +28,7 @@ configuration file.
      If anyone makes any generally useful plugins, I would like to
 hear about it.  If they seem to have enough utility for general users,
 I would consider adding them to the dictd package.  If enough people
-submit working plugins, dictd may be able to fulfill Zawinski's Law
+submit working plugins, dictd may be able to fulfil Zawinski's Law
 (see dict-jargon).
 
 

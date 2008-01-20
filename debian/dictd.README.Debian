@@ -172,7 +172,7 @@ conffile, and is subject to change whenever dictdconfig is run.
 If any old dictionary .debs are installed, or if user-provided
 dictionary databases are installed, it will be necessary to run (as
 root) `/usr/sbin/dictdconfig -w', followed by `invoke-rc.d dictd 
-restart' in order to have dictd recognize these dictionaries.
+restart' in order to have dictd recognise these dictionaries.
 
      By default, dictd allows access from any Internet host without
 authentication. The default /etc/dictd/dictd.conf restricts access to

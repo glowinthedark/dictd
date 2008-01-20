@@ -1,4 +1,3 @@
-dictl-konwert.patch
 dict.1-debian_patch
 dict.c-1-verbose_patch
 dict.c-2-debian_pager_patch
@@ -7,3 +6,4 @@ dictd.c-pid_typo_patch
 dictl.in-sed_patch
 log.c-buffer_overflow_patch
 net.c-umask_patch
+dictl-konwert.patch

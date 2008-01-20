@@ -5,7 +5,7 @@ dictd (1.10.2-1) unstable; urgency=low
     --locale option in order to use dictionaries encoded in utf-8.
 
   * The pid file is back, so dictd no longer starts as user dictd, but
-    once again as root.  It still drops root privileges in favor of
+    once again as root.  It still drops root privileges in favour of
     dictd.dictd immediately after opening the log file and writing the
     pid file.
 
@@ -23,7 +23,7 @@ dictd (1.9.12-2) unstable; urgency=low
 
 dictd (1.9.11-4) unstable; urgency=low
 
-  * dict-de-en, ver. 1.2-6, is now enocded in utf-8, so it works
+  * dict-de-en, ver. 1.2-6, is now encoded in utf-8, so it works
     properly with dictd.  If your terminal doesn't support utf-8, use
     dictl.  I suggest symlinking dictl to dict for transparent conversion
     of character sets. 
@@ -35,7 +35,7 @@ dictd (1.9.11-1) unstable; urgency=low
 
   * dict.conf has moved from /etc to /etc/dictd.
 
-  * The plugin shared libraries and example plugins are nolonger
+  * The plugin shared libraries and example plugins are no longer
     shipped with the dictd binary.  If you wish to experiment with
     plugins see /usr/share/doc/dictd/README.Plugins.gz.
 
