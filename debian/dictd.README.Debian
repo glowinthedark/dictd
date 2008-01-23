@@ -1,5 +1,8 @@
 dictd server for Debian
------------------------
+=======================
+
+
+--- CHARACTER ENCODINGS ---------------------------------------------
 
      RFC2229 specifies the Dict Protocol used by dictd.  To be
 compliant with the RFC, all dictionary databases must be encoded in
@@ -23,6 +26,10 @@ in place of dict.  Such users might consider aliasing dict to dictl.
 UCS-2/UTF-8 functions.  Thus, dictd no longer need to specify a utf-8
 locale with the --locale option in order to use dictionaries encoded
 in utf-8.
+
+
+
+--- DICTD DICTIONARIES ----------------------------------------------
 
      This package does not include any of the dictionary databases
 needed to be useful.  The dictionary databases packaged for Debian
@@ -102,7 +109,7 @@ thesaurus data source in English available for commercial use.
 particularly dict-foldoc and dict-jargon, may be encoded in utf-8 in
 the future. 
 
-     Other dictionary packages available for debian include:
+     Other dictionary packages available for Debian include:
 
      dict-de-en - A German-English translation dictionary.
 Previously, this dictionary was encoded in ISO-8859-1, but starting
@@ -119,6 +126,9 @@ utf-8. At the present time (March 2004) these packages are broken.
     By default, the `dict' client returns all definitions found in
 all databases available to the server, in the order that the
 dictionaries are listed in the server's configuration file.
+
+
+ --- CONFIGURATION SCRIPT -------------------------------------------
 
      A configuration script, /usr/sbin/dictdconfig, is included in the
 dictd package.  This script is non-interactive, and is normally run
@@ -140,6 +150,8 @@ entry corresponding to the word requested.)
 `dictdconfig -w' is run, followed by a command to restart the server
 daemon.  Thus all installed dictionaries are immediately available as
 soon as they are installed.
+
+--- CONFIGURATION FILE ----------------------------------------------
 
      As explained in the manual page dictd(8), the configuration file,
 /etc/dictd/dictd.conf, has four sections that must appear in the
@@ -185,3 +197,4 @@ manual page, dictd(8), or the example configuration files in
 dictd is running, using "ps ax|grep dictd".  If not, you need to
 restart the daemon. If you need to start, restart or stop the daemon
 manually, do, as root, `invoke-rc.d dictd start|stop|restart'.
+

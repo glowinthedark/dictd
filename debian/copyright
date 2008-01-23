@@ -14,7 +14,9 @@ by Robert D. Hilliard <hilliard@debian.org>.
 
 License:
 
-    Copyright 1997-2000, 2002 Rickard E. Faith (faith@dict.org)
+    Copyright 1997-2002 Rickard E. Faith (faith@dict.org)
+    Copyright 2002-2007 Aleksey Cheusov (vle@gmx.net)
+
 
     This package is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

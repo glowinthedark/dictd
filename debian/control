@@ -80,6 +80,6 @@ Architecture: any
 Description: Utility to format a file for use by the dictd server
  dictfmt converts an input file to a dictionary database that conforms
  to the DICT protocol, and creates a corresponding index file.
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, gawk
 Recommends: dictzip
 Homepage: http://sourceforge.net/projects/dict/

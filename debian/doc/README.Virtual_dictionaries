@@ -8,12 +8,6 @@ which merge several of the regular databases into one.  For example a
 virtual database may be provided which includes all of the translating
 dictionaries, or all of the computer-related dictionaries.
 
-     The script dictfmt_virtual (provided in the dictfmt package) may
-be used to create virtual dictionaries (see dictfmt_virtual(1)).
-virtual dictionaries are placed in the dictd.conf file in the same way
-a real dictionaries, but the dictd directive "database_exit" should be
-placed in the configuration file to prevent multiple searches of the same
-dictionaries.
 
      The dictdconfig script will insert virtual dictionaries and the
 "database_exit" directive in /var/lib/dictd/db.list as specified in

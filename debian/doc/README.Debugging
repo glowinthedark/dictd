@@ -1,5 +1,5 @@
      This version of dictd supports the environment variable
-`DEB_BUILD_OPTIONS', as recommended by debian policy version 3.5.7.0,
+`DEB_BUILD_OPTIONS', as recommended by Debian Policy version 3.5.7.0,
 section 11.1.  (This is a modification of the usage recommended by
 earlier versions of policy, and used in earlier versions of dictd.)
 
@@ -13,7 +13,3 @@ compiled without optimisation.
      If this variable contains the string `nostrip' the executables
 under the debian directory, and in the *.deb packages, will contain
 debugging symbols.
-
-
-
-
