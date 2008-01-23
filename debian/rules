@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 # 
-# $Id: rules 31 2008-01-20 21:41:27Z robert $
+# $Id: rules 34 2008-01-23 22:32:00Z robert $
 # 
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
@@ -26,8 +26,9 @@ else
   CFLAGS = -g -Wall -O2
 endif
 
-LDFLAGS = -Wl,-z,defs -Wl,--as-needed
-
+LDFLAGS   = -Wl,-z,defs -Wl,--as-needed
+MAKEARGS  = JUDYLIB= DBILIB= DEBCFLAGS="$(CFLAGS)"
+DESTDIR   = $(CURDIR)/debian/tmp
 
 build: autotools patch configure-stamp build-stamp
 
@@ -58,7 +59,7 @@ autotools-clean:
 configure-stamp: 
 	dh_testdir
 	
-	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+	 LDFLAGS="$(LDFLAGS)" \
 	./configure  	--verbose \
 			--prefix=/usr \
 			--libexecdir=/usr/lib/dictd \
@@ -70,7 +71,7 @@ configure-stamp:
 build-stamp: 
 	dh_testdir
 
-	$(MAKE) 
+	$(MAKE) $(MAKEARGS)
 
 #	$(MAKE) CFLAGS+='-fPIC -D_REENTRANT' samples
 
@@ -81,12 +82,11 @@ clean: unpatch autotools-clean
 	dh_testroot
 	rm -f configure-stamp build-stamp
 
-	test ! -f Makefile || $(MAKE) recursive-clean
-	test ! -f Makefile || $(MAKE) distclean
+	test ! -f Makefile || $(MAKE) $(MAKEARGS) distclean
 	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	rm -rf .libs libmaa/.libs		
+	rm -rf .libs libmaa/.libs dictunformat	
 
 	rm -f libmaa/arggram2c
 
@@ -97,12 +97,14 @@ install: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-	dh_installdirs
+	dh_installdirs -A
 
 	# Add here commands to install the package into debian/tmp.
-	#$(MAKE) prefix=`pwd`/debian/tmp/usr install
+	$(MAKE) $(MAKEARGS) DESTDIR=$(DESTDIR) install
+	rm  $(DESTDIR)/usr/include/dictdplugin.h
+	rm  $(DESTDIR)/usr/bin/dictdplugin-config
 
-	dh_install
+	dh_install --list-missing --sourcedir=$(DESTDIR)
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will

@@ -3,8 +3,8 @@ Fix lintian's `hyphen-used-as-minus-sign'
 
 Index: dictd/dict.1.in
 ===================================================================
---- dictd.orig/dict.1.in	2008-01-20 18:46:56.000000000 +0100
-+++ dictd/dict.1.in	2008-01-20 18:47:40.000000000 +0100
+--- dictd.orig/dict.1.in	2008-01-23 22:27:28.000000000 +0100
++++ dictd/dict.1.in	2008-01-23 22:27:47.000000000 +0100
 @@ -1,6 +1,6 @@
  .\" dict.1 -- 
  .\" Created: Tue Jul  8 11:36:19 1997 by faith@acm.org
@@ -24,8 +24,8 @@ Index: dictd/dict.1.in
  and on
 Index: dictd/dictd.8.in
 ===================================================================
---- dictd.orig/dictd.8.in	2008-01-20 18:53:32.000000000 +0100
-+++ dictd/dictd.8.in	2008-01-20 18:56:03.000000000 +0100
+--- dictd.orig/dictd.8.in	2008-01-23 22:27:28.000000000 +0100
++++ dictd/dictd.8.in	2008-01-23 22:27:47.000000000 +0100
 @@ -1,6 +1,6 @@
  .\" dictd.8 -- 
  .\" Created: Mon Mar 10 16:10:03 1997 by faith@dict.org
@@ -123,8 +123,8 @@ Index: dictd/dictd.8.in
  .BR gzip (1)
 Index: dictd/dictfmt.1.in
 ===================================================================
---- dictd.orig/dictfmt.1.in	2008-01-20 18:48:22.000000000 +0100
-+++ dictd/dictfmt.1.in	2008-01-20 18:51:56.000000000 +0100
+--- dictd.orig/dictfmt.1.in	2008-01-23 22:27:28.000000000 +0100
++++ dictd/dictfmt.1.in	2008-01-23 22:27:47.000000000 +0100
 @@ -41,7 +41,7 @@
  By default, the index is sorted according to the
  C locale, and only alphanumeric characters and spaces are used in
@@ -261,8 +261,8 @@ Index: dictd/dictfmt.1.in
  is expected from stdin (dictunformat outputs it).
 Index: dictd/dictl.1.in
 ===================================================================
---- dictd.orig/dictl.1.in	2008-01-20 18:47:54.000000000 +0100
-+++ dictd/dictl.1.in	2008-01-20 18:48:09.000000000 +0100
+--- dictd.orig/dictl.1.in	2008-01-23 22:27:28.000000000 +0100
++++ dictd/dictl.1.in	2008-01-23 22:27:47.000000000 +0100
 @@ -46,7 +46,7 @@
  omits characters from output that are invalid,
  .br
@@ -274,8 +274,8 @@ Index: dictd/dictl.1.in
  .B iconv,
 Index: dictd/dictunformat.1.in
 ===================================================================
---- dictd.orig/dictunformat.1.in	2008-01-20 18:52:31.000000000 +0100
-+++ dictd/dictunformat.1.in	2008-01-20 18:53:20.000000000 +0100
+--- dictd.orig/dictunformat.1.in	2008-01-23 22:27:28.000000000 +0100
++++ dictd/dictunformat.1.in	2008-01-23 22:27:47.000000000 +0100
 @@ -12,18 +12,18 @@
  file on stdin and outputs a raw database that may be used to create a 
  .B DICT
@@ -299,3 +299,33 @@ Index: dictd/dictunformat.1.in
  .BR "dictfmt (1)").
  .TP
  .B index_filename
+Index: dictd/colorit.1.in
+===================================================================
+--- dictd.orig/colorit.1.in	2008-01-23 22:27:58.000000000 +0100
++++ dictd/colorit.1.in	2008-01-23 22:28:50.000000000 +0100
+@@ -4,7 +4,7 @@
+ 
+ .TH COLORIT 1 "28 Oct 2003" "" ""
+ .SH "NAME"
+-colorit - a script for markuping the text input
++colorit \- a script for markuping the text input
+ .SH "SYNOPSIS"
+ .nf
+ .BI colorit " [OPTIONS] [files...]"
+@@ -12,14 +12,14 @@
+ .SH "DESCRIPTION"
+ .B colorit
+ is a script for markuping text input and sending a result to pager (
+-.I less -r
++.I less \-r
+ by default) or stdout.
+ Markuping rules are described in a configuration file
+ which is filtered by preprocessor (the default is
+ .I m4
+ ).
+ The define HOME equal to your home directory is set for the preprocessor
+-using -D option supported by both
++using \-D option supported by both
+ .I m4
+ and
+ .I cpp.

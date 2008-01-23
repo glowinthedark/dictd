@@ -1,18 +1,18 @@
 dictd (1.10.10.dfsg-1) unstable; urgency=low
 
-  * Support for pager was removed  
+  * 'dict' and 'dictl' programs no longer pipe their output to pager. The `-P'
+    option was removed. 
 
-      If you run 'dict' (or 'dictl') interactively, write the following
-      to your interactive shell startup script (.ksh, .zsh, .bashrc etc.)
+    If you run 'dict' or 'dictl' interactively, write to your interactive shell 
+    startup script (.ksh, .zsh, .bashrc etc.)
 
-            mydict () { dict "$@" 2>&1 | colorit | less -R ; }
+            mydict () { dictl "$@" 2>&1 | colorit | less -R ; }
 
-      and then use 'mydict' instead of 'dict' (or 'dictl')
+    and then use 'mydict' instead of 'dict' (or 'dictl').
 
+  * Readded 'colorit' script together with a sample configuration file.
 
-  * Readded colorit progrm with a simple configuration file.
-
-  * dictfmt_virtual was removed
+  * 'dictfmt_virtual' was removed by upstream.
 
 
  -- Robert Luberda <robert@debian.org>  Wed, 23 Jan 2008 21:30:17 +0100

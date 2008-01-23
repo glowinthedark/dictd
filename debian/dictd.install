@@ -1,5 +1,6 @@
-debian/sources/dictdconfig.alias        etc/dictd/
-debian/sources/dictdconfig              usr/sbin/
-debian/sources/dictd.conf               etc/dictd/
-debian/sources/dictd.order              etc/dictd/
-dictd                                   usr/sbin/
+../../debian/sources/dictdconfig.alias        etc/dictd/
+../../debian/sources/dictdconfig              usr/sbin/
+../../debian/sources/dictd.conf               etc/dictd/
+../../debian/sources/dictd.order              etc/dictd/
+usr/sbin/dictd
+usr/share/man/man8/dictd.8

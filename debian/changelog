@@ -1,27 +1,35 @@
-dictd (1.10.10.dfsg-1~0) UNRELEASED; urgency=low
+dictd (1.10.10.dfsg-1~1) UNRELEASED; urgency=low
 
   * New upstream release (closes: #390046, #386390):
-    + pager is gone (closes: #254662). This makes a few other bugs irrelevant
-     (closes: #389424, #332372, #324653).
-    + dictfmt_virtual was removed
-    + all out patches seem to be applied.
+    + dict no longer uses pager (closes: #254662), which also  makes a few other
+      bugs irrelevant (closes: #389424, #332372, #324653). Document the change 
+      in debian/NEWS.
+    + All our patches seem to be applied by upstream,
+    + The dictfmt_virtual command was removed.
+
+  * Makefile-debcflags.patch: Add support for $(DEBCFLAGS), 
+    and remove `-O' from default CFLAGS.
   * dictdplugin_popen-g++-4.3compile.patch: Fix FTBFS with GCC 4.3
     (closes: 454819).
-
-  * configure-without-plugins.patch: Don't compile plugins even if
-     libjudy-dev or libdb-dev is installed
   * man-hyphens.patch: Fix lintian's `hyphen-used-as-minus-sign' warning.
-  * dictl-translit.patch: use iconv's //TRANSLIT suffix (closes: #378792).
+  * dictl-translit.patch: Use iconv's //TRANSLIT suffix (closes: #378792).
+  
   * debian/rules:
-     + Add support for DEB_BUILD_OPTIONS=noopt
-     + Don't compile samples
-     + Pass -Wl,-z,defs -Wl,--as-needed to LDFLAGS
-   * Use upstream dictd(8) man pages instead of our local one
-  * Refer to GPL v2 instead of v1 in debian/copyright (closes: #441060).
+    + Add support for DEB_BUILD_OPTIONS=noopt.
+    + Don't compile plugins even if libjudy-dev or libdb-dev is installed.
+    + Samples doesn't compile, so don't try to compile them.
+    + Pass -Wl,-z,defs -Wl,--as-needed to LDFLAGS.
+    
+  * Use upstream dictd(8) man page instead of our local one.
+  * debian/copuright: Refer to GPL v2 instead of v1 (closes: #441060).
   * Made dictfmt depend on gawk (fixes Ubuntu bug 22669).
-  * Update Debian docs. Reorder sections in dict.README.Debian to make it 
-    move visible that dict do not convert character sets and dictl should be
-    used in this purpose (closes: #300630).
+  * Install 'colorit' script, provide a sample configuration file for it.
+  * Correct path in dict.conf's  header.
+  * Update Debian docs: 
+    + reorder sections in dict.README.Debian to make it more visible
+      that dict does not convert character sets and dictl should be
+      used in this purpose (closes: #300630).
+  * Standards-Version: 3.7.3
 
  -- Robert Luberda <robert@debian.org>  Sun, 20 Jan 2008 17:39:19 +0100
 
@@ -40,7 +48,7 @@ dictd (1.10.2.dfsg-5) unstable; urgency=low
     (closes: #401666).
 
  -- Robert Luberda <robert@debian.org>  Sun, 20 Jan 2008 11:56:44 +0100
-
+ 
 dictd (1.10.2.dfsg-4) unstable; urgency=low
 
   * Adopted package (closes: #461566).
