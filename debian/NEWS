@@ -11,6 +11,7 @@ dictd (1.10.10.dfsg-1) unstable; urgency=low
     and then use 'mydict' instead of 'dict' (or 'dictl').
 
   * Readded 'colorit' script together with a sample configuration file.
+    Note: you need to install the m4 package for it to work.
 
   * 'dictfmt_virtual' was removed by upstream.
 

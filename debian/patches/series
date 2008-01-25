@@ -3,3 +3,5 @@ dictl-konwert.patch
 man-hyphens.patch
 dictdplugin_popen-g++-4.3compile.patch
 dictl-translit.patch
+colorit-nopp-fix.patch
+colorit-manpage-nopager.patch

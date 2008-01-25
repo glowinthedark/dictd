@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 # 
-# $Id: rules 34 2008-01-23 22:32:00Z robert $
+# $Id: rules 37 2008-01-24 07:03:21Z robert $
 # 
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
@@ -82,13 +82,13 @@ clean: unpatch autotools-clean
 	dh_testroot
 	rm -f configure-stamp build-stamp
 
+	cp -a ChangeLog saved.Changelog 
 	test ! -f Makefile || $(MAKE) $(MAKEARGS) distclean
+	mv -f  saved.Changelog ChangeLog
 	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	rm -rf .libs libmaa/.libs dictunformat	
-
-	rm -f libmaa/arggram2c
+	rm -rf .libs libmaa/.libs dictunformat test/dictd_test	
 
 	dh_clean
 
