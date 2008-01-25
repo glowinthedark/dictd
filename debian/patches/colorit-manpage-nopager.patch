@@ -1,3 +1,5 @@
+Remove references to pager
+
 Index: dictd/colorit.1.in
 ===================================================================
 --- dictd.orig/colorit.1.in	2008-01-23 23:39:37.000000000 +0100

@@ -11,10 +11,19 @@ dictd (1.10.10.dfsg-1) unstable; urgency=low
     and remove `-O' from default CFLAGS.
   * dictdplugin_popen-g++-4.3compile.patch: Fix FTBFS with GCC 4.3
     (closes: 454819).
+  * dictd.8-man.patch: Use @SYSCONFDIR@ instead of hard-coded /etc.  
   * man-hyphens.patch: Fix lintian's `hyphen-used-as-minus-sign' warning.
   * dictl-translit.patch: Use iconv's //TRANSLIT suffix (closes: #378792).
   * colorit-nopp-fix.patch: Made colorit work with `-pp -'.
   * colorit-manpage-nopager.patch: Remove references to pager.
+
+  * Use upstream dictd(8) man page instead of our local one.
+  * Install 'colorit' script, provide a sample configuration file for it.
+  * Correct path in dict.conf's  header.
+  * debian/copyright: Refer to GPL v2 instead of v1 (closes: #441060).
+  * Update Debian docs, reorder sections in dict.README.Debian to make
+    it more visible that dict does not convert character sets and dictl
+    should be used in this purpose (closes: #300630).
 
   * debian/rules:
     + Add support for DEB_BUILD_OPTIONS=noopt.
@@ -22,18 +31,11 @@ dictd (1.10.10.dfsg-1) unstable; urgency=low
     + Samples doesn't compile, so don't try to compile them.
     + Pass -Wl,-z,defs -Wl,--as-needed to LDFLAGS.
 
-  * Use upstream dictd(8) man page instead of our local one.
-  * debian/copyright: Refer to GPL v2 instead of v1 (closes: #441060).
-  * Made dictfmt depend on gawk (fixes Ubuntu bug 22669).
-  * Install 'colorit' script, provide a sample configuration file for it, and
-    add m4 to dict's `Recommends:' field since colorit uses it.
-
-  * Correct path in dict.conf's  header.
-  * Update Debian docs:
-    + reorder sections in dict.README.Debian to make it more visible
-      that dict does not convert character sets and dictl should be
-      used in this purpose (closes: #300630).
-  * Standards-Version: 3.7.3
+  * debian/control:
+    + Made dictfmt depend on gawk (fixes Ubuntu bug 22669).
+    + Add m4 to dict's recommends since colorit uses it.
+    + Build-depend on libtool.
+    + Standards-Version: 3.7.3.
 
  -- Robert Luberda <robert@debian.org>  Fri, 25 Jan 2008 21:08:25 +0100
 
