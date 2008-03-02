@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 # 
-# $Id: rules 37 2008-01-24 07:03:21Z robert $
+# $Id: rules 43 2008-03-02 13:36:46Z robert $
 # 
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
@@ -32,7 +32,7 @@ DESTDIR   = $(CURDIR)/debian/tmp
 
 build: autotools patch configure-stamp build-stamp
 
-configure: autotools patch configure-stamp build-stamp
+configure: autotools patch configure-stamp 
 
 
 include /usr/share/quilt/quilt.make

@@ -1,3 +1,14 @@
+dictd (1.10.10.dfsg-2) unstable; urgency=low
+
+  * dict: recommend gawk which is needed by colorit (closes: #463509).
+  * colorit-bashisms.patch: patch from upstream CVS to fix colorit bashisms
+    (closes: #464640).
+  * dictfmt.1-man.patch: fix lintian's manpage-has-errors-from-man warning. 
+  * man-hyphens.patch: updated for one another unquoted hyphen found by
+    lintian.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 02 Mar 2008 14:34:51 +0100
+
 dictd (1.10.10.dfsg-1) unstable; urgency=low
 
   * New upstream release (closes: #390046, #386390):

@@ -6,3 +6,5 @@ dictdplugin_popen-g++-4.3compile.patch
 dictl-translit.patch
 colorit-nopp-fix.patch
 colorit-manpage-nopager.patch
+colorit-bashisms.patch
+dictfmt.1-man.patch

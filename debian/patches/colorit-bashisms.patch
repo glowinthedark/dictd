@@ -1,0 +1,24 @@
+Fix colorit bashisms, taken from upstream CVS
+http://dict.cvs.sourceforge.net/dict/dictd1/colorit.in?r1=1.7&r2=1.8&sortby=date&diff_format=u
+Index: dictd/colorit.in
+===================================================================
+--- colorit.in	2007/09/29 18:57:47	1.7
++++ colorit.in	2008/02/08 10:59:15	1.8
+@@ -16,7 +16,7 @@
+ fi fi
+ 
+ usage (){
+-   echo -en "\
++   printf "\
+ colorit is intended to markup stdin or input files\n\
+ and output result to stdout\n\
+ \n\
+@@ -30,7 +30,7 @@
+ }
+ 
+ version (){
+-    echo -en "\
++    printf "\
+ colorit 0.0.1\n\
+ "
+ }

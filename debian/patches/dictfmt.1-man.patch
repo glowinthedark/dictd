@@ -1,0 +1,16 @@
+fix the follwing lintian warning:
+W: dictfmt: manpage-has-errors-from-man usr/share/man/man1/dictfmt.1.gz 199: warning: `.br' not defined
+
+Index: dictd/dictfmt.1.in
+===================================================================
+--- dictd.orig/dictfmt.1.in	2008-03-02 14:57:51.000000000 +0100
++++ dictd/dictfmt.1.in	2008-03-02 14:57:56.000000000 +0100
+@@ -196,7 +196,7 @@
+ file, and '%h ' is stripped from in front of the headword.  All
+ text before the first headword is included in the headers.
+ .B The second line beginning '%h' is taken as the first headword.  
+-..br
++.br
+ This option was written to format Jay Kominek's elements database.  
+ .TP
+ .BI \-i \  \-I
