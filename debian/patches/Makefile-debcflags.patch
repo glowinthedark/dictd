@@ -3,22 +3,22 @@ DEB_BUILD_FLAGS variable in debian/rules
 
 Index: dictd/Makefile.in
 ===================================================================
---- dictd.orig/Makefile.in	2008-01-23 22:50:53.000000000 +0100
-+++ dictd/Makefile.in	2008-01-23 22:55:29.000000000 +0100
-@@ -75,7 +75,7 @@
+--- dictd.orig/Makefile.in	2008-04-12 09:59:41.000000000 +0200
++++ dictd/Makefile.in	2008-04-12 10:04:42.000000000 +0200
+@@ -76,7 +76,7 @@
  JUDYLIB=        @JUDYLIB@
  DBILIB=         @DBILIB@
  
--CFLAGS= @CPPFLAGS@ @DEFS@ @CFLAGS@ -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I.
-+CFLAGS= @CPPFLAGS@ @DEFS@ $(filter-out -O%, @CFLAGS@) $(DEBCFLAGS) -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I.
+-CFLAGS= @CPPFLAGS@ @DEFS@ @CFLAGS@ -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I. -I$(srcdir)
++CFLAGS= @CPPFLAGS@ @DEFS@ $(filter-out -O%, @CFLAGS@) $(DEBCFLAGS) -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I. -I$(srcdir)
  
  LDFLAGS=        @LDFLAGS@ @LIBS@
  LIBOBJS=        @LIBOBJS@
 Index: dictd/libmaa/Makefile.in
 ===================================================================
---- dictd.orig/libmaa/Makefile.in	2008-01-23 22:55:47.000000000 +0100
-+++ dictd/libmaa/Makefile.in	2008-01-23 22:56:47.000000000 +0100
-@@ -53,7 +53,7 @@
+--- dictd.orig/libmaa/Makefile.in	2008-04-12 09:59:41.000000000 +0200
++++ dictd/libmaa/Makefile.in	2008-04-12 10:03:31.000000000 +0200
+@@ -54,7 +54,7 @@
  AWK=            @AWK@
  
  VERCFLAGS=       -DMAA_MAJOR=$(MAA_MAJOR) -DMAA_MINOR=$(MAA_MINOR)

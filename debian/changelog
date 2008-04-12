@@ -1,3 +1,11 @@
+dictd (1.10.11-1) unstable; urgency=low
+
+  * New upstream release
+  * colorit-bashisms.patch: removed.
+  * Makefile-debcflags.patch: updated.
+
+ -- Robert Luberda <robert@debian.org>  Sat, 12 Apr 2008 10:31:18 +0200
+
 dictd (1.10.10.dfsg-2) unstable; urgency=low
 
   * dict: recommend gawk which is needed by colorit (closes: #463509).
