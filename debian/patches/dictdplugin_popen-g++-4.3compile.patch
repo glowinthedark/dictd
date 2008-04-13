@@ -5,11 +5,10 @@ Index: dictd/dictdplugin_popen.cpp
 ===================================================================
 --- dictd.orig/dictdplugin_popen.cpp	2008-01-20 21:58:30.000000000 +0100
 +++ dictd/dictdplugin_popen.cpp	2008-01-20 21:59:06.000000000 +0100
-@@ -43,6 +43,8 @@
+@@ -43,6 +43,7 @@
  #include <stdio.h>
  #include <errno.h>
  #include <string>
-+#include <cstring>
 +#include <climits>
  #include <unistd.h>
  #include <sstream>

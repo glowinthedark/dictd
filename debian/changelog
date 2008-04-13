@@ -1,10 +1,12 @@
-dictd (1.10.11-1) unstable; urgency=low
+dictd (1.10.11.dfsg-1) unstable; urgency=low
 
   * New upstream release
+  * dictd.c-alen-init.path: new patch to fix a problem introduced by upstream
+    with first connection being denied.
   * colorit-bashisms.patch: removed.
-  * Makefile-debcflags.patch: updated.
+  * Makefile-debcflags.patch, dictdplugin_popen-g++-4.3compile.patch: updated.
 
- -- Robert Luberda <robert@debian.org>  Sat, 12 Apr 2008 10:31:18 +0200
+ -- Robert Luberda <robert@debian.org>  Sat, 12 Apr 2008 10:37:45 +0200
 
 dictd (1.10.10.dfsg-2) unstable; urgency=low
 
