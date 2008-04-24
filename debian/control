@@ -28,7 +28,7 @@ Description: Dictionary Server
  network, and for testing server operations.
 Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1)
 Recommends: dict | dict-client
-Suggests: dict-gcide | dict-web1913, dict-wn, dict-jargon, dict-foldoc
+Suggests: dict-gcide | dictd-dictionary, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server
 Conflicts: dict-server
 Homepage: http://sourceforge.net/projects/dict/

@@ -1,3 +1,9 @@
+dictd (1.10.11.dfsg-2) unstable; urgency=low
+
+  * Suggests dictd-dictionary as an alternative to dict-gcide (closes: #477511).
+
+ -- Robert Luberda <robert@debian.org>  Thu, 24 Apr 2008 21:24:47 +0200
+
 dictd (1.10.11.dfsg-1) unstable; urgency=low
 
   * New upstream release
@@ -25,7 +31,7 @@ dictd (1.10.10.dfsg-1) unstable; urgency=low
     + dict no longer uses pager (closes: #254662), which also  makes a few
       other bugs irrelevant (closes: #389424, #332372, #324653). Document
       the change in debian/NEWS.
-    + All our patches seem to be applied by upstream,
+    + All our patches seem to be applied by upstream.
     + The dictfmt_virtual command was removed.
 
   * Makefile-debcflags.patch: Add support for $(DEBCFLAGS),
