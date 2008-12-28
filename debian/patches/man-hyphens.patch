@@ -3,16 +3,8 @@ Fix lintian's `hyphen-used-as-minus-sign'
 
 Index: dictd/dict.1.in
 ===================================================================
---- dictd.orig/dict.1.in	2008-03-02 15:00:34.000000000 +0100
-+++ dictd/dict.1.in	2008-03-02 15:02:55.000000000 +0100
-@@ -1,6 +1,6 @@
- .\" dict.1 -- 
- .\" Created: Tue Jul  8 11:36:19 1997 by faith@acm.org
--." Revised: Fri Mar 29 14:51:59 2002 by faith@acm.org
-+.\" Revised: Fri Mar 29 14:51:59 2002 by faith@acm.org
- .\" Copyright 1997, 1998, 1999, 2002 Rickard E. Faith (faith@acm.org)
- .\" 
- .\" Permission is granted to make and distribute verbatim copies of this
+--- dictd.orig/dict.1.in	2008-12-28 15:16:30.000000000 +0100
++++ dictd/dict.1.in	2008-12-28 15:22:48.000000000 +0100
 @@ -55,7 +55,7 @@
  in the configuration file or or on the command line, 
  .B dict 
@@ -33,16 +25,8 @@ Index: dictd/dict.1.in
  and on
 Index: dictd/dictd.8.in
 ===================================================================
---- dictd.orig/dictd.8.in	2008-03-02 15:02:37.000000000 +0100
-+++ dictd/dictd.8.in	2008-03-02 15:02:38.000000000 +0100
-@@ -1,6 +1,6 @@
- .\" dictd.8 -- 
- .\" Created: Mon Mar 10 16:10:03 1997 by faith@dict.org
--." Revised: Tue Apr 23 09:14:42 2002 by faith@dict.org
-+.\" Revised: Tue Apr 23 09:14:42 2002 by faith@dict.org
- .\" Copyright 1997, 1998, 2002 Rickard E. Faith (faith@dict.org)
- .\" 
- .\" Permission is granted to make and distribute verbatim copies of this
+--- dictd.orig/dictd.8.in	2008-12-28 15:22:39.000000000 +0100
++++ dictd/dictd.8.in	2008-12-28 15:22:48.000000000 +0100
 @@ -662,7 +662,7 @@
  or dictd command
  line.  For instance:
@@ -132,8 +116,8 @@ Index: dictd/dictd.8.in
  .BR gzip (1)
 Index: dictd/dictfmt.1.in
 ===================================================================
---- dictd.orig/dictfmt.1.in	2008-03-02 15:00:34.000000000 +0100
-+++ dictd/dictfmt.1.in	2008-03-02 15:02:38.000000000 +0100
+--- dictd.orig/dictfmt.1.in	2008-04-13 16:30:48.000000000 +0200
++++ dictd/dictfmt.1.in	2008-12-28 15:22:48.000000000 +0100
 @@ -41,7 +41,7 @@
  By default, the index is sorted according to the
  C locale, and only alphanumeric characters and spaces are used in
@@ -270,8 +254,8 @@ Index: dictd/dictfmt.1.in
  is expected from stdin (dictunformat outputs it).
 Index: dictd/dictl.1.in
 ===================================================================
---- dictd.orig/dictl.1.in	2008-03-02 15:00:34.000000000 +0100
-+++ dictd/dictl.1.in	2008-03-02 15:02:38.000000000 +0100
+--- dictd.orig/dictl.1.in	2008-04-13 16:30:48.000000000 +0200
++++ dictd/dictl.1.in	2008-12-28 15:22:48.000000000 +0100
 @@ -46,7 +46,7 @@
  omits characters from output that are invalid,
  .br
@@ -283,8 +267,8 @@ Index: dictd/dictl.1.in
  .B iconv,
 Index: dictd/dictunformat.1.in
 ===================================================================
---- dictd.orig/dictunformat.1.in	2008-03-02 15:00:34.000000000 +0100
-+++ dictd/dictunformat.1.in	2008-03-02 15:02:38.000000000 +0100
+--- dictd.orig/dictunformat.1.in	2008-04-13 16:30:48.000000000 +0200
++++ dictd/dictunformat.1.in	2008-12-28 15:22:48.000000000 +0100
 @@ -12,18 +12,18 @@
  file on stdin and outputs a raw database that may be used to create a 
  .B DICT
@@ -310,8 +294,8 @@ Index: dictd/dictunformat.1.in
  .B index_filename
 Index: dictd/colorit.1.in
 ===================================================================
---- dictd.orig/colorit.1.in	2008-03-02 15:00:34.000000000 +0100
-+++ dictd/colorit.1.in	2008-03-02 15:02:38.000000000 +0100
+--- dictd.orig/colorit.1.in	2008-04-13 16:30:48.000000000 +0200
++++ dictd/colorit.1.in	2008-12-28 15:22:48.000000000 +0100
 @@ -4,7 +4,7 @@
  
  .TH COLORIT 1 "28 Oct 2003" "" ""

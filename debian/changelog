@@ -1,3 +1,10 @@
+dictd (1.11.0.dfsg-1) UNRELEASED; urgency=low
+
+  * (NOT RELEASED YET) New upstream release
+  * refresh patches, remove dictd.c-alen-init.patch, applied upstream
+
+ -- Robert Luberda <robert@debian.org>  Sun, 28 Dec 2008 15:16:33 +0100
+
 dictd (1.10.11.dfsg-2) unstable; urgency=low
 
   * Suggests dictd-dictionary as an alternative to dict-gcide (closes: #477511).
@@ -7,7 +14,7 @@ dictd (1.10.11.dfsg-2) unstable; urgency=low
 dictd (1.10.11.dfsg-1) unstable; urgency=low
 
   * New upstream release
-  * dictd.c-alen-init.path: new patch to fix a problem introduced by upstream
+  * dictd.c-alen-init.patch: new patch to fix a problem introduced by upstream
     with first connection being denied.
   * colorit-bashisms.patch: removed.
   * Makefile-debcflags.patch, dictdplugin_popen-g++-4.3compile.patch: updated.

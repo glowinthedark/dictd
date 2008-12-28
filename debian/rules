@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 # 
-# $Id: rules 43 2008-03-02 13:36:46Z robert $
+# $Id: rules 70 2008-12-28 14:19:57Z robert $
 # 
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
@@ -163,4 +163,4 @@ binary-%: build install
 	make -f debian/rules binary-common DH_OPTIONS=-p$*
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary-common binary install
+.PHONY: build clean binary-indep binary-arch binary-common binary install autotools autotools-clean

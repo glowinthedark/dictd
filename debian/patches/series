@@ -7,4 +7,3 @@ dictl-translit.patch
 colorit-nopp-fix.patch
 colorit-manpage-nopager.patch
 dictfmt.1-man.patch
-dictd.c-alen-init.patch
