@@ -48,7 +48,7 @@ INSTALL_DATA=	@INSTALL_DATA@
 
 dicf: dicf.txt
 
-all: 
+all:
 #all: rfc.txt
 
 rfc.txt: rfc.ms toc.ms
