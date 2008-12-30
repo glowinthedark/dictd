@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
-# 
-# $Id: rules 70 2008-12-28 14:19:57Z robert $
-# 
-# Uncomment this to turn on verbose mode. 
+#
+# $Id: rules 73 2008-12-28 23:16:16Z robert $
+#
+# Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
 # This has to be exported to make some magic below work.
@@ -32,31 +32,29 @@ DESTDIR   = $(CURDIR)/debian/tmp
 
 build: autotools patch configure-stamp build-stamp
 
-configure: autotools patch configure-stamp 
+configure: autotools patch configure-stamp
 
 
 include /usr/share/quilt/quilt.make
 
 
 autotools: autotools-clean
-	tar cvzf configs.tgz  config.sub config.guess libmaa/config.guess libmaa/config.sub
-	rm -f config.sub config.guess libmaa/config.guess libmaa/config.sub
+	tar cvzf configs.tgz  config.sub config.guess
+	rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
 	ln -s /usr/share/misc/config.guess config.guess
-	ln -s /usr/share/misc/config.sub libmaa/config.sub
-	ln -s /usr/share/misc/config.guess libmaa/config.guess
 
 autotools-clean:
 	if [  -f configs.tgz ] ; then \
 		set -e ; \
-		rm -f config.sub config.guess libmaa/config.sub libmaa/config.guess ; \
+		rm -f config.sub config.guess  ; \
 		tar xvzf configs.tgz ; \
 		rm -f configs.tgz ; \
 	fi
 
 	
 
-configure-stamp: 
+configure-stamp:
 	dh_testdir
 	
 	 LDFLAGS="$(LDFLAGS)" \
@@ -68,7 +66,7 @@ configure-stamp:
 			$(confflags)
 	touch "$@"
 
-build-stamp: 
+build-stamp:
 	dh_testdir
 
 	$(MAKE) $(MAKEARGS)
@@ -82,13 +80,13 @@ clean: unpatch autotools-clean
 	dh_testroot
 	rm -f configure-stamp build-stamp
 
-	cp -a ChangeLog saved.Changelog 
+	cp -a ChangeLog saved.Changelog
 	test ! -f Makefile || $(MAKE) $(MAKEARGS) distclean
 	mv -f  saved.Changelog ChangeLog
 	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	rm -rf .libs libmaa/.libs dictunformat test/dictd_test	
+	rm -rf .libs dictunformat test/dictd_test	
 
 	dh_clean
 
@@ -96,7 +94,7 @@ install: DH_OPTIONS=
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs -A
 
 	# Add here commands to install the package into debian/tmp.

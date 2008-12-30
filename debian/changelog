@@ -1,9 +1,13 @@
-dictd (1.11.0.dfsg-1) UNRELEASED; urgency=low
+dictd (1.11.0.dfsg-1) experimental; urgency=low
 
-  * (NOT RELEASED YET) New upstream release
-  * refresh patches, remove dictd.c-alen-init.patch, applied upstream
+  * New upstream release.
+  * Remove dictd.c-alen-init.patch, applied upstream.
+  * Refresh other patches.
+  * Build-depend on libmaa-dev.
+  * Standards-Version: 3.8.0 (no changes). 
+  * Build with debhelper v7,
 
- -- Robert Luberda <robert@debian.org>  Sun, 28 Dec 2008 15:16:33 +0100
+ -- Robert Luberda <robert@debian.org>  Tue, 30 Dec 2008 00:11:07 +0100
 
 dictd (1.10.11.dfsg-2) unstable; urgency=low
 
