@@ -5,7 +5,7 @@
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
+# Default-Stop:      1
 # Short-Description: Start and stop dictionary server daemon
 ### END INIT INFO
 #
@@ -32,7 +32,6 @@ RUN_MODE="daemon"
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
-
 
 # Define LSB log_* functions.
 . /lib/lsb/init-functions
@@ -145,7 +144,7 @@ case "$1" in
 
     reload)
         check_runmode 0
-        log_daemon_msg "Reloading $DESC" "$NAME"
+        log_daemon_msg "Reloading $DESC configuration" "$NAME"
         if is_running ; then
             do_reload || status=$?
         else        

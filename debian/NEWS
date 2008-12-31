@@ -1,3 +1,15 @@
+dictd (1.11.0.dfsg-1) experimental; urgency=low
+
+  * dictd configuration was changed to  bind only to the localhost interface, 
+    please edit the dictd.conf to change this.
+    
+  * dictd now uses debconf to switch beetwen daemon and inetd modes, it can also 
+    be entirelly disabled. Please make sure to accept configuration file changes
+    for the feature to work properly.
+  
+
+ -- Robert Luberda <robert@debian.org>  Wed, 31 Dec 2008 12:24:05 +0100
+
 dictd (1.10.10.dfsg-1) unstable; urgency=low
 
   * 'dict' and 'dictl' programs no longer pipe their output to pager. The `-P'

@@ -27,7 +27,7 @@ Description: Dictionary Server
  The client program, dict, is packaged in dict*.deb  If you are
  running a server, you will want the client for all machines in your
  network, and for testing server operations.
-Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1), ucf (>= 3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1), ucf (>= 3), update-inetd
 Recommends: dict | dict-client
 Suggests: dict-gcide | dictd-dictionary, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server
