@@ -10,6 +10,7 @@ dictd (1.11.0.dfsg-1~) experimental; urgency=low
     + modify init and postinst/postrrm scripts for the above change;
     + add "allow: inetd" do dictd.conf.
 
+  * Remove pre-sarge stuff from maintainer scripts.
   * Build-depend on libmaa-dev.
   * Standards-Version: 3.8.0 (no changes). 
   * Build with debhelper v7.
