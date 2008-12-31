@@ -1,11 +1,18 @@
-dictd (1.11.0.dfsg-1) experimental; urgency=low
+dictd (1.11.0.dfsg-1~) experimental; urgency=low
 
-  * New upstream release.
-  * Remove dictd.c-alen-init.patch, applied upstream.
-  * Refresh other patches.
+  * New upstream release:
+    + remove dictd.c-alen-init.patch, applied upstream;
+    + refresh other patches.
+  * dictd.conf: bind to localhost interface only (closes: #357963, #486784).
+  * Made dictd startup more configurable and allow to disable dictd entirely 
+    or run it via inetd server (closes:  (closes: #472533, #386009) (LP: #42285):
+    + manage /etc/default/dictd file with debconf and ucf;
+    + modify init and postinst/postrrm scripts for the above change;
+    + add "allow: inetd" do dictd.conf.
+
   * Build-depend on libmaa-dev.
   * Standards-Version: 3.8.0 (no changes). 
-  * Build with debhelper v7,
+  * Build with debhelper v7.
 
  -- Robert Luberda <robert@debian.org>  Tue, 30 Dec 2008 00:11:07 +0100
 

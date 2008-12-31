@@ -1,17 +1,54 @@
 #!/bin/sh
 # vim: ts=4:et:sts=4
-# $Id: dictd.postinst 24 2008-01-20 10:15:09Z robert $
+# $Id: dictd.postinst 78 2008-12-31 10:38:05Z robert $
 
 set -e
 
 PACKAGE=dictd
+DEFAULTSFILE=/etc/default/$PACKAGE
 
-case "$1" in 
+updateRunMode()
+{
+    RUM_MODE="$1"
+    TMPFILE="$DEFAULTSFILE.dpkg-tmp"
+    TEMPLATEFILE="/usr/share/$PACKAGE/ucf/default.template"
+    MD5SUMSFILE="/usr/share/$PACKAGE/ucf/default.md5sums"
+
+    sed -e "s/^[[:space:]]*RUN_MODE[[:space:]]*=.*/RUN_MODE=\"${RUN_MODE}\"/" \
+                < "$TEMPLATEFILE" > "$TMPFILE"
+    chmod 0644 "$TMPFILE"
+    ucf --three-way "$TMPFILE" "$DEFAULTSFILE"
+    ucfr "$PACKAGE" "$DEFAULTSFILE"
+
+    DICTD_ARGS=""
+    . "DEFAULTSFILE"
+
+    if [ "$RUN_MODE" = "inetd" ] ; then
+        # Add service to /etc/inetd.conf
+        update-inetd \
+            --group OTHER \
+            --add "dictd\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd"
+    else
+        update-inetd --disable dictd
+    fi
+}
+
+. /usr/share/debconf/confmodule
+
+case "$1" in
      configure)
-        if [ -e /etc/dictd.conf.moved_by_preinst ]; then 
-            rm /etc/dictd.conf.moved_by_preinst;
-        fi
-        if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ; fi
+
+        # Create dictd system user
+        getent passwd dictd > /dev/null || \
+            adduser --quiet --system --home /var/lib/dictd  --no-create-home \
+            --gecos 'Dictd Server' --group dictd
+
+        db_get dictd/run_mode || true
+        updateRunMode "$RET"
+
+        # Run our config script
+        [ ! -x /usr/sbin/dictdconfig ] || dictdconfig -w
+
 
         ;;
 

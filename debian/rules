@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 73 2008-12-28 23:16:16Z robert $
+# $Id: rules 78 2008-12-31 10:38:05Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -115,7 +115,7 @@ binary-common:
 	dh_installdocs
 	dh_installexamples
 	dh_installmenu
-#	dh_installdebconf
+	dh_installdebconf
 #	dh_installlogrotate
 #	dh_installemacsen
 #	dh_installcatalogs

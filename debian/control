@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 7), libtool, libmaa-dev
 Standards-Version: 3.8.0
+Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictd
 Section: text
@@ -26,12 +27,11 @@ Description: Dictionary Server
  The client program, dict, is packaged in dict*.deb  If you are
  running a server, you will want the client for all machines in your
  network, and for testing server operations.
-Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1), ucf (>= 3)
 Recommends: dict | dict-client
 Suggests: dict-gcide | dictd-dictionary, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server
 Conflicts: dict-server
-Homepage: http://sourceforge.net/projects/dict/
 
 Package: dict
 Section: text
@@ -57,7 +57,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, recode
 Recommends: m4, gawk
 Suggests: dictd | dict-server
 Provides: dict-client
-Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictzip
 Section: text
@@ -72,7 +71,6 @@ Description: Compression utility for dictionary databases
  and dictzcat for viewing dictzipped files.
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: dictd (<< 1.7.1-1)
-Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictfmt
 Section: utils
@@ -83,4 +81,3 @@ Description: Utility to format a file for use by the dictd server
  to the DICT protocol, and creates a corresponding index file.
 Depends: ${shlibs:Depends}, ${misc:Depends}, gawk
 Recommends: dictzip
-Homepage: http://sourceforge.net/projects/dict/

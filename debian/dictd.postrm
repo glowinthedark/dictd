@@ -1,8 +1,11 @@
 #!/bin/sh
-# $Id: dictd.postrm 22 2008-01-19 22:25:57Z robert $
+# vim: ts=4:et:sts=4
+# $Id: dictd.postrm 78 2008-12-31 10:38:05Z robert $
 
 set -e
 
+PACKAGE=dictd
+DEFAULTSFILE=/etc/default/$PACKAGE
 
 cleanup () {
   if [ -e /etc/dictd.conf.moved_by_preinst -a -d /etc/dictd ]; then 
@@ -15,6 +18,19 @@ cleanup () {
     rmdir /etc/dictd/
     rm /etc/dictd.conf.moved by preinst
   fi
+}
+
+cleanupUcf() 
+{
+    which ucf >/dev/null && HAS_UCF=yes || HAS_UCF=no
+    which ucfr >/dev/null && HAS_UCFR=yes || HAS_UCFR=no
+    # we mimic dpkg as closely as possible, so we remove configuration
+    # files with dpkg backup extensions too:
+    for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist .dpkg-tmp '';  do
+        rm -f "${DEFAULTSFILE}${ext}"
+    done
+    [ "$HAS_UCF"  != "yes"  ] || ucf  --purge "$DEFAULTSFILE"
+    [ "$HAS_UCFR" != "yes" ]  || ucfr --purge "$PACKAGE" "$DEFAULTSFILE"
 }
 
 #DEBHELPER# 
@@ -30,11 +46,24 @@ case "$1" in
         exit 0
     ;;
     purge)
+
         rm -f /var/lib/dictd/db.list
+        rmdir  --ignore-fail-on-non-empty /etc/dictd || true
+        cleanupUcf
+
+
+
+        # remove inetd entry
+        [ ! -x /usr/sbin/update-inetd ] \
+            || update-inetd \
+                --remove "dictd\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd.*"  \
+            || true
+
+        # remove user
         rmdir --ignore-fail-on-non-empty /var/lib/dictd/  || true
 # remove user, group and home directory dictd
         deluser --remove-home dictd >/dev/null 2>&1 || true
-        rmdir  --ignore-fail-on-non-empty /etc/dictd || true
+
         exit 0
     ;;
     upgrade|disappear)

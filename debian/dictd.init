@@ -26,15 +26,46 @@ PIDFILE=/var/run/dictd.pid
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
 
+# Set defaults
+DICTD_ARG=""
+RUN_MODE="daemon"
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
 
 # Define LSB log_* functions.
 . /lib/lsb/init-functions
 
 
 set -e
+#
+# Function that check if service is enabled - if not it exits the script
+#
+check_runmode()
+{
+    verbose="$1"
+    case "$RUN_MODE" in
+        daemon)
+            return
+            ;;
+        inetd)
+            exit 0
+            ;;
+        disabled)
+            [ "$verbose" -eq 0 ] ||  log_warning_msg "Not staring $NAME - disabled in $DEFAULTSFILE"
+            exit 0
+            ;;
+        *)
+           if [ "$verbose" -eq 1 ]; then 
+                log_failure_msg "Unknown RUN_MODE set in $DEFAULTSFILE: $RUN_MODE"
+                exit 1;
+            fi
+            exit 0
+            ;;
+    esac
+
+}
 
 #
 # Function that cheks if service is running
@@ -83,6 +114,7 @@ status=0
 
 case "$1" in
      start)
+        check_runmode 1
         log_daemon_msg "Starting $DESC" "$NAME"
         if is_running ; then
             echo -n  " (already running)"
@@ -93,6 +125,7 @@ case "$1" in
         ;;
 
     stop)
+        check_runmode 0
         log_daemon_msg "Stopping $DESC" "$NAME"
         if is_running ; then
             do_stop || status=$?
@@ -103,6 +136,7 @@ case "$1" in
         ;;
 
     restart|force-reload)
+        check_runmode 0
         log_daemon_msg "Restarting $DESC" "$NAME"
         is_running && do_stop || true
         do_start || status=$?
@@ -110,6 +144,7 @@ case "$1" in
         ;;
 
     reload)
+        check_runmode 0
         log_daemon_msg "Reloading $DESC" "$NAME"
         if is_running ; then
             do_reload || status=$?
