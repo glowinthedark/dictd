@@ -67,6 +67,7 @@ Description: Compression utility for dictionary databases
  manner which is completely compatible with the gzip file format.  An
  extension to the gzip file format allows for random access to chunks
  of about 57kb without the overhead of decompressing the entire file.
+ .
  This package also includes dictunzip to decompress dictzipped files
  and dictzcat for viewing dictzipped files.
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -79,5 +80,8 @@ Architecture: any
 Description: Utility to format a file for use by the dictd server
  dictfmt converts an input file to a dictionary database that conforms
  to the DICT protocol, and creates a corresponding index file.
+ . 
+ This package also includes dictunformat which creates a raw database
+ from  dictionary index and a dictionary database.
 Depends: ${shlibs:Depends}, ${misc:Depends}, gawk
 Recommends: dictzip

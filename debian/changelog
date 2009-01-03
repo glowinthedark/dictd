@@ -11,6 +11,7 @@ dictd (1.11.0.dfsg-1~) experimental; urgency=low
     + add "allow: inetd" do dictd.conf;
     + depend on ucf and update-inetd.
   * Remove stop links from rc0 and rc6 (closes: #495545).
+  * Fix descriptions (lintian).
   * Remove pre-sarge stuff from maintainer scripts.
   * Build-depend on libmaa-dev.
   * Standards-Version: 3.8.0 (no changes). 

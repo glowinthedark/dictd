@@ -1,24 +1,12 @@
 #!/bin/sh
 # vim: ts=4:et:sts=4
-# $Id: dictd.postrm 78 2008-12-31 10:38:05Z robert $
+# $Id: dictd.postrm 89 2009-01-03 16:34:01Z robert $
 
 set -e
 
 PACKAGE=dictd
 DEFAULTSFILE=/etc/default/$PACKAGE
 
-cleanup () {
-  if [ -e /etc/dictd.conf.moved_by_preinst -a -d /etc/dictd ]; then 
-    if [ -e /etc/dictd/dictd.conf ]; then
-       mv /etc/dictd/dictd.conf /etc/dictd.conf
-    fi
-    if [ -e /etc/dictd/dictd.order ]; then
-       mv /etc/dictd/dictd.order /etc/dictd.order
-    fi
-    rmdir /etc/dictd/
-    rm /etc/dictd.conf.moved by preinst
-  fi
-}
 
 cleanupUcf() 
 {
@@ -37,7 +25,6 @@ cleanupUcf()
 
 case "$1" in
    failed-install|abort-install|abort-upgrade|failed-upgrade)
-        cleanup
         exit 0
     ;;
 
@@ -48,20 +35,18 @@ case "$1" in
     purge)
 
         rm -f /var/lib/dictd/db.list
-        rmdir  --ignore-fail-on-non-empty /etc/dictd || true
+        rm -rf /var/lib/dictd/ 
+        [ ! -d /etc/dictd ] || rmdir  --ignore-fail-on-non-empty /etc/dictd || true
         cleanupUcf
 
 
-
-        # remove inetd entry
+        # remove inetd entry - due to bug#510406 enable it before removal
         [ ! -x /usr/sbin/update-inetd ] \
-            || update-inetd \
-                --remove "dictd\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd.*"  \
+            || { update-inetd --enable "dict" || true; \
+                update-inetd --remove "dict"; }  \
             || true
 
-        # remove user
-        rmdir --ignore-fail-on-non-empty /var/lib/dictd/  || true
-# remove user, group and home directory dictd
+        # remove user, group and home directory dictd
         deluser --remove-home dictd >/dev/null 2>&1 || true
 
         exit 0

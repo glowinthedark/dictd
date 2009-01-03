@@ -1,6 +1,6 @@
 #!/bin/sh
 # vim: ts=4:et:sts=4
-# $Id: dictd.postinst 82 2008-12-31 11:34:17Z robert $
+# $Id: dictd.postinst 91 2009-01-03 17:04:24Z robert $
 
 set -e
 
@@ -9,7 +9,7 @@ DEFAULTSFILE=/etc/default/$PACKAGE
 
 updateRunMode()
 {
-    RUM_MODE="$1"
+    RUN_MODE="$1"
     TMPFILE="$DEFAULTSFILE.dpkg-tmp"
     TEMPLATEFILE="/usr/share/$PACKAGE/ucf/default.template"
     MD5SUMSFILE="/usr/share/$PACKAGE/ucf/default.md5sums"
@@ -17,19 +17,21 @@ updateRunMode()
     sed -e "s/^[[:space:]]*RUN_MODE[[:space:]]*=.*/RUN_MODE=\"${RUN_MODE}\"/" \
                 < "$TEMPLATEFILE" > "$TMPFILE"
     chmod 0644 "$TMPFILE"
-    ucf --three-way "$TMPFILE" "$DEFAULTSFILE"
+    ucf --debconf-ok --sum-file "$MD5SUMSFILE" --three-way "$TMPFILE" "$DEFAULTSFILE"
     ucfr "$PACKAGE" "$DEFAULTSFILE"
+    rm -f "$TMPFILE"
 
     DICTD_ARGS=""
-    . "DEFAULTSFILE"
+    . "$DEFAULTSFILE"
 
     if [ "$RUN_MODE" = "inetd" ] ; then
         # Add service to /etc/inetd.conf
         update-inetd \
             --group OTHER \
-            --add "dictd\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd"
+            --add "dict\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd"
+        update-inetd --enable dict
     else
-        update-inetd --disable dictd
+        update-inetd --disable dict
     fi
 }
 
