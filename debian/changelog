@@ -11,6 +11,8 @@ dictd (1.11.0.dfsg-1~) experimental; urgency=low
     + add "allow: inetd" do dictd.conf;
     + depend on ucf and update-inetd.
   * Remove stop links from rc0 and rc6 (closes: #495545).
+  * dictfmt-sort-base64.patch: fix problem with offset overwriting in dicfmt.
+    Thanks to Radovan Garabík  for the patch (closes: #510703).
   * Fix descriptions (lintian).
   * Remove pre-sarge stuff from maintainer scripts.
   * Build-depend on libmaa-dev.
