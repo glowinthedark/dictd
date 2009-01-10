@@ -7,8 +7,6 @@ Standards-Version: 3.8.0
 Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictd
-Section: text
-Priority: optional
 Architecture: any
 Description: Dictionary Server
  dictd is a TCP based server that allows a client to access dictionary
@@ -34,8 +32,6 @@ Provides: dict-server
 Conflicts: dict-server
 
 Package: dict
-Section: text
-Priority: optional
 Architecture: any
 Description: Dictionary Client
  dict is the client that queries the dictd server.  Since it is TCP
@@ -59,8 +55,6 @@ Suggests: dictd | dict-server
 Provides: dict-client
 
 Package: dictzip
-Section: text
-Priority: optional
 Architecture: any
 Description: Compression utility for dictionary databases
  dictzip compresses files using the gzip(1) algorithm (LZ77) in a
@@ -74,8 +68,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: dictd (<< 1.7.1-1)
 
 Package: dictfmt
-Section: utils
-Priority: optional
 Architecture: any
 Description: Utility to format a file for use by the dictd server
  dictfmt converts an input file to a dictionary database that conforms

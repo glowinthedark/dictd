@@ -3,5 +3,7 @@ Type: select
 __Choices: daemon, inetd, disabled
 Default: daemon
 _Description: How do you want to run dictd?
- The dictd server can run as a standalone daemon or from inetd. Running in
- daemon mode is the recommended approach.
+ The dictd server can run as a standalone daemon or from inetd. It can also can
+ be entirely disabled.
+ .
+ Running in daemon mode is the recommended approach.

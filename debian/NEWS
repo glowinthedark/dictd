@@ -1,7 +1,7 @@
 dictd (1.11.0.dfsg-1) experimental; urgency=low
 
   * dictd configuration was changed to  bind only to the localhost interface, 
-    please edit the dictd.conf to change this.
+    please edit the dictd.conf file if you don't like the change.
     
   * dictd now uses debconf to switch beetwen daemon and inetd modes, it can also 
     be entirelly disabled. Please make sure to accept configuration file changes
