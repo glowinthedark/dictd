@@ -1,6 +1,6 @@
 #!/bin/sh
 # vim: ts=4:et:sts=4
-# $Id: dictd.postinst 91 2009-01-03 17:04:24Z robert $
+# $Id: dictd.postinst 110 2009-03-08 22:43:11Z robert $
 
 set -e
 
@@ -68,3 +68,5 @@ case "$1" in
 esac
 
 #DEBHELPER#
+
+exit 0

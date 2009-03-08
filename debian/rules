@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 106 2009-03-08 16:18:56Z robert $
+# $Id: rules 107 2009-03-08 16:27:19Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -75,18 +75,23 @@ build-stamp:
 
 	touch "$@"
 
-clean: unpatch autotools-clean
+clean-upstream:
 	dh_testdir
 	dh_testroot
 	rm -f configure-stamp build-stamp
 
 	test ! -f Makefile || $(MAKE) $(MAKEARGS) distclean
+
 	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
 	rm -rf .libs dictunformat test/dictd_test	
-
 	dh_clean
+
+
+# make sure `$(MAKE) distclean' is run *before* unpatch 
+clean: clean-upstream unpatch autotools-clean
+
 
 install: DH_OPTIONS=
 install: build
@@ -159,4 +164,4 @@ binary-%: build install
 	make -f debian/rules binary-common DH_OPTIONS=-p$*
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary-common binary install autotools autotools-clean
+.PHONY: build clean clean-upstream binary-indep binary-arch binary-common binary install autotools autotools-clean
