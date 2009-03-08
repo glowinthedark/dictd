@@ -1,10 +1,9 @@
 Makefile-debcflags.patch
+Makefile-clean.patch
 dictl-konwert.patch
-dictd.8-man.patch
 man-hyphens.patch
 dictdplugin_popen-g++-4.3compile.patch
 dictl-translit.patch
 colorit-nopp-fix.patch
 colorit-manpage-nopager.patch
 dictfmt.1-man.patch
-dictfmt-sort-base64.patch

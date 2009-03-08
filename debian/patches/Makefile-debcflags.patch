@@ -3,14 +3,14 @@ DEB_BUILD_FLAGS variable in debian/rules
 
 Index: dictd/Makefile.in
 ===================================================================
---- dictd.orig/Makefile.in	2008-12-28 15:25:20.000000000 +0100
-+++ dictd/Makefile.in	2008-12-28 15:25:23.000000000 +0100
-@@ -74,7 +74,7 @@
- JUDYLIB=        @JUDYLIB@
- DBILIB=         @DBILIB@
+--- dictd.orig/Makefile.in	2009-03-08 16:31:11.000000000 +0100
++++ dictd/Makefile.in	2009-03-08 16:49:19.000000000 +0100
+@@ -67,7 +67,7 @@
  
--CFLAGS= @CPPFLAGS@ @DEFS@ @CFLAGS@ -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I. -I$(srcdir)
-+CFLAGS= @CPPFLAGS@ @DEFS@ $(filter-out -O%, @CFLAGS@) $(DEBCFLAGS) -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)\" -I. -I$(srcdir)
+ LEXLIB= 	@LEXLIB@
  
- LDFLAGS=        @LDFLAGS@ @LIBS@
- LIBOBJS=        @LIBOBJS@
+-CFLAGS= @CPPFLAGS@ @DEFS@ @CFLAGS@ -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)/\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)/\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)/\" -I. -I$(srcdir)
++CFLAGS= @CPPFLAGS@ @DEFS@ $(filter-out -O%, @CFLAGS@) -DDICT_PLUGIN_PATH=\"$(PLUGIN_DIR)/\" -DDICT_DICTIONARY_PATH=\"$(DICT_DIR)/\" -DDICT_VERSION=\"$(DICT_VERSION)\" -DDICT_CONFIG_PATH=\"$(CONF_DIR)/\" -I. -I$(srcdir)
+ 
+ LIBMAA=		@LIBMAA@
+ LIBS=		@LIBS@ ${LIBMAA}
