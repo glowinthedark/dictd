@@ -1,3 +1,13 @@
+dictd (1.11.0.dfsg-2) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+  * Upload to unstable, since libmaa got finally accepted (closes: #512071).
+  * control: set dictfmt's section back to utils.
+  * debian/watch: use sf.net redirector (lintian).
+  * Minor fixes in debconf templates, update Polish translation of them.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 08 Mar 2009 16:29:23 +0100
+
 dictd (1.11.0.dfsg-1) experimental; urgency=low
 
   * New upstream release:

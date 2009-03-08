@@ -68,6 +68,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Replaces: dictd (<< 1.7.1-1)
 
 Package: dictfmt
+Section: utils
 Architecture: any
 Description: Utility to format a file for use by the dictd server
  dictfmt converts an input file to a dictionary database that conforms

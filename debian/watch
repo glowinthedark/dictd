@@ -1,5 +1,4 @@
 # control file for the uscan(1) tool
 version=3
 opts=dversionmangle=s/\.dfsg// \
-http://sourceforge.net/project/showfiles.php?group_id=605&package_id=59088 \
-	http://.*/dictd-([\d\.]+)\.tar\.gz.*
+http://sf.net/dict/dictd-([\d\.]+)\.tar\.gz
