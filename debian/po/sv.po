@@ -1,44 +1,44 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of dictd.po to swedish
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the dictd package.
 #
-#, fuzzy
+# Martin Bagge <brother@bsnet.se>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: dictd\n"
 "Report-Msgid-Bugs-To: dictd@packages.debian.org\n"
 "POT-Creation-Date: 2009-04-06 07:52+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2009-04-11 11:17+0100\n"
+"Last-Translator: Martin Bagge <brother@bsnet.se>\n"
+"Language-Team: swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #. Type: select
 #. Choices
 #: ../dictd.templates:2001
 msgid "daemon"
-msgstr ""
+msgstr "tjänst"
 
 #. Type: select
 #. Choices
 #: ../dictd.templates:2001
 msgid "inetd"
-msgstr ""
+msgstr "inetd"
 
 #. Type: select
 #. Choices
 #: ../dictd.templates:2001
 msgid "disabled"
-msgstr ""
+msgstr "avstängd"
 
 #. Type: select
 #. Description
 #: ../dictd.templates:2002
 msgid "Method for running dictd:"
-msgstr ""
+msgstr "Metod för att köra dictd:"
 
 #. Type: select
 #. Description
@@ -47,9 +47,11 @@ msgid ""
 "The dictd server can be run either as a stand-alone daemon or from inetd. "
 "You can also disable it entirely."
 msgstr ""
+"Dictd-servern kan köras antingen som en isolerad tjänst eller via inetd. Den "
+"kan också vara helt avstängd."
 
 #. Type: select
 #. Description
 #: ../dictd.templates:2002
 msgid "It is recommended to run it as a daemon."
-msgstr ""
+msgstr "Typen \"tjänst\" är rekomenderad."

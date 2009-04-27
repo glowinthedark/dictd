@@ -19,7 +19,7 @@ Index: dictd/dict.1.in
  Servers are tried in the order listed until a connection is made.  If none
  of the specified servers are available, and the compile-time option
 -(./configure --enable-dictorg) is enabled, then an attempt will be made to
-+(./configure \-\-enable-dictorg) is enabled, then an attempt will be made to
++(./configure \-\-enable\-dictorg) is enabled, then an attempt will be made to
  connect on
  .B localhost
  and on

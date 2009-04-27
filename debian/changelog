@@ -1,3 +1,20 @@
+dictd (1.11.1+dfsg-2) UNRELEASED; urgency=low
+
+  * Debconf templates and debian/control reviewed by the debian-l10n-
+    english team as part of the Smith review project. Closes: #522251
+  * [Debconf translation updates]
+    - Japanese. Closes: #522782
+    - Portuguese. Closes: #523189
+    - Italian. Closes: #523418
+    - Swedish. Closes: #523697
+    - Galician. Closes: #524244
+    - Spanish. Closes: #524343
+    - German. Closes: #524399
+    - French. Closes: #524867
+    - Russian. Closes: #524891
+
+ -- Christian Perrier <bubulle@debian.org>  Thu, 02 Apr 2009 08:27:21 +0200
+
 dictd (1.11.1+dfsg-1) unstable; urgency=low
 
   * New upstream release:
