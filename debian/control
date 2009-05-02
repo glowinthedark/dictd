@@ -3,14 +3,14 @@ Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 7), libtool, libmaa-dev
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictd
 Architecture: any
 Description: dictionary server
- This package provides a TCP-based server that allows a client to access dictionary
- definitions from a set of natural language dictionary databases.
+ This package provides a TCP-based server that allows a client to access
+ dictionary definitions from a set of natural language dictionary databases.
  .
  Many dictionary databases have been packaged for use with dictd. They are
  described in the /usr/share/doc/dictd/README.Debian.gz file.
@@ -69,9 +69,10 @@ Package: dictfmt
 Section: utils
 Architecture: any
 Description: utility to format a file for use by a dictd server
- This package provides dictfmt. This utility can convert an input file to a dictionary database that conforms
- to the DICT protocol, and create a corresponding index file.
- . 
+ This package provides dictfmt. This utility can convert an input file
+ to a dictionary database that conforms to the DICT protocol, and create
+ a corresponding index file.
+ .
  The package also provides dictunformat, which creates a raw database
  from a dictionary index and a dictionary database.
 Depends: ${shlibs:Depends}, ${misc:Depends}, gawk

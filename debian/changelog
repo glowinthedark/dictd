@@ -1,5 +1,6 @@
-dictd (1.11.1+dfsg-2) UNRELEASED; urgency=low
+dictd (1.11.1+dfsg-2) unstable; urgency=low
 
+  [ Christian Perrier ]
   * Debconf templates and debian/control reviewed by the debian-l10n-
     english team as part of the Smith review project. Closes: #522251
   * [Debconf translation updates]
@@ -13,7 +14,13 @@ dictd (1.11.1+dfsg-2) UNRELEASED; urgency=low
     - French. Closes: #524867
     - Russian. Closes: #524891
 
- -- Christian Perrier <bubulle@debian.org>  Thu, 02 Apr 2009 08:27:21 +0200
+  [ Robert Luberda ]
+  * Applied the above patch from Christian.
+  * Standards-Version: 3.8.1 (no changes).
+  * Fix too long lines in extended descriptions (lintian). 
+  * Update Polish debconf translations. 
+
+ -- Robert Luberda <robert@debian.org>  Sat, 02 May 2009 08:56:20 +0200
 
 dictd (1.11.1+dfsg-1) unstable; urgency=low
 
