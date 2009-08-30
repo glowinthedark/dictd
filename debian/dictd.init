@@ -134,7 +134,7 @@ case "$1" in
         log_end_msg $status
         ;;
 
-    restart|force-reload)
+    restart)
         check_runmode 0
         log_daemon_msg "Restarting $DESC" "$NAME"
         is_running && do_stop || true
@@ -142,7 +142,7 @@ case "$1" in
         log_end_msg $status
         ;;
 
-    reload)
+    reload|force-reload)
         check_runmode 0
         log_daemon_msg "Reloading $DESC configuration" "$NAME"
         if is_running ; then
@@ -154,8 +154,13 @@ case "$1" in
         log_end_msg $status
         ;;
 
+    status)
+        check_runmode 0
+        status_of_proc "$DAEMON" "$NAME" || status=$?
+        ;;
+
     *)
-        log_failure_msg "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload}" 2>&1
+        log_failure_msg "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload|status}" 2>&1
         exit 1
         ;;
 esac

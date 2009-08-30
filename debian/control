@@ -3,7 +3,7 @@ Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 7), libtool, libmaa-dev
-Standards-Version: 3.8.1
+Standards-Version: 3.8.3
 Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictd
@@ -23,7 +23,7 @@ Description: dictionary server
  .
  The client program, dict, is packaged separately and is needed on all
  machines that will use the server.
-Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.1), ucf (>= 3), update-inetd
+Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.2-13), ucf (>= 3), update-inetd
 Recommends: dict | dict-client
 Suggests: dict-gcide | dictd-dictionary, dict-wn, dict-jargon, dict-foldoc
 Provides: dict-server

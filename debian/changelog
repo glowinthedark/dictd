@@ -1,3 +1,17 @@
+dictd (1.11.1+dfsg-3) unstable; urgency=low
+
+  * debian/init.d:
+    + add status support (closes: #538666);
+    + made force-reload same as reload (closes: #538663).
+  * [Debconf translation updates]
+    - Czech (closes: #533035)
+    - Finnish (closes: #533596)
+    - Slovak (closes: #534442).
+  * Add debian/README.source.
+  * Standards-Version: 3.8.3 (no changes).
+
+ -- Robert Luberda <robert@debian.org>  Sun, 30 Aug 2009 14:25:13 +0200
+
 dictd (1.11.1+dfsg-2) unstable; urgency=low
 
   [ Christian Perrier ]

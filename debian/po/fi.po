@@ -1,0 +1,57 @@
+# Copyright (C) 2009
+# This file is distributed under the same license as the dictd package.
+#
+# Esko Arajärvi <edu@iki.fi>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: dictd\n"
+"Report-Msgid-Bugs-To: dictd@packages.debian.org\n"
+"POT-Creation-Date: 2009-03-08 16:22+0100\n"
+"PO-Revision-Date: 2009-06-19 09:29+0300\n"
+"Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
+"Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Type: select
+#. Choices
+#: ../dictd.templates:1001
+msgid "daemon"
+msgstr "taustaohjelmana"
+
+#. Type: select
+#. Choices
+#: ../dictd.templates:1001
+msgid "inetd"
+msgstr "inetdin kautta"
+
+#. Type: select
+#. Choices
+#: ../dictd.templates:1001
+msgid "disabled"
+msgstr "poistetaan käytöstä"
+
+#. Type: select
+#. Description
+#: ../dictd.templates:1002
+msgid "How do you want to run dictd?"
+msgstr "Miten ohjelmaa dictd tulisi ajaa?"
+
+#. Type: select
+#. Description
+#: ../dictd.templates:1002
+msgid ""
+"The dictd server can be run either as a stand-alone daemon or from inetd. "
+"You can also disable it entirely."
+msgstr ""
+"Dictd-palvelinta voidaan ajaa joko itsenäisenä taustaohjelmana tai "
+"inetdin kautta. Voit myös ottaa sen kokonaan pois käytöstä."
+
+#. Type: select
+#. Description
+#: ../dictd.templates:1002
+msgid "Running in the daemon mode is the recommended approach."
+msgstr "Taustaohjelmana ajo on suositeltava vaihtoehto."
