@@ -1,3 +1,12 @@
+dictd (1.11.2+dfsg-1) unstable; urgency=low
+
+  * New upstream release.
+  * Replace build dependencies on libltdl3-dev with libltdl-dev.
+  * Run `make test' during build.
+  * Add lintian override for `init.d-script-possible-missing-stop'.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 18 Oct 2009 14:53:05 +0200
+
 dictd (1.11.1+dfsg-3) unstable; urgency=low
 
   * debian/init.d:

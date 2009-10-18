@@ -2,7 +2,7 @@ Source: dictd
 Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
-Build-Depends: flex, bison, zlib1g-dev, libltdl3-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 7), libtool, libmaa-dev
+Build-Depends: flex, bison, zlib1g-dev, libltdl-dev, autotools-dev, quilt (>= 0.45), debhelper (>= 7), libtool, libmaa-dev
 Standards-Version: 3.8.3
 Homepage: http://sourceforge.net/projects/dict/
 

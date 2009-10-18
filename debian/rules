@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 107 2009-03-08 16:27:19Z robert $
+# $Id: rules 125 2009-10-18 12:53:24Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -70,6 +70,7 @@ build-stamp:
 	dh_testdir
 
 	$(MAKE) $(MAKEARGS)
+	$(MAKE) $(MAKEARGS) test
 
 #	$(MAKE) CFLAGS+='-fPIC -D_REENTRANT' samples
 
@@ -80,12 +81,14 @@ clean-upstream:
 	dh_testroot
 	rm -f configure-stamp build-stamp
 
+	test ! -f test/dictd_test || rm -f `find test -maxdepth 1 -type f -newer test/dictd_test` test/dictd_test
+
 	test ! -f Makefile || $(MAKE) $(MAKEARGS) distclean
 
 	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
 		-o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 		-o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
-	rm -rf .libs dictunformat test/dictd_test	
+	rm -rf .libs dictunformat examples/dictd_popen.conf
 	dh_clean
 
 
@@ -130,6 +133,8 @@ binary-common:
 #	dh_installinfo
 #	dh_installwm
 #	dh_installudev
+	dh_lintian
+#	dh_bugfiles
 #	dh_undocumented
 	dh_strip
 	dh_link
