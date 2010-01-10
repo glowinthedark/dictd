@@ -1,48 +1,48 @@
 # Copyright (C) 2009
 # This file is distributed under the same license as the dictd package.
 #
-# Esko Arajärvi <edu@iki.fi>, 2009.
+# Esko Arajärvi <edu@iki.fi>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: dictd\n"
 "Report-Msgid-Bugs-To: dictd@packages.debian.org\n"
-"POT-Creation-Date: 2009-03-08 16:22+0100\n"
-"PO-Revision-Date: 2009-06-19 09:29+0300\n"
+"POT-Creation-Date: 2009-04-06 07:52+0200\n"
+"PO-Revision-Date: 2010-01-09 23:04+0200\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Type: select
 #. Choices
-#: ../dictd.templates:1001
+#: ../dictd.templates:2001
 msgid "daemon"
 msgstr "taustaohjelmana"
 
 #. Type: select
 #. Choices
-#: ../dictd.templates:1001
+#: ../dictd.templates:2001
 msgid "inetd"
 msgstr "inetdin kautta"
 
 #. Type: select
 #. Choices
-#: ../dictd.templates:1001
+#: ../dictd.templates:2001
 msgid "disabled"
 msgstr "poistetaan käytöstä"
 
 #. Type: select
 #. Description
-#: ../dictd.templates:1002
-msgid "How do you want to run dictd?"
-msgstr "Miten ohjelmaa dictd tulisi ajaa?"
+#: ../dictd.templates:2002
+msgid "Method for running dictd:"
+msgstr "Ohjelman dictd ajotapa:"
 
 #. Type: select
 #. Description
-#: ../dictd.templates:1002
+#: ../dictd.templates:2002
 msgid ""
 "The dictd server can be run either as a stand-alone daemon or from inetd. "
 "You can also disable it entirely."
@@ -52,6 +52,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../dictd.templates:1002
-msgid "Running in the daemon mode is the recommended approach."
-msgstr "Taustaohjelmana ajo on suositeltava vaihtoehto."
+#: ../dictd.templates:2002
+msgid "It is recommended to run it as a daemon."
+msgstr "On suositeltavaa ajaa sitä taustaohjelmana."
+
