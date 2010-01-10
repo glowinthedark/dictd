@@ -22,6 +22,7 @@ DAEMON=/usr/sbin/dictd
 NAME=dictd
 DESC="dictionary server"
 PIDFILE=/var/run/dictd.pid
+DEFAULTSFILE="/etc/default/$NAME"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -31,7 +32,7 @@ DICTD_ARG=""
 RUN_MODE="daemon"
 
 # Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+[ -r "$DEFAULTSFILE" ] && . "$DEFAULTSFILE"
 
 # Define LSB log_* functions.
 . /lib/lsb/init-functions

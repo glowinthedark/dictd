@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 125 2009-10-18 12:53:24Z robert $
+# $Id: rules 129 2010-01-10 10:08:38Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -70,7 +70,9 @@ build-stamp:
 	dh_testdir
 
 	$(MAKE) $(MAKEARGS)
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	$(MAKE) $(MAKEARGS) test
+endif
 
 #	$(MAKE) CFLAGS+='-fPIC -D_REENTRANT' samples
 

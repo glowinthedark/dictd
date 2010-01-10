@@ -1,42 +1,42 @@
 dictd (1.11.0.dfsg-1) experimental; urgency=low
 
-  * dictd configuration was changed to  bind only to the localhost interface, 
+    dictd configuration was changed to bind to the localhost interface only,
     please edit the dictd.conf file if you don't like the change.
-    
-  * dictd now uses debconf to switch beetwen daemon and inetd modes, it can also 
-    be entirelly disabled. Please make sure to accept configuration file changes
+
+    dictd now uses debconf to switch between daemon and inetd modes, it can also
+    be entirely disabled.  Please make sure to accept configuration file changes
     for the feature to work properly.
-  
+
 
  -- Robert Luberda <robert@debian.org>  Wed, 31 Dec 2008 12:24:05 +0100
 
 dictd (1.10.10.dfsg-1) unstable; urgency=low
 
-  * 'dict' and 'dictl' programs no longer pipe their output to pager. The `-P'
-    option was removed. 
+    'dict' and 'dictl' programs no longer pipe their output to pager. The `-P'
+    option was removed.
 
-    If you run 'dict' or 'dictl' interactively, write to your interactive shell 
+    If you run 'dict' or 'dictl' interactively, write to your interactive shell
     startup script (.ksh, .zsh, .bashrc etc.)
 
             mydict () { dictl "$@" 2>&1 | colorit | less -R ; }
 
     and then use 'mydict' instead of 'dict' (or 'dictl').
 
-  * Readded 'colorit' script together with a sample configuration file.
+    Re-added 'colorit' script together with a sample configuration file.
     Note: you need to install the m4 package for it to work.
 
-  * 'dictfmt_virtual' was removed by upstream.
+    'dictfmt_virtual' was removed by upstream.
 
 
  -- Robert Luberda <robert@debian.org>  Wed, 23 Jan 2008 21:30:17 +0100
 
 dictd (1.10.2-1) unstable; urgency=low
 
-  * dictd now uses internal implementations of UCS-2/UTF-8 functions.
-    Thus, dictd no longer need to specify a utf-8 locale with the
-    --locale option in order to use dictionaries encoded in utf-8.
+    dictd now uses internal implementations of UCS-2/UTF-8 functions.
+    Thus, dictd no longer need to specify a UTF-8 locale with the
+    --locale option in order to use dictionaries encoded in UTF-8.
 
-  * The pid file is back, so dictd no longer starts as user dictd, but
+    The pid file is back, so dictd no longer starts as user dictd, but
     once again as root.  It still drops root privileges in favour of
     dictd.dictd immediately after opening the log file and writing the
     pid file.
@@ -46,8 +46,8 @@ dictd (1.10.2-1) unstable; urgency=low
 
 dictd (1.9.12-2) unstable; urgency=low
 
-  * Starting with version 2002.02.27-3 the mueller7-dict and
-    muller7accent-dict packages have been converted to utf-8 encoding,
+    Starting with version 2002.02.27-3 the mueller7-dict and
+    muller7accent-dict packages have been converted to UTF-8 encoding,
     so they now work properly with dictd.
 
  -- Robert D. Hilliard <hilliard@debian.org>  Wed, 17 Mar 2004 10:04:11 -0500
@@ -55,19 +55,19 @@ dictd (1.9.12-2) unstable; urgency=low
 
 dictd (1.9.11-4) unstable; urgency=low
 
-  * dict-de-en, ver. 1.2-6, is now encoded in utf-8, so it works
-    properly with dictd.  If your terminal doesn't support utf-8, use
+    dict-de-en, ver. 1.2-6, is now encoded in UTF-8, so it works
+    properly with dictd.  If your terminal doesn't support UTF-8, use
     dictl.  I suggest symlinking dictl to dict for transparent conversion
-    of character sets. 
+    of character sets.
 
  -- Robert D. Hilliard <hilliard@debian.org>  Wed, 04 Feb 2004 16:35:46 -0500
 
 
 dictd (1.9.11-1) unstable; urgency=low
 
-  * dict.conf has moved from /etc to /etc/dictd.
+    dict.conf has moved from /etc to /etc/dictd.
 
-  * The plugin shared libraries and example plugins are no longer
+    The plugin shared libraries and example plugins are no longer
     shipped with the dictd binary.  If you wish to experiment with
     plugins see /usr/share/doc/dictd/README.Plugins.gz.
 
@@ -76,15 +76,15 @@ dictd (1.9.11-1) unstable; urgency=low
 
 dictd (1.9.10-3) unstable; urgency=low
 
-  * Support for 8-bit character encodings is broken a this time, and
+    Support for 8-bit character encodings is broken a this time, and
     is not expected to be working properly until sometime after the
     release of dictd 1.9.11.
 
     This means that dict-de-en, mueller7-dict, and mueller7accent-dict
     do not work properly.
 
-  * /usr/share/doc/README.Dictd-locales has been added in an attempt
+    /usr/share/doc/README.Dictd-locales has been added in an attempt
     to clarify the use of the --locale option.
 
  -- Robert D. Hilliard <hilliard@debian.org>  Sun, 07 Dec 2003 14:43:07 -0500
-  
+

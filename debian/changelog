@@ -1,3 +1,13 @@
+dictd (1.11.2+dfsg-2) unstable; urgency=low
+
+  * Rebuild with the latest libmaa-dev.
+  * Update Finnish translation of the debconf template (closes: #564510).
+  * dictd.init: Properly initialise the $DEFAULTSFILE variable.
+  * debian/NEWS: remove asterisks (lintian).
+  * debian/rules: support DEB_BUILD_OPTIONS=nocheck.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 10 Jan 2010 11:03:00 +0100
+
 dictd (1.11.2+dfsg-1) unstable; urgency=low
 
   * New upstream release.
