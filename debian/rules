@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 136 2011-01-23 09:18:34Z robert $
+# $Id: rules 138 2011-01-23 09:49:05Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -36,7 +36,7 @@ configure: autotools configure-stamp
 
 
 autotools: autotools-clean
-	tar cvzf configs.tgz  config.sub config.guess
+	tar cvzf configs.tgz  config.sub config.guess ChangeLog
 	rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
 	ln -s /usr/share/misc/config.guess config.guess
