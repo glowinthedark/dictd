@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 #
-# $Id: rules 131 2011-01-04 22:27:29Z robert $
+# $Id: rules 136 2011-01-23 09:18:34Z robert $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -30,12 +30,9 @@ LDFLAGS   = -Wl,-z,defs -Wl,--as-needed
 MAKEARGS  = JUDYLIB= DBILIB= DEBCFLAGS="$(CFLAGS)"
 DESTDIR   = $(CURDIR)/debian/tmp
 
-build: autotools patch configure-stamp build-stamp
+build: autotools configure-stamp build-stamp
 
-configure: autotools patch configure-stamp
-
-
-include /usr/share/quilt/quilt.make
+configure: autotools configure-stamp
 
 
 autotools: autotools-clean
@@ -95,8 +92,7 @@ clean-upstream:
 	dh_clean
 
 
-# make sure `$(MAKE) distclean' is run *before* unpatch 
-clean: clean-upstream unpatch autotools-clean
+clean: clean-upstream autotools-clean
 
 
 install: DH_OPTIONS=

@@ -3,9 +3,9 @@ Don't remove upstream ChangeLog file
 
 Index: dictd/Makefile.in
 ===================================================================
---- dictd.orig/Makefile.in	2009-03-08 17:15:39.000000000 +0100
-+++ dictd/Makefile.in	2009-03-08 17:16:20.000000000 +0100
-@@ -374,7 +374,8 @@
+--- dictd.orig/Makefile.in	2011-01-23 10:08:01.000000000 +0100
++++ dictd/Makefile.in	2011-01-23 10:08:03.000000000 +0100
+@@ -376,7 +376,8 @@
  	-rm -f *.dict *.index
  	-rm -f *.exe *.dll
  	-rm -f test/_* test/testdb.t.txt test/log.txt

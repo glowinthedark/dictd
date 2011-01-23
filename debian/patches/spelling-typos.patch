@@ -2,8 +2,8 @@ Fix spelling typos found by lintian.
 
 Index: dictd/daemon.c
 ===================================================================
---- dictd.orig/daemon.c	2011-01-04 23:18:47.000000000 +0100
-+++ dictd/daemon.c	2011-01-04 23:19:17.000000000 +0100
+--- dictd.orig/daemon.c	2011-01-23 10:07:57.000000000 +0100
++++ dictd/daemon.c	2011-01-23 10:08:22.000000000 +0100
 @@ -253,7 +253,7 @@
        return DICT_DENY;
     }
@@ -15,8 +15,8 @@ Index: dictd/daemon.c
     
 Index: dictd/dictd.8.in
 ===================================================================
---- dictd.orig/dictd.8.in	2011-01-04 23:19:07.000000000 +0100
-+++ dictd/dictd.8.in	2011-01-04 23:19:35.000000000 +0100
+--- dictd.orig/dictd.8.in	2011-01-23 10:08:09.000000000 +0100
++++ dictd/dictd.8.in	2011-01-23 10:08:22.000000000 +0100
 @@ -1009,7 +1009,7 @@
  .I lev
  , the strategy
@@ -44,8 +44,8 @@ Index: dictd/dictd.8.in
  unless it is specified in the configuration file.
 Index: dictd/dictfmt.1.in
 ===================================================================
---- dictd.orig/dictfmt.1.in	2011-01-04 23:19:07.000000000 +0100
-+++ dictd/dictfmt.1.in	2011-01-04 23:19:17.000000000 +0100
+--- dictd.orig/dictfmt.1.in	2011-01-23 10:08:15.000000000 +0100
++++ dictd/dictfmt.1.in	2011-01-23 10:08:22.000000000 +0100
 @@ -278,7 +278,7 @@
  the first column can be treated as an index column
  (where the MATCH command searches) and the fourth column as a result column
@@ -57,9 +57,9 @@ Index: dictd/dictfmt.1.in
  .BI \-\-break\-headwords
 Index: dictd/dictfmt.c
 ===================================================================
---- dictd.orig/dictfmt.c	2011-01-04 23:18:47.000000000 +0100
-+++ dictd/dictfmt.c	2011-01-04 23:19:17.000000000 +0100
-@@ -849,7 +849,7 @@
+--- dictd.orig/dictfmt.c	2011-01-23 10:07:57.000000000 +0100
++++ dictd/dictfmt.c	2011-01-23 10:08:22.000000000 +0100
+@@ -840,7 +840,7 @@
                       Example: autumn%%%fall can be used\n\
                       if '--headword-separator %%%' is supplied",
  "--index-data-separator <sep> sets index/data separator which allows\n\

@@ -1,3 +1,13 @@
+dictd (1.12.0+dfsg-1) experimental; urgency=low
+
+  * New upstream release.
+  * Add Brazilian Portuguese debconf templates translation (closes: #610408).
+  * Bump debhelper to v8.
+  * Switch to the 3.0 (quilt) source format. Drop build dependency on quilt 
+    together with the debian/README.source file.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 23 Jan 2011 10:40:33 +0100
+
 dictd (1.11.2+dfsg-3) unstable; urgency=low
 
 
