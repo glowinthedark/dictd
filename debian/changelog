@@ -1,3 +1,9 @@
+dictd (1.12.0+dfsg-2) experimental; urgency=low
+
+  * Merge changes from version 1.11.2+dfsg-4.
+
+ -- Robert Luberda <robert@debian.org>  Sat, 29 Jan 2011 00:00:54 +0100
+
 dictd (1.12.0+dfsg-1) experimental; urgency=low
 
   * New upstream release.
@@ -7,6 +13,15 @@ dictd (1.12.0+dfsg-1) experimental; urgency=low
     together with the debian/README.source file.
 
  -- Robert Luberda <robert@debian.org>  Sun, 23 Jan 2011 10:40:33 +0100
+
+dictd (1.11.2+dfsg-4) unstable; urgency=medium
+
+  * md5-64bit.patch: fix invalid definition on uint32 type on 64-bit systems
+    (except for alpha), which caused failures when 64-bit dict client tried
+    to authenticate a user against 32-bit dictd server (closes: #611203).
+  * Add Brazilian Portuguese debconf templates translation (closes: #610408). 
+
+ -- Robert Luberda <robert@debian.org>  Fri, 28 Jan 2011 23:53:32 +0100
 
 dictd (1.11.2+dfsg-3) unstable; urgency=low
 
