@@ -9,4 +9,4 @@ colorit-manpage-nopager.patch
 dictfmt.1-man.patch
 dictd-close-fds.patch
 spelling-typos.patch
-
+md5-64bit.patch
