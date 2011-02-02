@@ -1,8 +1,13 @@
 dictd (1.12.0+dfsg-2) experimental; urgency=low
 
   * Merge changes from version 1.11.2+dfsg-4.
+  * Install the new dict_lookup binary into dict package.
+  * Add dict_lookup.patch: 
+    + check for existance of xterm & xclip commands;
+    + select first available utf-8 locale or fail if there isn't any;
+    + use colorit with its default configuration.
 
- -- Robert Luberda <robert@debian.org>  Sat, 29 Jan 2011 00:00:54 +0100
+ -- Robert Luberda <robert@debian.org>  Wed, 02 Feb 2011 20:20:07 +0100
 
 dictd (1.12.0+dfsg-1) experimental; urgency=low
 
