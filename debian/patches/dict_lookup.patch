@@ -4,8 +4,8 @@ Use colorit with its default configuration.
 
 Index: dictd/dict_lookup
 ===================================================================
---- dictd.orig/dict_lookup	2011-02-02 20:17:55.000000000 +0100
-+++ dictd/dict_lookup	2011-02-02 20:18:01.000000000 +0100
+--- dictd.orig/dict_lookup	2011-02-02 22:28:18.000000000 +0100
++++ dictd/dict_lookup	2011-02-02 22:28:51.000000000 +0100
 @@ -30,7 +30,7 @@
  D_AWK_PROG=${D_AWK_PROG-awk}
  D_XCLIP_PROG=${D_XCLIP_PROG-xclip}
@@ -47,7 +47,7 @@ Index: dictd/dict_lookup
  
 +check_system() {
 +  err=0
-+  for cmd in $D_DICT_CMD $D_XCLIP_PROG; do
++  for cmd in $D_XTERM_CMD $D_XCLIP_PROG; do
 +  	if ! which "$cmd" > /dev/null; then
 +		missing="$missing $cmd"
 +	fi
@@ -93,8 +93,8 @@ Index: dictd/dict_lookup
      D_DICT_CMD="$D_DICT_PROG $D_DICT_SERVER $D_DICT_PORT $D_DICT_DB_OPT"
 Index: dictd/dict_lookup.1.in
 ===================================================================
---- dictd.orig/dict_lookup.1.in	2011-02-02 20:17:55.000000000 +0100
-+++ dictd/dict_lookup.1.in	2011-02-02 20:19:02.000000000 +0100
+--- dictd.orig/dict_lookup.1.in	2011-02-02 22:28:18.000000000 +0100
++++ dictd/dict_lookup.1.in	2011-02-02 22:28:51.000000000 +0100
 @@ -52,7 +52,7 @@
  .TP
  .B D_UTF8_LOCALE

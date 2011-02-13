@@ -1,3 +1,16 @@
+dictd (1.12.0+dfsg-3) unstable; urgency=low
+
+  * Upload to unstable.
+  * debian/rules:
+    + support build-arch and build-indep targets;
+    + make use of dpkg-buildflags, dh_auto_*, dh_autotools_dev* commands;
+    + pass -D_FILE_OFFSET_BITS=64 to CPPFLAGS.
+  * Join Makefile-debcflags.patch, Makefile-clean.patch into Makefile.patch.
+  * Makefile.patch: don't filter `-O' out from CFLAGS any more.
+  * dict_lookup.patch: minor fix.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 13 Feb 2011 15:16:46 +0100
+
 dictd (1.12.0+dfsg-2) experimental; urgency=low
 
   * Merge changes from version 1.11.2+dfsg-4.

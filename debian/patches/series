@@ -1,5 +1,4 @@
-Makefile-debcflags.patch
-Makefile-clean.patch
+Makefile.patch
 dictl-konwert.patch
 man-hyphens.patch
 dictdplugin_popen-g++-4.3compile.patch
