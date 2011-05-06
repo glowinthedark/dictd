@@ -2,8 +2,17 @@ Source: dictd
 Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
-Build-Depends: flex, bison, zlib1g-dev, libltdl-dev, autotools-dev, debhelper (>= 8), libtool, libmaa-dev (>= 1.2.0)
-Standards-Version: 3.9.1
+Build-Depends: autotools-dev,
+               bison,
+               debhelper (>= 8),
+               flex,
+               libltdl-dev,
+               libmaa-dev (>= 1.3.0),
+               libtool,
+               zlib1g-dev
+Standards-Version: 3.9.2
+Vcs-Git: git://git.debian.org/users/robert/dictd.git
+Vcs-Browser: http://git.debian.org/?p=users/robert/dictd.git;a=summary
 Homepage: http://sourceforge.net/projects/dict/
 
 Package: dictd
@@ -23,9 +32,16 @@ Description: dictionary server
  .
  The client program, dict, is packaged separately and is needed on all
  machines that will use the server.
-Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, adduser, dictzip (>= ${source:Upstream-Version}), lsb-base (>= 3.2-13), ucf (>= 3), update-inetd
+Depends: adduser,
+         dictzip (>= ${source:Upstream-Version}),
+         lsb-base (>= 3.2-13),
+         netbase,
+         ucf (>= 3),
+         update-inetd,
+         ${misc:Depends},
+         ${shlibs:Depends}
 Recommends: dict | dict-client
-Suggests: dict-gcide | dictd-dictionary, dict-wn, dict-jargon, dict-foldoc
+Suggests: dict-foldoc, dict-gcide | dictd-dictionary, dict-jargon, dict-wn
 Provides: dict-server
 Conflicts: dict-server
 
@@ -47,8 +63,8 @@ Description: dictionary client
  .
  This package also provides dictl, which allows using UTF-8 encoded dictionaries
  with terminals that do not support UTF-8.
-Depends: ${shlibs:Depends}, ${misc:Depends}, netbase, recode
-Recommends: m4, gawk
+Depends: netbase, recode, ${misc:Depends}, ${shlibs:Depends}
+Recommends: gawk, m4
 Suggests: dictd | dict-server
 Provides: dict-client
 
@@ -62,7 +78,7 @@ Description: compression utility for dictionary databases
  .
  This package also includes dictunzip, to decompress dictzipped files,
  and dictzcat, for viewing dictzipped files.
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Replaces: dictd (<< 1.7.1-1)
 
 Package: dictfmt
@@ -75,5 +91,5 @@ Description: utility to format a file for use by a dictd server
  .
  The package also provides dictunformat, which creates a raw database
  from a dictionary index and a dictionary database.
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Recommends: dictzip

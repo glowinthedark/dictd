@@ -1,123 +1,78 @@
 #!/usr/bin/make -f
-#
-# $Id: rules 147 2011-02-13 14:24:02Z robert $
-#
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
 
-BUILDDIR        := DEB-BUILD
-DH_AUTO_OPTIONS := -v -Sautoconf -B$(BUILDDIR) --parallel
+export BDIR             := BUILD
+export LDFLAGS          := $(shell dpkg-buildflags --get LDFLAGS)  -Wl,--as-needed -Wl,-z,defs 
+export CFLAGS           := $(shell dpkg-buildflags --get CFLAGS)   -Wall
+export CPPFLAGS         := $(shell dpkg-buildflags --get CPPFLAGS) -D_FILE_OFFSET_BITS=64
+export DESTDIR          := debian/tmp
+DH_AUTO_OPTIONS         := -v -Sautoconf -B$(BDIR) --parallel
+MAKEARGS                := JUDYLIB= DBILIB=
 
-DESTDIR         := $(CURDIR)/debian/tmp
+%: force
+	dh "$@"
 
-export CFLAGS   := $(shell dpkg-buildflags --get CFLAGS)   -Wall
-export CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS) -D_FILE_OFFSET_BITS=64
 
-export LDFLAGS  := -Wl,-z,defs -Wl,--as-needed
-LDFLAGS         += $(shell dpkg-buildflags --get LDFLAGS)
+override_dh_auto_build:     $(BDIR)/build-arch-stamp
 
-MAKEARGS        := JUDYLIB= DBILIB=
+override_dh_auto_install:   install-arch
 
-build-arch: $(BUILDDIR)/configure-stamp $(BUILDDIR)/build-arch-stamp
+override_dh_auto_configure: $(BDIR)/configure-stamp
 
-configure: $(BUILDDIR)/configure-stamp
-
-$(BUILDDIR)/configure-stamp:
-	dh_testdir
-	
-	dh_autotools-dev_updateconfig
-	
-	AWK=awk \
-	dh_auto_configure $(DH_AUTO_OPTIONS) -- \
-	                --verbose \
-	                --libexecdir=/usr/lib/dictd \
-	                --datadir=/usr/share/dictd \
-	                --sysconfdir=/etc/dictd
-	
-	touch "$@"
-
-$(BUILDDIR)/build-arch-stamp:
-	dh_testdir
-	
-	dh_auto_build $(DH_AUTO_OPTIONS) -- $(MAKEARGS)
-	dh_auto_test  $(DH_AUTO_OPTIONS)
-	
-	touch "$@"
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f $(BUILDDIR)/configure-stamp $(BUILDDIR)/build-arch-stamp
-	
+override_dh_auto_clean:
+	rm -f $(BDIR)/build-arch-stamp $(BDIR)/build-indep-stamp $(BDIR)/configure-stamp
 	dh_auto_clean  $(DH_AUTO_OPTIONS)
 	
+	rm -f core `find . \( -name '*.orig' -o -name '*.rej' -o -name '*~' \
+	        -o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
+	        -o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
+	
 	dh_autotools-dev_restoreconfig
-	
-	dh_clean
 
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs -A
+$(BDIR)/configure-stamp:
+	dh_autotools-dev_updateconfig
 	
-	dh_auto_install  $(DH_AUTO_OPTIONS) --destdir="$(DESTDIR)" -- $(MAKEARGS)
+	dh_auto_configure $(DH_AUTO_OPTIONS) --     \
+	                --verbose                   \
+	                --libexecdir=/usr/lib/dictd \
+	                --datadir=/usr/share/dictd  \
+	                --sysconfdir=/etc/dictd	    \
+	                -- CFLAGS='$(CFLAGS)'       \
+	                   CPPFLAGS='$(CPPFLAGS)'   \
+	                   LDFLAGS='$(LDFLAGS)'     \
+	                   AWK=awk
 	
+	touch "$@"
+
+$(BDIR)/build-arch-stamp: $(BDIR)/configure-stamp
+	dh_auto_build $(DH_AUTO_OPTIONS) -- $(MAKEARGS)
+	touch "$@"
+
+install-arch: $(BDIR)/build-arch-stamp
+	dh_auto_install $(DH_AUTO_OPTIONS)  -- $(MAKEARGS)
 	rm  $(DESTDIR)/usr/include/dictdplugin.h
 	rm  $(DESTDIR)/usr/bin/dictdplugin-config
-	
-	dh_install --list-missing --sourcedir=$(DESTDIR)
 
-# Build architecture-dependent files here.
-binary-arch: build-arch install
-	dh_testdir
-	dh_testroot
+override_dh_installchangelogs:
 	dh_installchangelogs -k NEWS
-	dh_installdocs
-	dh_installexamples
-	dh_installmenu
-	dh_installdebconf
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installcatalogs
-#	dh_installpam
-#	dh_installmime
+
+override_dh_installinit:
 	dh_installinit -- start 20 2 3 4 5 . stop 20 1 .
-	dh_installman
-#	dh_installcron
-#	dh_installinfo
-#	dh_installwm
-#	dh_installudev
-	dh_lintian
-#	dh_bugfiles
-#	dh_undocumented
-	dh_strip
-	dh_link
-	dh_compress
+
+override_dh_fixperms:
 	dh_fixperms
-	
 	find debian -mindepth 6 -maxdepth 7 -path "*/usr/share/doc/*" \
 	        '!' -name "*.gz" -name "README.*" -exec gzip -9 {} \;
 	find debian -mindepth 4 -maxdepth 5 -path "*/dictd/etc/dictd/*" \
 	        -name dictdconfig.alias -exec chmod 755 {} \;
-	
-	dh_perl
-#	dh_python
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
 
-# Build architecture-independent files here.
-binary-indep build-indep:       # We have nothing to do by default.
-
-binary: binary-arch
-build:  build-arch
+force debian/rules:
 
 
-.PHONY: build build-arch build-indep configure clean binary-indep binary-arch binary install
 
-.DEFAULT_GOAL := binary
+.PHONY: force debian/rules \
+	override_dh_auto_build override_dh_auto_clean                  \
+	override_dh_auto_configure override_dh_auto_install            \
+	override_dh_installchangelogs override_dh_installinit          \
+	override_dh_fixperms                                           \
+	install-arch install-indep

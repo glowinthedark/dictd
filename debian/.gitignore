@@ -1,0 +1,9 @@
+*.debhelper
+*.log
+*.substvars
+dict
+dictd
+dictfmt
+dictzip
+files
+tmp
