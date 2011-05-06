@@ -1,6 +1,7 @@
 dictd (1.12.0+dfsg-4~) UNRELEASED; urgency=low
 
   * Rebuild with the latest libmaa.
+  * Add Danish translation of debconf templates (closes: #624662).
   * debian/control:
     + Standards-Version: 3.9.2 (no changes);
     + reformat dependecy fields with wrap-and-sort command;
@@ -9,7 +10,7 @@ dictd (1.12.0+dfsg-4~) UNRELEASED; urgency=low
   * debian/rules: switch to using debhelper's tiny rules frormat.
   * debian/copyright: change format to DEP-5.
 
- -- Robert Luberda <robert@debian.org>  Fri, 06 May 2011 21:47:41 +0200
+ -- Robert Luberda <robert@debian.org>  Fri, 06 May 2011 21:56:46 +0200
 
 dictd (1.12.0+dfsg-3) unstable; urgency=low
 
