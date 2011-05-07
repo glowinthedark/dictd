@@ -1,0 +1,46 @@
+From: Robert Luberda <robert@debian.org>
+Date: Fri, 6 May 2011 22:49:57 +0200
+Subject: 12 spelling typos2
+
+Fix more spelling typos found by lintian.
+---
+ dictd.8.in   |    4 ++--
+ dictfmt.1.in |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/dictd.8.in b/dictd.8.in
+index 11b13da..f194a32 100644
+--- a/dictd.8.in
++++ b/dictd.8.in
+@@ -410,7 +410,7 @@ differently depending on whether
+ .I OPTION MIME
+ command was received from client or was not,
+ i.e. the database created by this section
+-allows to return to the client either a plain text or
++allows one to return to the client either a plain text or
+ specially formatted content depending on whether DICT client supports
+ (or wants to receive) MIMEized content or doesn't.
+ The
+@@ -1218,7 +1218,7 @@ you can get only 100 ones skipping the first 800 matches.
+ This is made by specified these limits in a query like this:
+ 800#100#app, where 800 is skip count, 100 is a number of matches
+ you want to get and "app" is your query.
+-This strategy allows to implement DICT client with fast autocompletion
++This strategy allows one to implement DICT client with fast autocompletion
+ (although it is not trivial)
+ just like many standalone dictionary programs do.
+ .P
+diff --git a/dictfmt.1.in b/dictfmt.1.in
+index e00b480..867ee62 100644
+--- a/dictfmt.1.in
++++ b/dictfmt.1.in
+@@ -273,7 +273,7 @@ and the input file contains \'autumn%%%fall', both 'autumn' and 'fall'
+ will be indexed as  headwords, with the same definition.
+ .TP
+ .BI \-\-index\-data\-separator " sep"
+-sets the index/data separator, which allows to set the first and fourth
++sets the index/data separator, which allows one to set the first and fourth
+ columns of .index file independently. That is
+ the first column can be treated as an index column
+ (where the MATCH command searches) and the fourth column as a result column
+-- 

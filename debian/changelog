@@ -1,16 +1,22 @@
-dictd (1.12.0+dfsg-4~) UNRELEASED; urgency=low
+dictd (1.12.0+dfsg-4) unstable; urgency=low
 
   * Rebuild with the latest libmaa.
   * Add Danish translation of debconf templates (closes: #624662).
   * debian/control:
     + Standards-Version: 3.9.2 (no changes);
-    + reformat dependecy fields with wrap-and-sort command;
+    + reformat dependency fields with wrap-and-sort command;
     + bump dependency on libmaa-dev to >= 1.3.0;
     + add VCS fields.
-  * debian/rules: switch to using debhelper's tiny rules frormat.
+  * debian/rules: switch to using debhelper's tiny rules format.
   * debian/copyright: change format to DEP-5.
+  * Prefix patch names with a sequential numbers and refresh patches with
+    gbp-pq import/export.
+  * New patches:
+    + 12-spelling-typos2: fix more spelling typos found by lintian;
+    + 13-dictd_virtual-example: fix wrong keyword in dictd_virtual.conf
+      example (closes: #622637).
 
- -- Robert Luberda <robert@debian.org>  Fri, 06 May 2011 21:56:46 +0200
+ -- Robert Luberda <robert@debian.org>  Sat, 07 May 2011 07:20:48 +0200
 
 dictd (1.12.0+dfsg-3) unstable; urgency=low
 

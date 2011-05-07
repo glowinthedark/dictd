@@ -1,11 +1,18 @@
+From: Robert Luberda <robert@debian.org>
+Date: Wed, 23 Jan 2008 23:33:16 +0100
+Subject: 00 Makefile
+
 Add $(DEBCFLAGS), remove -O* from CFLAGS in order to support
 DEB_BUILD_FLAGS variable in debian/rules
+---
+ Makefile.in |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-Index: dictd/Makefile.in
-===================================================================
---- dictd.orig/Makefile.in	2011-02-13 15:01:41.000000000 +0100
-+++ dictd/Makefile.in	2011-02-13 15:03:28.000000000 +0100
-@@ -206,7 +206,7 @@
+diff --git a/Makefile.in b/Makefile.in
+index 1064669..9119c16 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -206,7 +206,7 @@ install.dict: dict
  	$(INSTALL_DATA) dict.1 $(DESTDIR)$(man1_prefix)/ && \
  	$(INSTALL_SCRIPT) dictl $(DESTDIR)$(bindir)/ && \
  	$(INSTALL_DATA) dictl.1 $(DESTDIR)$(man1_prefix)/
@@ -14,7 +21,7 @@ Index: dictd/Makefile.in
  	$(INSTALL_DATA) dict_lookup.1 $(DESTDIR)$(man1_prefix)/
  
  install.colorit: colorit
-@@ -376,7 +376,8 @@
+@@ -376,7 +376,8 @@ clean:
  	-rm -f *.dict *.index
  	-rm -f *.exe *.dll
  	-rm -f test/_* test/testdb.t.txt test/log.txt
@@ -24,3 +31,4 @@ Index: dictd/Makefile.in
  
  recursive-clean: clean
  	@for subdir in `echo $(subdirs)`; do \
+-- 

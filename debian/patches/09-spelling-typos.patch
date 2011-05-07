@@ -1,10 +1,20 @@
-Fix spelling typos found by lintian.
+From: Robert Luberda <robert@debian.org>
+Date: Tue, 4 Jan 2011 23:27:51 +0100
+Subject: 09 spelling typos
 
-Index: dictd/daemon.c
-===================================================================
---- dictd.orig/daemon.c	2011-01-23 10:07:57.000000000 +0100
-+++ dictd/daemon.c	2011-01-23 10:08:22.000000000 +0100
-@@ -253,7 +253,7 @@
+Fix spelling typos found by lintian.
+---
+ daemon.c     |    2 +-
+ dictd.8.in   |    6 +++---
+ dictfmt.1.in |    2 +-
+ dictfmt.c    |    2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/daemon.c b/daemon.c
+index 7154a50..5d9af85 100644
+--- a/daemon.c
++++ b/daemon.c
+@@ -253,7 +253,7 @@ static int daemon_check_range(const char *spec, const char *ip)
        return DICT_DENY;
     }
     if (!*pt) {
@@ -13,11 +23,11 @@ Index: dictd/daemon.c
        return DICT_DENY;
     }
     
-Index: dictd/dictd.8.in
-===================================================================
---- dictd.orig/dictd.8.in	2011-01-23 10:08:09.000000000 +0100
-+++ dictd/dictd.8.in	2011-01-23 10:08:22.000000000 +0100
-@@ -1009,7 +1009,7 @@
+diff --git a/dictd.8.in b/dictd.8.in
+index 1e150ac..11b13da 100644
+--- a/dictd.8.in
++++ b/dictd.8.in
+@@ -1009,7 +1009,7 @@ per database. For example, instead of strategy
  .I lev
  , the strategy
  .I word
@@ -26,7 +36,7 @@ Index: dictd/dictd.8.in
  the multiword phrases but the single words.
  .RE
  .TP
-@@ -1330,13 +1330,13 @@
+@@ -1330,13 +1330,13 @@ Some headwords are used by
  especially
  .P
  .BI 00\-database\-info
@@ -42,11 +52,11 @@ Index: dictd/dictd.8.in
  which is
  returned by SHOW DB command,
  unless it is specified in the configuration file.
-Index: dictd/dictfmt.1.in
-===================================================================
---- dictd.orig/dictfmt.1.in	2011-01-23 10:08:15.000000000 +0100
-+++ dictd/dictfmt.1.in	2011-01-23 10:08:22.000000000 +0100
-@@ -278,7 +278,7 @@
+diff --git a/dictfmt.1.in b/dictfmt.1.in
+index 7c0d071..e00b480 100644
+--- a/dictfmt.1.in
++++ b/dictfmt.1.in
+@@ -278,7 +278,7 @@ columns of .index file independently. That is
  the first column can be treated as an index column
  (where the MATCH command searches) and the fourth column as a result column
  (where the MATCH gets things to be returned),
@@ -55,11 +65,11 @@ Index: dictd/dictfmt.1.in
  The default value for this separator is ASCII symbol " \\034".
  .TP
  .BI \-\-break\-headwords
-Index: dictd/dictfmt.c
-===================================================================
---- dictd.orig/dictfmt.c	2011-01-23 10:07:57.000000000 +0100
-+++ dictd/dictfmt.c	2011-01-23 10:08:22.000000000 +0100
-@@ -840,7 +840,7 @@
+diff --git a/dictfmt.c b/dictfmt.c
+index 4c348fa..f8e80dd 100644
+--- a/dictfmt.c
++++ b/dictfmt.c
+@@ -840,7 +840,7 @@ static void help( FILE *out_stream )
                       Example: autumn%%%fall can be used\n\
                       if '--headword-separator %%%' is supplied",
  "--index-data-separator <sep> sets index/data separator which allows\n\
@@ -68,3 +78,4 @@ Index: dictd/dictfmt.c
                       the default is \"\\034\"",
  "--break-headwords    multiple headwords will be written on separate lines\n\
                       in the .dict file.  For use with '--headword-separator.",
+-- 

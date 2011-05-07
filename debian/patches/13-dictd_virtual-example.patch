@@ -1,0 +1,32 @@
+From: Robert Luberda <robert@debian.org>
+Date: Fri, 6 May 2011 22:51:10 +0200
+Subject: 13 dictd_virtual example
+
+Fix wrong keyword in dictd_virtual.conf example (closes: #622637)
+---
+ examples/dictd_virtual.conf |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/examples/dictd_virtual.conf b/examples/dictd_virtual.conf
+index 6510a49..f3ea2d1 100644
+--- a/examples/dictd_virtual.conf
++++ b/examples/dictd_virtual.conf
+@@ -3,7 +3,7 @@ access {
+ }
+ 
+ # English monolingual dictionaries
+-database en-en {
++database_virtual en-en {
+     name "English monolingual dictionaries"
+     info "--English monolingual dictionaries--"
+ 
+@@ -11,7 +11,7 @@ database en-en {
+ }
+ 
+ # Russian monolingual dictionaries
+-database ru-ru {
++database_virtual ru-ru {
+     name "Russian monolingual dictionaries"
+     info "--- Russian monolingual dictionaries ---"
+ 
+-- 
