@@ -1,27 +1,26 @@
-# French po-debconf translation of dictd
-# Copyright (C) 2006-2009 Debian French l10n team <debian-l10n-french@lists.debian.org>
+# Dutch translation of dictd debconf templates.
+# Copyright (C) 2011 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the dictd package.
+# Jeroen Schot <schot@a-eskwadraat.nl>, 2011.
 #
-# Translators:
-# Jean-Christophe Lacroix <jc.sid@free.fr>, 2009
 msgid ""
 msgstr ""
-"Project-Id-Version: dictd 1.11.1+dfsg-1\n"
+"Project-Id-Version: dictd 1.12.0+dfsg-4\n"
 "Report-Msgid-Bugs-To: dictd@packages.debian.org\n"
 "POT-Creation-Date: 2009-04-06 07:52+0200\n"
-"PO-Revision-Date: 2009-04-06 13:05+0100\n"
-"Last-Translator: Jean-Christophe Lacroix <jc.sid@free.fr>\n"
-"Language-Team: French <debian-l10n-french@lists.debian.org>\n"
-"Language: fr\n"
+"PO-Revision-Date: 2011-12-14 09:35+0100\n"
+"Last-Translator: Jeroen Schot <schot@a-eskwadraat.nl>\n"
+"Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: select
 #. Choices
 #: ../dictd.templates:2001
 msgid "daemon"
-msgstr "démon"
+msgstr "achtergronddienst"
 
 #. Type: select
 #. Choices
@@ -33,13 +32,13 @@ msgstr "inetd"
 #. Choices
 #: ../dictd.templates:2001
 msgid "disabled"
-msgstr "désactivé"
+msgstr "uitgeschakeld"
 
 #. Type: select
 #. Description
 #: ../dictd.templates:2002
 msgid "Method for running dictd:"
-msgstr "Méthode d'exécution de dictd :"
+msgstr "Methode om dictd uit te voeren:"
 
 #. Type: select
 #. Description
@@ -48,11 +47,11 @@ msgid ""
 "The dictd server can be run either as a stand-alone daemon or from inetd. "
 "You can also disable it entirely."
 msgstr ""
-"Le serveur dictd peut être exécuté soit comme démon autonome, soit par "
-"inetd. Il est aussi possible de le désactiver complètement."
+"De dictd-server kan als losstaande achtergronddienst worden uitgevoerd of "
+"vanuit inetd. U kunt hem ook geheel uitschakelen."
 
 #. Type: select
 #. Description
 #: ../dictd.templates:2002
 msgid "It is recommended to run it as a daemon."
-msgstr "Il est recommandé de l'exécuter comme démon."
+msgstr "U wordt aanbevolen om hem als achtergronddienst uit te voeren."

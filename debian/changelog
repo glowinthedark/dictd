@@ -1,3 +1,12 @@
+dictd (1.12.0+dfsg-4.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues. Debconf translations:
+    - Dutch; (Jeroen Schot).  Closes: #652021
+    - Indonesian (Mahyuddin Susanto).  Closes: #661144
+
+ -- Christian Perrier <bubulle@debian.org>  Fri, 09 Mar 2012 07:58:17 +0100
+
 dictd (1.12.0+dfsg-4) unstable; urgency=low
 
   * Rebuild with the latest libmaa.

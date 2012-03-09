@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2011-04-30 17:30+01:00\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,8 +47,8 @@ msgid ""
 "The dictd server can be run either as a stand-alone daemon or from inetd. "
 "You can also disable it entirely."
 msgstr ""
-"Dictd-serveren kan køres enten som en alenestående dæmon eller fra inetd. "
-"Du kan også fuldstændig deaktivere den."
+"Dictd-serveren kan køres enten som en alenestående dæmon eller fra inetd. Du "
+"kan også fuldstændig deaktivere den."
 
 #. Type: select
 #. Description
