@@ -1,11 +1,12 @@
-dictd (1.12.0+dfsg-5) UNRELEASED; urgency=low
+dictd (1.12.0+dfsg-5) unstable; urgency=low
 
+  * 14-dictd.8-typos.patch: Fix typos in dictd(8) man page (closes: #657197).
   * debian/control:
     + Standards-Version: 3.9.3.
     + Update VCS fields.
   * debian/dictd.init: add lsb Description field.
 
- -- Robert Luberda <robert@debian.org>  Sun, 20 May 2012 21:41:45 +0200
+ -- Robert Luberda <robert@debian.org>  Sun, 20 May 2012 21:45:45 +0200
 
 dictd (1.12.0+dfsg-4.1) unstable; urgency=low
 
@@ -53,7 +54,7 @@ dictd (1.12.0+dfsg-2) experimental; urgency=low
 
   * Merge changes from version 1.11.2+dfsg-4.
   * Install the new dict_lookup binary into dict package.
-  * Add dict_lookup.patch: 
+  * Add dict_lookup.patch:
     + check for existance of xterm & xclip commands;
     + select first available utf-8 locale or fail if there isn't any;
     + use colorit with its default configuration.
@@ -65,7 +66,7 @@ dictd (1.12.0+dfsg-1) experimental; urgency=low
   * New upstream release.
   * Add Brazilian Portuguese debconf templates translation (closes: #610408).
   * Bump debhelper to v8.
-  * Switch to the 3.0 (quilt) source format. Drop build dependency on quilt 
+  * Switch to the 3.0 (quilt) source format. Drop build dependency on quilt
     together with the debian/README.source file.
 
  -- Robert Luberda <robert@debian.org>  Sun, 23 Jan 2011 10:40:33 +0100
@@ -75,7 +76,7 @@ dictd (1.11.2+dfsg-4) unstable; urgency=medium
   * md5-64bit.patch: fix invalid definition on uint32 type on 64-bit systems
     (except for alpha), which caused failures when 64-bit dict client tried
     to authenticate a user against 32-bit dictd server (closes: #611203).
-  * Add Brazilian Portuguese debconf templates translation (closes: #610408). 
+  * Add Brazilian Portuguese debconf templates translation (closes: #610408).
 
  -- Robert Luberda <robert@debian.org>  Fri, 28 Jan 2011 23:53:32 +0100
 
@@ -141,8 +142,8 @@ dictd (1.11.1+dfsg-2) unstable; urgency=low
   [ Robert Luberda ]
   * Applied the above patch from Christian.
   * Standards-Version: 3.8.1 (no changes).
-  * Fix too long lines in extended descriptions (lintian). 
-  * Update Polish debconf translations. 
+  * Fix too long lines in extended descriptions (lintian).
+  * Update Polish debconf translations.
 
  -- Robert Luberda <robert@debian.org>  Sat, 02 May 2009 08:56:20 +0200
 
@@ -169,7 +170,7 @@ dictd (1.11.0.dfsg-1) experimental; urgency=low
     + remove dictd.c-alen-init.patch, applied upstream;
     + refresh other patches.
   * dictd.conf: bind to localhost interface only (closes: #357963, #486784).
-  * Made dictd startup more configurable and allow to disable dictd entirely 
+  * Made dictd startup more configurable and allow to disable dictd entirely
     or run it via inetd server (closes: #472533, #386009) (LP: #42285):
     + manage /etc/default/dictd file with debconf and ucf;
     + modify init and postinst/postrm scripts for the above change;
@@ -181,9 +182,9 @@ dictd (1.11.0.dfsg-1) experimental; urgency=low
   * Fix descriptions (lintian).
   * Remove pre-sarge stuff from maintainer scripts.
   * Build-depend on libmaa-dev.
-  * Standards-Version: 3.8.0 (no changes). 
+  * Standards-Version: 3.8.0 (no changes).
   * Build with debhelper v7.
-  * Remove duplicated fields from control (lintian). 
+  * Remove duplicated fields from control (lintian).
 
  -- Robert Luberda <robert@debian.org>  Sat, 10 Jan 2009 18:08:00 +0100
 
@@ -208,7 +209,7 @@ dictd (1.10.10.dfsg-2) unstable; urgency=low
   * dict: recommend gawk which is needed by colorit (closes: #463509).
   * colorit-bashisms.patch: patch from upstream CVS to fix colorit bashisms
     (closes: #464640).
-  * dictfmt.1-man.patch: fix lintian's manpage-has-errors-from-man warning. 
+  * dictfmt.1-man.patch: fix lintian's manpage-has-errors-from-man warning.
   * man-hyphens.patch: updated for one another unquoted hyphen found by
     lintian.
 
@@ -227,7 +228,7 @@ dictd (1.10.10.dfsg-1) unstable; urgency=low
     and remove `-O' from default CFLAGS.
   * dictdplugin_popen-g++-4.3compile.patch: Fix FTBFS with GCC 4.3
     (closes: 454819).
-  * dictd.8-man.patch: Use @SYSCONFDIR@ instead of hard-coded /etc.  
+  * dictd.8-man.patch: Use @SYSCONFDIR@ instead of hard-coded /etc.
   * man-hyphens.patch: Fix lintian's `hyphen-used-as-minus-sign' warning.
   * dictl-translit.patch: Use iconv's //TRANSLIT suffix (closes: #378792).
   * colorit-nopp-fix.patch: Made colorit work with `-pp -'.
@@ -270,7 +271,7 @@ dictd (1.10.2.dfsg-5) unstable; urgency=low
     (closes: #401666).
 
  -- Robert Luberda <robert@debian.org>  Sun, 20 Jan 2008 11:56:44 +0100
- 
+
 dictd (1.10.2.dfsg-4) unstable; urgency=low
 
   * Adopted package (closes: #461566).
