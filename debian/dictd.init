@@ -7,6 +7,9 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      1
 # Short-Description: Start and stop dictionary server daemon
+# Description:       dictd is a TCP-based server that allows a client to
+#                    access dictionary definitions from a set of natural
+#                    language dictionary databases.
 ### END INIT INFO
 #
 # Script to start and stop dictionary server daemon (/usr/sbin/dictd)
@@ -57,7 +60,7 @@ check_runmode()
             exit 0
             ;;
         *)
-           if [ "$verbose" -eq 1 ]; then 
+           if [ "$verbose" -eq 1 ]; then
                 log_failure_msg "Unknown RUN_MODE set in $DEFAULTSFILE: $RUN_MODE"
                 exit 1;
             fi
@@ -73,7 +76,7 @@ check_runmode()
 is_running()
 {
     ! start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null
-}   
+}
 
 #
 # Function that starts the daemon/service
@@ -98,7 +101,7 @@ do_stop()
         start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON || return $?
         rm -f $PIDFILE
         return 0;
-    fi      
+    fi
     return 1
 }
 
@@ -118,9 +121,9 @@ case "$1" in
         log_daemon_msg "Starting $DESC" "$NAME"
         if is_running ; then
             echo -n  " (already running)"
-        else        
+        else
             do_start || status=$?
-        fi      
+        fi
         log_end_msg $status
         ;;
 
@@ -129,9 +132,9 @@ case "$1" in
         log_daemon_msg "Stopping $DESC" "$NAME"
         if is_running ; then
             do_stop || status=$?
-        else        
+        else
             echo -n " (not running)"
-        fi      
+        fi
         log_end_msg $status
         ;;
 
@@ -148,10 +151,10 @@ case "$1" in
         log_daemon_msg "Reloading $DESC configuration" "$NAME"
         if is_running ; then
             do_reload || status=$?
-        else        
+        else
             echo -n " (not running)"
             status=1
-        fi      
+        fi
         log_end_msg $status
         ;;
 

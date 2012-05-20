@@ -1,3 +1,12 @@
+dictd (1.12.0+dfsg-5) UNRELEASED; urgency=low
+
+  * debian/control:
+    + Standards-Version: 3.9.3.
+    + Update VCS fields.
+  * debian/dictd.init: add lsb Description field.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 20 May 2012 21:41:45 +0200
+
 dictd (1.12.0+dfsg-4.1) unstable; urgency=low
 
   * Non-maintainer upload.
