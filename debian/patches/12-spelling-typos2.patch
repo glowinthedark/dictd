@@ -43,4 +43,3 @@ index e00b480..867ee62 100644
  columns of .index file independently. That is
  the first column can be treated as an index column
  (where the MATCH command searches) and the fourth column as a result column
--- 

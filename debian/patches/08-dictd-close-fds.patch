@@ -6,7 +6,7 @@ Close all file descriptors except for the standard ones not to hang
 dpkg-reconfigure
 ---
  dictd.c |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ 1 file changed, 4 insertions(+)
 
 diff --git a/dictd.c b/dictd.c
 index 74597e3..fccfeee 100644
@@ -23,4 +23,3 @@ index 74597e3..fccfeee 100644
     set_umask ();
     init (argv[0]);
  
--- 

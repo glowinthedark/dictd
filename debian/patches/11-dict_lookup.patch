@@ -6,8 +6,8 @@ Check for existance of xterm & xclip commands.
 Select first available utf-8 locale or fail if there isn't any.
 Use colorit with its default configuration.
 ---
- dict_lookup      |   55 +++++++++++++++++++++++++++++++++++++++++------------
- dict_lookup.1.in |    5 ++-
+ dict_lookup      |   55 +++++++++++++++++++++++++++++++++++++++++-------------
+ dict_lookup.1.in |    5 +++--
  2 files changed, 45 insertions(+), 15 deletions(-)
 
 diff --git a/dict_lookup b/dict_lookup
@@ -130,4 +130,3 @@ index 51934e0..52a1929 100644
  .SH "SEE ALSO"
  .BR dict (1),
  .BR less (1),
--- 

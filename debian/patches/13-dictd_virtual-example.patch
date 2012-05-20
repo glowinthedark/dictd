@@ -5,7 +5,7 @@ Subject: 13 dictd_virtual example
 Fix wrong keyword in dictd_virtual.conf example (closes: #622637)
 ---
  examples/dictd_virtual.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/examples/dictd_virtual.conf b/examples/dictd_virtual.conf
 index 6510a49..f3ea2d1 100644
@@ -29,4 +29,3 @@ index 6510a49..f3ea2d1 100644
      name "Russian monolingual dictionaries"
      info "--- Russian monolingual dictionaries ---"
  
--- 

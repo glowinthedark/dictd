@@ -78,4 +78,3 @@ index 4c348fa..f8e80dd 100644
                       the default is \"\\034\"",
  "--break-headwords    multiple headwords will be written on separate lines\n\
                       in the .dict file.  For use with '--headword-separator.",
--- 

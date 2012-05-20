@@ -5,7 +5,7 @@ Subject: 01 dictl konwert
 Patch for #401666: dictl: doesn't work with DICTL_USE_KONWERT
 ---
  dictl.in |   16 +++++++++++++++-
- 1 files changed, 15 insertions(+), 1 deletions(-)
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/dictl.in b/dictl.in
 index 1b322b7..9bc256a 100755
@@ -34,4 +34,3 @@ index 1b322b7..9bc256a 100755
  }
  
  # for backward compatibility
--- 

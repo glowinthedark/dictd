@@ -5,7 +5,7 @@ Subject: 05 colorit nopp fix
 Made 'colorit -pp -' work
 ---
  colorit.in |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ 1 file changed, 1 insertion(+)
 
 diff --git a/colorit.in b/colorit.in
 index 010ed33..154f214 100755
@@ -19,4 +19,3 @@ index 010ed33..154f214 100755
  	    while (0 < (ret = (pipe | getline))){
  		process_config_line()
  	    }
--- 

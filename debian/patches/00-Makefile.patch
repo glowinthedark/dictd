@@ -6,7 +6,7 @@ Add $(DEBCFLAGS), remove -O* from CFLAGS in order to support
 DEB_BUILD_FLAGS variable in debian/rules
 ---
  Makefile.in |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile.in b/Makefile.in
 index 1064669..9119c16 100644
@@ -31,4 +31,3 @@ index 1064669..9119c16 100644
  
  recursive-clean: clean
  	@for subdir in `echo $(subdirs)`; do \
--- 

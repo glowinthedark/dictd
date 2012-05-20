@@ -4,12 +4,12 @@ Subject: 02 man hyphens
 
 Fix lintian's `hyphen-used-as-minus-sign'
 ---
- colorit.1.in      |    6 ++--
- dict.1.in         |    4 +-
- dictd.8.in        |   28 ++++++++++++------------
- dictfmt.1.in      |   58 ++++++++++++++++++++++++++--------------------------
+ colorit.1.in      |    6 +++---
+ dict.1.in         |    4 ++--
+ dictd.8.in        |   28 +++++++++++++-------------
+ dictfmt.1.in      |   58 ++++++++++++++++++++++++++---------------------------
  dictl.1.in        |    2 +-
- dictunformat.1.in |    8 +++---
+ dictunformat.1.in |    8 ++++----
  6 files changed, 53 insertions(+), 53 deletions(-)
 
 diff --git a/colorit.1.in b/colorit.1.in
@@ -344,4 +344,3 @@ index 3306af6..a6fc114 100644
  .BR "dictfmt (1)").
  .TP
  .B index_filename
--- 

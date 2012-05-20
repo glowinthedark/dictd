@@ -5,7 +5,7 @@ Subject: 06 colorit manpage nopager
 Remove references to pager in colorit man page
 ---
  colorit.1.in |   13 +++----------
- 1 files changed, 3 insertions(+), 10 deletions(-)
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
 diff --git a/colorit.1.in b/colorit.1.in
 index 307a6ea..a13640e 100644
@@ -45,4 +45,3 @@ index 307a6ea..a13640e 100644
  .BI \-\-pp " preprocessor"
  Specify a preprocessor (- for none).
  .SH "FILES"
--- 
