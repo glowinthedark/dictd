@@ -14,7 +14,10 @@ MAKEARGS                := JUDYLIB= DBILIB=
 
 override_dh_auto_build:     $(BDIR)/build-arch-stamp
 
-override_dh_auto_install:   install-arch
+override_dh_auto_install:   $(BDIR)/build-arch-stamp
+	dh_auto_install $(DH_AUTO_OPTIONS)  -- $(MAKEARGS)
+	rm  $(DESTDIR)/usr/include/dictdplugin.h
+	rm  $(DESTDIR)/usr/bin/dictdplugin-config
 
 override_dh_auto_configure: $(BDIR)/configure-stamp
 
@@ -48,10 +51,6 @@ $(BDIR)/build-arch-stamp: $(BDIR)/configure-stamp
 	dh_auto_build $(DH_AUTO_OPTIONS) -- $(MAKEARGS)
 	touch "$@"
 
-install-arch: $(BDIR)/build-arch-stamp
-	dh_auto_install $(DH_AUTO_OPTIONS)  -- $(MAKEARGS)
-	rm  $(DESTDIR)/usr/include/dictdplugin.h
-	rm  $(DESTDIR)/usr/bin/dictdplugin-config
 
 override_dh_installchangelogs:
 	dh_installchangelogs -k NEWS
@@ -74,5 +73,4 @@ force debian/rules:
 	override_dh_auto_build override_dh_auto_clean                  \
 	override_dh_auto_configure override_dh_auto_install            \
 	override_dh_installchangelogs override_dh_installinit          \
-	override_dh_fixperms                                           \
-	install-arch install-indep
+	override_dh_fixperms

@@ -1,12 +1,13 @@
-dictd (1.12.1+dfsg-1~) UNRELEASED; urgency=low
+dictd (1.12.1+dfsg-1) experimental; urgency=low
 
   * New upstream version:
     + fixed "dictl: incorrect handling of apostrophe" (closes: #677868).
   * Remove 13-dictd_virtual-example.patch and 14-dictd.8-typos.patch
     as they were applied by upstream.
   * Merge 12-spelling-typos2.patch into 9-spelling-typos.patch.
+  * Switch to using debhelper v9..
 
- -- Robert Luberda <robert@debian.org>  Thu, 28 Mar 2013 21:02:50 +0100
+ -- Robert Luberda <robert@debian.org>  Thu, 28 Mar 2013 22:18:27 +0100
 
 dictd (1.12.0+dfsg-5) unstable; urgency=low
 
