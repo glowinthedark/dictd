@@ -8,7 +8,7 @@ Patch for  #378792: dictl should use iconv's //translit suffix
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dictl.in b/dictl.in
-index 9bc256a..da46b21 100755
+index 3c18e15..4dae75f 100755
 --- a/dictl.in
 +++ b/dictl.in
 @@ -20,7 +20,7 @@ if test -z "$DICTL_CHARSET"; then

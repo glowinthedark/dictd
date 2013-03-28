@@ -65,7 +65,7 @@ index 6705cff..2e281b0 100644
  .B localhost
  and on
 diff --git a/dictd.8.in b/dictd.8.in
-index 671f5d2..1e150ac 100644
+index 5007440..6d7f1f9 100644
 --- a/dictd.8.in
 +++ b/dictd.8.in
 @@ -662,7 +662,7 @@ multiple invocations of this option may be made in configuration file
@@ -118,7 +118,7 @@ index 671f5d2..1e150ac 100644
  .P
 -.BI 00-database-info
 +.BI 00\-database\-info
- Containts the informarion about database
+ Containts the information about database
  which is 
  returned by SHOW INFO command,
  unless it is specified in the configuration file.

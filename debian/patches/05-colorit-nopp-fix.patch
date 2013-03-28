@@ -8,10 +8,10 @@ Made 'colorit -pp -' work
  1 file changed, 1 insertion(+)
 
 diff --git a/colorit.in b/colorit.in
-index 010ed33..154f214 100755
+index fb8a404..27f5481 100755
 --- a/colorit.in
 +++ b/colorit.in
-@@ -167,6 +167,7 @@ convert_files_to_stdout (){
+@@ -169,6 +169,7 @@ convert_files_to_stdout (){
  
      function process_config (){
  	if (pp == ""){

@@ -8,7 +8,7 @@ Patch for #401666: dictl: doesn't work with DICTL_USE_KONWERT
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/dictl.in b/dictl.in
-index 1b322b7..9bc256a 100755
+index 913c7ef..3c18e15 100755
 --- a/dictl.in
 +++ b/dictl.in
 @@ -28,7 +28,21 @@ internal_recode (){

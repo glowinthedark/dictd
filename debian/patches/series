@@ -10,6 +10,3 @@
 09-spelling-typos.patch
 10-md5-64bit.patch
 11-dict_lookup.patch
-12-spelling-typos2.patch
-13-dictd_virtual-example.patch
-14-dictd.8-typos.patch

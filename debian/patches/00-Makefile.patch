@@ -5,22 +5,13 @@ Subject: 00 Makefile
 Add $(DEBCFLAGS), remove -O* from CFLAGS in order to support
 DEB_BUILD_FLAGS variable in debian/rules
 ---
- Makefile.in |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Makefile.in |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile.in b/Makefile.in
-index 1064669..9119c16 100644
+index ea1cb3f..ba6a486 100644
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -206,7 +206,7 @@ install.dict: dict
- 	$(INSTALL_DATA) dict.1 $(DESTDIR)$(man1_prefix)/ && \
- 	$(INSTALL_SCRIPT) dictl $(DESTDIR)$(bindir)/ && \
- 	$(INSTALL_DATA) dictl.1 $(DESTDIR)$(man1_prefix)/
--	$(INSTALL_SCRIPT) dict_lookup $(DESTDIR)$(bindir)/ && \
-+	$(INSTALL_SCRIPT) $(srcdir)/dict_lookup $(DESTDIR)$(bindir)/ && \
- 	$(INSTALL_DATA) dict_lookup.1 $(DESTDIR)$(man1_prefix)/
- 
- install.colorit: colorit
 @@ -376,7 +376,8 @@ clean:
  	-rm -f *.dict *.index
  	-rm -f *.exe *.dll
