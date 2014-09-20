@@ -45,7 +45,7 @@ Files: dict_lookup
 Copyright:
  Copyright (c) 2010  Alexander Vorontsov <vorontsov@imb.invention-machine.com>
  Copyright (c) 2010  Aleksey Cheusov     <vle@gmx.net>
-License:
+License: other
  Permission is hereby granted, free of charge, to any person obtaining
  a copy of this software and associated documentation files (the
  "Software"), to deal in the Software without restriction, including
@@ -71,7 +71,7 @@ Copyright:
  Copyright 1997, 1998 Rickard E. Faith (faith@acm.org)
  Copyright 2002-2008 Aleksey Cheusov (vle@gmx.net)
  Copyright 2000 Robert D. Hilliard <hilliard@debian.org>
-License:
+License: other
  Permission is granted to make and distribute verbatim copies of this
  manual provided the copyright notice and this permission notice are
  preserved on all copies.
