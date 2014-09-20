@@ -1,8 +1,9 @@
-dictd (1.12.1+dfsg-3~) UNRELEASED; urgency=medium
+dictd (1.12.1+dfsg-3) unstable; urgency=medium
 
   * Build-Depends on libtool-bin instead of libtool (closes: #761744).
+  * Standards-Version: 3.9.6 (no changes).
 
- -- Robert Luberda <robert@debian.org>  Sat, 20 Sep 2014 11:39:12 +0200
+ -- Robert Luberda <robert@debian.org>  Sat, 20 Sep 2014 12:01:44 +0200
 
 dictd (1.12.1+dfsg-2) unstable; urgency=low
 

@@ -10,7 +10,7 @@ Build-Depends: autotools-dev,
                libmaa-dev (>= 1.3.0),
                libtool-bin,
                zlib1g-dev
-Standards-Version: 3.9.3
+Standards-Version: 3.9.6
 Vcs-Git: git://anonscm.debian.org/users/robert/dictd.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/robert/dictd.git;a=summary
 Homepage: http://sourceforge.net/projects/dict/
