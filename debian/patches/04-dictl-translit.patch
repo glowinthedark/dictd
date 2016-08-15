@@ -4,7 +4,7 @@ Subject: 04 dictl translit
 
 Patch for  #378792: dictl should use iconv's //translit suffix
 ---
- dictl.in |    2 +-
+ dictl.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dictl.in b/dictl.in

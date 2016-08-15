@@ -6,7 +6,7 @@ Fix invalid definition on uint32 type on 64-bit systems (except for alpha),
 which caused failures when 64-bit dict client tried to authenticate a user
 against 32-bit dictd server (closes: #611203).
 ---
- md5.h |    7 ++-----
+ md5.h | 7 ++-----
  1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/md5.h b/md5.h

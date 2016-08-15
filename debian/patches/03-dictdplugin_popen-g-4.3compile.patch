@@ -4,7 +4,7 @@ Subject: 03 dictdplugin_popen-g++-4.3compile
 
 Patch for #454819: FTBFS with GCC 4.3: missing #includes
 ---
- dictdplugin_popen.cpp |    1 +
+ dictdplugin_popen.cpp | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/dictdplugin_popen.cpp b/dictdplugin_popen.cpp

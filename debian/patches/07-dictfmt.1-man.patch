@@ -5,7 +5,7 @@ Subject: 07 dictfmt.1-man
 Fix the follwing lintian warning:
 W: dictfmt: manpage-has-errors-from-man usr/share/man/man1/dictfmt.1.gz 199: warning: `.br' not defined
 ---
- dictfmt.1.in |    2 +-
+ dictfmt.1.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dictfmt.1.in b/dictfmt.1.in

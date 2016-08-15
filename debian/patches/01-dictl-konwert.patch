@@ -4,7 +4,7 @@ Subject: 01 dictl konwert
 
 Patch for #401666: dictl: doesn't work with DICTL_USE_KONWERT
 ---
- dictl.in |   16 +++++++++++++++-
+ dictl.in | 16 +++++++++++++++-
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/dictl.in b/dictl.in

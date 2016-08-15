@@ -5,7 +5,7 @@ Subject: 00 Makefile
 Add $(DEBCFLAGS), remove -O* from CFLAGS in order to support
 DEB_BUILD_FLAGS variable in debian/rules
 ---
- Makefile.in |    3 ++-
+ Makefile.in | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile.in b/Makefile.in

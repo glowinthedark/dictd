@@ -5,7 +5,7 @@ Subject: 08 dictd close-fds
 Close all file descriptors except for the standard ones not to hang
 dpkg-reconfigure
 ---
- dictd.c |    4 ++++
+ dictd.c | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/dictd.c b/dictd.c

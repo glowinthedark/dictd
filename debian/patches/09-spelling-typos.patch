@@ -4,10 +4,10 @@ Subject: 09 spelling typos
 
 Fix spelling typos found by lintian.
 ---
- daemon.c     |    2 +-
- dictd.8.in   |    8 ++++----
- dictfmt.1.in |    4 ++--
- dictfmt.c    |    2 +-
+ daemon.c     | 2 +-
+ dictd.8.in   | 8 ++++----
+ dictfmt.1.in | 4 ++--
+ dictfmt.c    | 2 +-
  4 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/daemon.c b/daemon.c
