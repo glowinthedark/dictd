@@ -1,3 +1,10 @@
+dictd (1.12.1+dfsg-4~) UNRELEASED; urgency=medium
+
+  * Add 12-no-name-flag.patch to introduce --no-name option for dictzip
+    to help reproducible builds (closes: #776430).
+
+ -- Robert Luberda <robert@debian.org>  Tue, 16 Aug 2016 22:38:06 +0200
+
 dictd (1.12.1+dfsg-3) unstable; urgency=medium
 
   * Build-Depends on libtool-bin instead of libtool (closes: #761744).
