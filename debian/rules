@@ -1,9 +1,10 @@
 #!/usr/bin/make -f
 
 export BDIR             := BUILD
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 export LDFLAGS          := $(shell dpkg-buildflags --get LDFLAGS)  -Wl,--as-needed -Wl,-z,defs 
 export CFLAGS           := $(shell dpkg-buildflags --get CFLAGS)   -Wall
-export CPPFLAGS         := $(shell dpkg-buildflags --get CPPFLAGS) -D_FILE_OFFSET_BITS=64
+export CPPFLAGS         := $(shell dpkg-buildflags --get CPPFLAGS) $(shell getconf LFS_CFLAGS)
 export DESTDIR          := debian/tmp
 DH_AUTO_OPTIONS         := -v -Sautoconf -B$(BDIR) --parallel
 MAKEARGS                := JUDYLIB= DBILIB=

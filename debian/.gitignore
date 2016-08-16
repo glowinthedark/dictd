@@ -1,6 +1,7 @@
 *.debhelper
 *.log
 *.substvars
+*stamp
 dict
 dictd
 dictfmt
