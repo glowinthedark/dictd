@@ -6,6 +6,8 @@ dictd (1.12.1+dfsg-4~) UNRELEASED; urgency=medium
     lintian.
   * debian/rules: enable all hardening options.
   * debian/copyright: make license names unique (lintian).
+  * Fix command-with-path-in-maintainer-script lintian warning, and
+    remove old work-around for bug#510406.
 
  -- Robert Luberda <robert@debian.org>  Tue, 16 Aug 2016 22:38:06 +0200
 

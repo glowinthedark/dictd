@@ -10,15 +10,13 @@ DEFAULTSFILE=/etc/default/$PACKAGE
 
 cleanupUcf() 
 {
-    which ucf >/dev/null && HAS_UCF=yes || HAS_UCF=no
-    which ucfr >/dev/null && HAS_UCFR=yes || HAS_UCFR=no
     # we mimic dpkg as closely as possible, so we remove configuration
     # files with dpkg backup extensions too:
     for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist .dpkg-tmp '';  do
         rm -f "${DEFAULTSFILE}${ext}"
     done
-    [ "$HAS_UCF"  != "yes"  ] || ucf  --purge "$DEFAULTSFILE"
-    [ "$HAS_UCFR" != "yes" ]  || ucfr --purge "$PACKAGE" "$DEFAULTSFILE"
+    ! which ucf  >/dev/null || ucf  --purge "$DEFAULTSFILE"
+    ! which ucfr >/dev/null || ucfr --purge "$PACKAGE" "$DEFAULTSFILE"
 }
 
 #DEBHELPER# 
@@ -39,12 +37,8 @@ case "$1" in
         [ ! -d /etc/dictd ] || rmdir  --ignore-fail-on-non-empty /etc/dictd || true
         cleanupUcf
 
-
-        # remove inetd entry - due to bug#510406 enable it before removal
-        [ ! -x /usr/sbin/update-inetd ] \
-            || { update-inetd --enable "dict" || true; \
-                update-inetd --remove "dict"; }  \
-            || true
+        # remove inetd entry
+        ! which update-inetd >/dev/null || update-inetd --remove "dict" || true
 
         # remove user, group and home directory dictd
         deluser --remove-home dictd >/dev/null 2>&1 || true

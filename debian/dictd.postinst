@@ -45,7 +45,7 @@ case "$1" in
         fi
 
         # Create dictd system user
-        getent passwd dictd > /dev/null || \
+        getent passwd dictd >/dev/null || \
             adduser --quiet --system --home /var/lib/dictd  --no-create-home \
             --gecos 'Dictd Server' --group dictd
 
@@ -53,7 +53,7 @@ case "$1" in
         updateRunMode "$RET"
 
         # Run our config script
-        [ ! -x /usr/sbin/dictdconfig ] || dictdconfig -w
+        ! which dictdconfig >/dev/null || dictdconfig -w
 
 
         ;;
