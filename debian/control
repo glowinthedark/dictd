@@ -2,8 +2,7 @@ Source: dictd
 Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
-Build-Depends: autotools-dev,
-               bison,
+Build-Depends: bison,
                debhelper (>= 11),
                flex,
                libltdl-dev,

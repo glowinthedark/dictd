@@ -29,12 +29,8 @@ override_dh_auto_clean:
 	        -o -name '*.bak' -o -name '#*#' -o -name '.*.orig' -o -name 'config.log' \
 	        -o -name '.*.rej' -o -name '.SUMS' -o -size 0 \) -print` TAGS
 	
-	dh_autotools-dev_restoreconfig
-
 
 $(BDIR)/configure-stamp:
-	dh_autotools-dev_updateconfig
-	
 	dh_auto_configure $(DH_AUTO_OPTIONS) --     \
 	                --verbose                   \
 	                --libexecdir=/usr/lib/dictd \
