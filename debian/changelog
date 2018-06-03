@@ -1,3 +1,9 @@
+dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
+
+  * Rebuild with libmaa-dev 1.4.2.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
+
 dictd (1.12.1+dfsg-4) unstable; urgency=medium
 
   * Add 12-no-name-flag.patch to introduce --no-name option for dictzip
