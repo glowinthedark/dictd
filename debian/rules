@@ -2,16 +2,15 @@
 
 export BDIR             := BUILD
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
-export LDFLAGS          := $(shell dpkg-buildflags --get LDFLAGS)  -Wl,--as-needed -Wl,-z,defs 
+export LDFLAGS          := $(shell dpkg-buildflags --get LDFLAGS)  -Wl,--as-needed -Wl,-z,defs
 export CFLAGS           := $(shell dpkg-buildflags --get CFLAGS)   -Wall
 export CPPFLAGS         := $(shell dpkg-buildflags --get CPPFLAGS) $(shell getconf LFS_CFLAGS)
 export DESTDIR          := debian/tmp
 DH_AUTO_OPTIONS         := -v -Sautoconf -B$(BDIR) --parallel
 MAKEARGS                := JUDYLIB= DBILIB=
 
-%: force
+%:
 	dh "$@"
-
 
 override_dh_auto_build:     $(BDIR)/build-arch-stamp
 
@@ -52,7 +51,6 @@ $(BDIR)/build-arch-stamp: $(BDIR)/configure-stamp
 	dh_auto_build $(DH_AUTO_OPTIONS) -- $(MAKEARGS)
 	touch "$@"
 
-
 override_dh_installchangelogs:
 	dh_installchangelogs -k NEWS
 
@@ -65,13 +63,3 @@ override_dh_fixperms:
 	        '!' -name "*.gz" -name "README.*" -exec gzip -9n {} \;
 	find debian -mindepth 4 -maxdepth 5 -path "*/dictd/etc/dictd/*" \
 	        -name dictdconfig.alias -exec chmod 755 {} \;
-
-force debian/rules:
-
-
-
-.PHONY: force debian/rules \
-	override_dh_auto_build override_dh_auto_clean                  \
-	override_dh_auto_configure override_dh_auto_install            \
-	override_dh_installchangelogs override_dh_installinit          \
-	override_dh_fixperms

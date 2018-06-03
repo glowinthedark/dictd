@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: autotools-dev,
                bison,
-               debhelper (>= 9),
+               debhelper (>= 11),
                flex,
                libltdl-dev,
                libmaa-dev (>= 1.4.2),

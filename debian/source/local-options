@@ -1,1 +1,2 @@
---abort-on-upstream-changes
+abort-on-upstream-changes
+no-unapply-patches

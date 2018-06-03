@@ -1,6 +1,7 @@
 dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
 
   * Rebuild with libmaa-dev 1.4.2.
+  * Bump debhelper's compat level to 11.
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 
