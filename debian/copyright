@@ -1,9 +1,13 @@
-Format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=174
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Contact:
  Aleksey Cheusov <vle@gmx.net>
  Rickard E. Faith <faith@dict.org>
 Source:
  http://sourceforge.net/projects/dict/
+Files-Excluded:
+ doc/rfc2229.txt
+ doc/rfc.ms
+ doc/toc.ms
 
 
 Files: *

@@ -1,4 +1,4 @@
-# control file for the uscan(1) tool
-version=3
-opts=dversionmangle=s/\+dfsg// \
-http://sf.net/dict/dictd-([\d\.]+)\.tar\.gz
+version=4
+
+opts="compression=xz,dversionmangle=s/\+dfsg\d*$//,repack,repacksuffix=+dfsg" \
+ https://qa.debian.org/watch/sf.php/dict/dictd-([\d\.]+)\.tar\.gz

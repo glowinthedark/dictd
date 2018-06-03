@@ -5,6 +5,9 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
   * Remove usage of autotools-dev package (lintian).
   * Switch Vcs fields to salsa.debian.org.
   * Update 09-spelling-typos.patch with fixes for more typos (lintian).
+  * Document files removed from the upstream tarball in Files-Excluded
+    field of debian/copyright (lintian) and update debian/watch for
+    automatic creation of the tarball.
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 
@@ -1351,7 +1354,6 @@ dictd (1.4.8-3) frozen unstable; urgency=low
     at dict.org if the localhost server is not available.
 
  -- Bob Hilliard <hilliard@debian.org>  Sun, 22 Nov 1998 16:18:14 -0500
-
 
 
 dictd (1.4.8-2) unstable; urgency=low
