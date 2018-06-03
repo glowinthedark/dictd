@@ -1,8 +1,8 @@
 From: Robert Luberda <robert@debian.org>
 Date: Sun, 2 Mar 2008 15:05:32 +0100
-Subject: 07 dictfmt.1-man
+Subject: Fix dictfmt.1 man page
 
-Fix the follwing lintian warning:
+Fix the following lintian warning:
 W: dictfmt: manpage-has-errors-from-man usr/share/man/man1/dictfmt.1.gz 199: warning: `.br' not defined
 ---
  dictfmt.1.in | 2 +-

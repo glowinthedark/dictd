@@ -4,6 +4,7 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
   * Bump debhelper's compat level to 11.
   * Remove usage of autotools-dev package (lintian).
   * Switch Vcs fields to salsa.debian.org.
+  * Update 09-spelling-typos.patch with fixes for more typos (lintian).
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 
@@ -668,7 +669,7 @@ dictd (1.9.7-1) unstable; urgency=low
     Added --add-strategy option
     Added ability to define plugins in the configuration file.
     Added ability to define virtual dictionaries in the configuration file.
-    Added keyword 'invisible' for the databse specification of the
+    Added keyword 'invisible' for the database specification of the
     configuration file.
     Various bugfixes and code cleanups.
 

@@ -8,9 +8,9 @@ Fix spelling typos found by lintian.
  daemon.c     | 2 +-
  dictd.8.in   | 8 ++++----
  dictfmt.1.in | 4 ++--
- dictfmt.c    | 2 +-
+ dictfmt.c    | 4 ++--
  plugin.c     | 4 ++--
- 6 files changed, 11 insertions(+), 11 deletions(-)
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/ChangeLog b/ChangeLog
 index 3b4e60f..b107d5e 100644
@@ -96,9 +96,18 @@ index 7c0d071..867ee62 100644
  .TP
  .BI \-\-break\-headwords
 diff --git a/dictfmt.c b/dictfmt.c
-index 4c348fa..fba939d 100644
+index 4c348fa..aec48bb 100644
 --- a/dictfmt.c
 +++ b/dictfmt.c
+@@ -809,7 +809,7 @@ static void help( FILE *out_stream )
+    static const char *help_msg[] = {
+    "Usage: dictfmt -c5|-t|-e|-f|-h|-j|-p [-u url] [-s name] [options] basename",
+    "       dictfmt -i|-I [options]",
+-   "Create a dictionary databse and index file for use by a dictd server",
++   "Create a dictionary database and index file for use by a dictd server",
+    "",
+      "-c5       headwords are preceded by a line containing at least \n\
+                 5 underscore (_) characters",
 @@ -840,7 +840,7 @@ static void help( FILE *out_stream )
                       Example: autumn%%%fall can be used\n\
                       if '--headword-separator %%%' is supplied",
