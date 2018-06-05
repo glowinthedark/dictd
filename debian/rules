@@ -50,9 +50,6 @@ $(BDIR)/build-arch-stamp: $(BDIR)/configure-stamp
 override_dh_installchangelogs:
 	dh_installchangelogs -k NEWS
 
-override_dh_installinit:
-	dh_installinit -- start 20 2 3 4 5 . stop 20 1 .
-
 override_dh_fixperms:
 	dh_fixperms
 	find debian -mindepth 6 -maxdepth 7 -path "*/usr/share/doc/*" \

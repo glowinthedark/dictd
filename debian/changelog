@@ -8,6 +8,8 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
   * Document files removed from the upstream tarball in Files-Excluded
     field of debian/copyright (lintian) and update debian/watch for
     automatic creation of the tarball.
+  * debian/rules: Remove additional arguments passed to dh_installinit
+    (closes: #835257).
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 
