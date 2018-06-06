@@ -10,6 +10,14 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
     automatic creation of the tarball.
   * debian/rules: Remove additional arguments passed to dh_installinit
     (closes: #835257).
+  * Add three patches from Власенко Михаил Викторович:
+    + 14-fix-mime-option.patch not to incorrectly require argument for
+      --mime option (closes: #890948);
+    + 15-mime-with-strategy.patch to fix conflict between --mime
+      and --strategy options (closes: #892253);
+    + 16-combining-greek-ypogegrammeni.patch to mark COMBINING GREEK
+      YPOGEGRAMMENI character as non-alphanumeric (closes: #785640,
+      LP: #1744896).
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 

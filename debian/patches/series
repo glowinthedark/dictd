@@ -12,3 +12,6 @@
 11-dict_lookup.patch
 12-no-name-flag.patch
 13-Fix-compiler-warnings.patch
+14-fix-mime-option.patch
+15-mime-with-strategy.patch
+16-combining-greek-ypogegrammeni.patch
