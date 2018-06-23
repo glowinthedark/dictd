@@ -18,6 +18,7 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
     + 16-combining-greek-ypogegrammeni.patch to mark COMBINING GREEK
       YPOGEGRAMMENI character as non-alphanumeric (closes: #785640,
       LP: #1744896).
+  * Add 17-fix-some-gcc-8-warnings.patch to fix most of GCC-8 warnings.
 
  -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
 
