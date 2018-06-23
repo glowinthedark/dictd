@@ -2,6 +2,7 @@
 *.log
 *.substvars
 *stamp
+autoreconf.*
 dict
 dictd
 dictfmt

@@ -9,7 +9,7 @@ Build-Depends: bison,
                libmaa-dev (>= 1.4.2),
                libtool-bin,
                zlib1g-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.1.4
 Vcs-Git: https://salsa.debian.org/debian/dictd.git
 Vcs-Browser: https://salsa.debian.org/debian/dictd
 Homepage: https://sourceforge.net/projects/dict/

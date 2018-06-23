@@ -1,4 +1,4 @@
-dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
+dictd (1.12.1+dfsg-5) unstable; urgency=medium
 
   * Rebuild with libmaa-dev 1.4.2.
   * Bump debhelper's compat level to 11.
@@ -19,8 +19,9 @@ dictd (1.12.1+dfsg-5~) UNRELEASED; urgency=medium
       YPOGEGRAMMENI character as non-alphanumeric (closes: #785640,
       LP: #1744896).
   * Add 17-fix-some-gcc-8-warnings.patch to fix most of GCC-8 warnings.
+  * Standards-Version: 4.1.4.
 
- -- Robert Luberda <robert@debian.org>  Sun, 03 Jun 2018 17:21:29 +0200
+ -- Robert Luberda <robert@debian.org>  Sat, 23 Jun 2018 23:21:31 +0200
 
 dictd (1.12.1+dfsg-4) unstable; urgency=medium
 

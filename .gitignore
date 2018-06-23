@@ -1,3 +1,5 @@
 *.dh-orig
+*~
 .pc
 BUILD
+autom4te.cache
