@@ -46,7 +46,7 @@ index 157f7af..240176f 100644
  	    default:
  	       PRINTF(DBG_URL,("State = %d, s = %s\n",state,s));
 diff --git a/dictd.c b/dictd.c
-index edc1f42..6fb885a 100644
+index edc1f42..7e93335 100644
 --- a/dictd.c
 +++ b/dictd.c
 @@ -330,6 +330,7 @@ static void xsigprocmask (int how, const sigset_t *set, sigset_t *oset)
@@ -84,7 +84,7 @@ index edc1f42..6fb885a 100644
     flg_set("-min");
  }
  
-+#define CHECK_SYSCALL(x) do { if ((x) < 0) perror(#x); exit(1); } while (0)
++#define CHECK_SYSCALL(x) do { if ((x) < 0) { perror(#x); exit(1); }} while (0)
 +
  static void release_root_privileges( void )
  /* At the spring 1999 Linux Expo in Raleigh, Rik Faith told me that he
@@ -136,14 +136,14 @@ index edc1f42..6fb885a 100644
  
        /* after fork from daemon(3) */
 diff --git a/dictfmt.c b/dictfmt.c
-index aec48bb..e04f1e4 100644
+index aec48bb..d9d2c30 100644
 --- a/dictfmt.c
 +++ b/dictfmt.c
 @@ -1151,6 +1151,8 @@ static int xatoi (const char *nptr)
     return (int) ret;
  }
  
-+#define CHECK_LIBCALL(x) do { if ((x) == NULL) fprintf(stderr, #x " failed\n"); exit(1); } while (0)
++#define CHECK_LIBCALL(x) do { if ((x) == NULL) { fprintf(stderr, #x " failed\n"); exit(1); }} while (0)
 +
  int main( int argc, char **argv )
  {

@@ -1,3 +1,10 @@
+dictd (1.12.1+dfsg-6) unstable; urgency=medium
+
+  * Fix a bug introduced in 17-fix-some-gcc-8-warnings.patch that caused
+    dictd to fail to start in non-inetd mode (closes: #902264, #902266).
+
+ -- Robert Luberda <robert@debian.org>  Sun, 24 Jun 2018 10:19:13 +0200
+
 dictd (1.12.1+dfsg-5) unstable; urgency=medium
 
   * Rebuild with libmaa-dev 1.4.2.
