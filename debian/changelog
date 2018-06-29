@@ -1,6 +1,12 @@
 dictd (1.12.1+dfsg-7~) UNRELEASED; urgency=medium
 
   * Add dependency on $network and $local_fs to init.d file (closes: #902408).
+  * dictd.config: stop the dictd server when the script is called by
+    dpkg-reconfigure. This fixes a long-standing logic error that prevented
+    smooth switching from "daemon" to "inetd" or "disabled" modes (the postinst
+    script tried to restart the server after the new value of the run mode
+    had been already stored, but the init.d script did nothing if the new run
+    mode was different than "daemon").
 
  -- Robert Luberda <robert@debian.org>  Fri, 29 Jun 2018 21:26:00 +0200
 
