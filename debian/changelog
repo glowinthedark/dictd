@@ -7,6 +7,8 @@ dictd (1.12.1+dfsg-7~) UNRELEASED; urgency=medium
     script tried to restart the server after the new value of the run mode
     had been already stored, but the init.d script did nothing if the new run
     mode was different than "daemon").
+  * doc/README.inetd: describe how to switch to the "inetd" mode by means
+    of dpkg-reconfigure command (closes: #900794).
 
  -- Robert Luberda <robert@debian.org>  Fri, 29 Jun 2018 21:26:00 +0200
 

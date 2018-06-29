@@ -3,32 +3,35 @@ author felt it should not be started from inetd.  However, the fast
 processors that are commonly used today make it feasible to start
 dictd from inetd.
 
-     In order to do so, the following steps must be followed:
 
- 1.  The dictd daemon must not be running.  As root, running
-`invoke-rc.d dictd stop' will stop the daemon.  Inserting `exit 0'
-near the top of /etc/init.d/dictd will prevent it from starting on
-bootup.  If you have installed the file-rc package, the same result
-may be achieved by editing /etc/runlevel.conf.
+     On Debian systems this can be accomplished by running as the
+root user the following command:
+	dpkg-reconfigure dictd
+and selecting "inetd" option.  The command will update the $RUN_MODE
+variable in /etc/default/dictd file, and add the following line into
+/etc/inetd.conf:
 
-2.  The following line must be inserted in /etc/inetd.conf:
+dict  stream  tcp  nowait  dictd.dictd  /usr/sbin/tcpd  /usr/sbin/dictd $DICTD_ARGS --inetd
 
-dict      stream  tcp     nowait  root    /usr/sbin/tcpd /usr/sbin/dictd -i
+where $DICTD_ARGS will be replaced with the actual value defined in
+/etc/default/dictd file.  It will also try to apply the changes into
+the system by stopping running dictd daemon, and reloading inetd
+configuration.
 
-     (inetd must be restarted by running `invoke-rc.d /inetd reload' as
-root, or made to re-read its configuration file by sending a SIGHUP
-signal to inetd, to give effect to this configuration change.)
 
-3.  The system access controls must allow the dictd daemon to be
-accessed by processes on the local host.  If /etc/hosts.deny restricts
-access, then /etc/hosts.allow must provide it.  `dictd:localhost' in
-/etc/hosts.allow provides the minimum necessary access.  Refer to the
+	Please note that the system access controls must allow the dictd
+daemon to be accessed by processes on the local host.  If /etc/hosts.deny
+restricts access, then /etc/hosts.allow must provide it.  `dictd:localhost'
+in /etc/hosts.allow provides the minimum necessary access.  Refer to the
 manual page `hosts_access(5)' for more information on access controls.
 
-4.  The dictd configuration file, /etc/dictd/dictd.conf, must allow
-access to dictd by inetd.  If there is no access specification in
-/etc/dictd/dictd.conf there is no restriction on access to the dictd daemon.
-If there is any access specification present, the following line must
-be present to allow access by inetd:
+
+	Additionally the dictd configuration file, /etc/dictd/dictd.conf,
+must allow access to dictd by inetd.  If there is no access specification in
+the file, there is no restriction on access to the dictd daemon.  If there is
+any access specification present, the following line must be present to allow
+access by inetd:
           allow inetd
-This line may be in addition to other "allow xxx" lines.
+This line may be in addition to other "allow xxx" lines.  The default
+configuration file shipped in the Debian dictd package already contains
+the line.
