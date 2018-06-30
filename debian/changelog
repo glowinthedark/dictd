@@ -1,4 +1,4 @@
-dictd (1.12.1+dfsg-7~) UNRELEASED; urgency=medium
+dictd (1.12.1+dfsg-7) unstable; urgency=medium
 
   * Add dependency on $network and $local_fs to init.d file (closes: #902408).
   * dictd.config: stop the dictd server when the script is called by
@@ -13,8 +13,11 @@ dictd (1.12.1+dfsg-7~) UNRELEASED; urgency=medium
     fail with a helpful message if gawk or m4 are not installed; and loose
     relationship on those two packages from "Recommends" to "Suggests"
     (closes: #573608, #860764, LP: #1048062).
+  * Document the lack of paging support in README.Debian for dict: mention
+    that pager was removed by upstream, and suggest a solution based on
+    an old entry from upstream's NEWS file (closes: #856034, LP: #248412).
 
- -- Robert Luberda <robert@debian.org>  Fri, 29 Jun 2018 21:26:00 +0200
+ -- Robert Luberda <robert@debian.org>  Sat, 30 Jun 2018 10:59:18 +0200
 
 dictd (1.12.1+dfsg-6) unstable; urgency=medium
 
