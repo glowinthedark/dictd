@@ -9,6 +9,10 @@ dictd (1.12.1+dfsg-7~) UNRELEASED; urgency=medium
     mode was different than "daemon").
   * doc/README.inetd: describe how to switch to the "inetd" mode by means
     of dpkg-reconfigure command (closes: #900794).
+  * Add 18-colorit-missing-packages.patch to make 'colorit' utility script
+    fail with a helpful message if gawk or m4 are not installed; and loose
+    relationship on those two packages from "Recommends" to "Suggests"
+    (closes: #573608, #860764, LP: #1048062).
 
  -- Robert Luberda <robert@debian.org>  Fri, 29 Jun 2018 21:26:00 +0200
 

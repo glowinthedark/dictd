@@ -63,8 +63,7 @@ Description: dictionary client
  This package also provides dictl, which allows using UTF-8 encoded dictionaries
  with terminals that do not support UTF-8.
 Depends: netbase, recode, ${misc:Depends}, ${shlibs:Depends}
-Recommends: gawk, m4
-Suggests: dictd | dict-server
+Suggests: dictd | dict-server, gawk, m4
 Provides: dict-client
 
 Package: dictzip
