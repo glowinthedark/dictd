@@ -1,3 +1,12 @@
+dictd (1.12.1+dfsg-8) UNRELEASED; urgency=medium
+
+  * Ignore errors of update-inetd --disable/--remove, as update-inetd has
+    recently stared failing on missing /etc/inetd.conf (closes: #906420).
+    This is not done for --add/--enable, basing on the assumption that if
+    user selects inetd-mode only if inetd is already installed.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 19 Aug 2018 10:45:00 +0200
+
 dictd (1.12.1+dfsg-7) unstable; urgency=medium
 
   * Add dependency on $network and $local_fs to init.d file (closes: #902408).

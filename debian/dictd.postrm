@@ -38,7 +38,7 @@ case "$1" in
         cleanupUcf
 
         # remove inetd entry
-        ! which update-inetd >/dev/null || update-inetd --remove "dict" || true
+        ! which update-inetd >/dev/null || update-inetd --remove "dict" >/dev/null 2>&1 || true
 
         # remove user, group and home directory dictd
         deluser --remove-home dictd >/dev/null 2>&1 || true

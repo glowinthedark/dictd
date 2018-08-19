@@ -27,10 +27,13 @@ updateRunMode()
         # Add service to /etc/inetd.conf
         update-inetd \
             --group OTHER \
-            --add "dict\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd"
+            --add "dict\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd" && \
         update-inetd --enable dict
     else
-        update-inetd --disable dict
+        (
+          [ -r /etc/inetd.conf ] || exec 2>/dev/null
+          update-inetd --disable dict || true
+        )
     fi
 }
 
