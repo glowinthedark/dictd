@@ -52,7 +52,7 @@ section.
 .BI \-h " server\fR or " \-\-host " server"
 Specifies the hostname for the DICT server.  Server/port combinations can
 be specified in the configuration file.  If no servers are specified
-in the configuration file or or on the command line, 
+in the configuration file or on the command line,
 .B dict 
 will fail.  (This is a compile-time option, ./configure
 --enable-dictorg, which is disabled by default.)  If IP lookup for a
