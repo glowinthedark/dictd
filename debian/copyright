@@ -17,20 +17,6 @@ Copyright:
 License: GPL-1+ and GPL-2+
 
 
-Files: getopt.c getopt_long.c
-Copyright:
- Copyright (C) 1987-1994 Free Software Foundation, Inc
-License: LGPL-2+
-Comment:
- This file is part of the GNU C Library.  Its master source is NOT part of
- the C library, however.  The master source lives in /gd/gnu/lib.
- .
- The GNU C Library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Library General Public License as
- published by the Free Software Foundation; either version 2 of the
- License, or (at your option) any later version.
-
-
 Files: md5.c
 Copyright:
   written by Colin Plumb in 1993, no copyright is claimed
@@ -92,7 +78,7 @@ Copyright:
  Copyright (C) 2004-2007 Kirk Hilliard <kirk@debian.org>
  Copyright (C) 2007      Julien BLACHE <jblache@debian.org>
  Copyright (C) 2007      Pierre Habouzit <madcoder@debian.org>
- Copyright (C) 2008-2011 Robert Luberda <robert@debian.org>
+ Copyright (C) 2008-2020 Robert Luberda <robert@debian.org>
 License: GPL-2+
 
 License: GPL-2+
@@ -122,20 +108,6 @@ License: GPL-1+
  .
  On Debian systems, the full text of the GNU General Public
  Licenses can be found in the file /usr/share/common-licenses/GPL-1
-
-License: LGPL-2+
- This library is free software; you can redistribute it and/or modify it
- under the terms of the GNU Library General Public License as published
- by the Free Software Foundation; either version 2 of the License, or (at
- your option) any later version.
- .
- This library is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- Library General Public License for more details.
- .
- On Debian systems, the full text of the GNU Library General Public
- Licenses can be found in the file /usr/share/common-licenses/LGPL-2
 
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
