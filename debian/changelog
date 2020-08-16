@@ -7,6 +7,7 @@ dictd (1.13.0+dfsg-1~) UNRELEASED; urgency=medium
     + Rules-Requires-Root: no;
     + Standards-Version: 4.5.0.
   * Update debian/copyright file.
+  * Remove unused debian/doc/dictd.8 file.
 
  -- Robert Luberda <robert@debian.org>  Sun, 16 Aug 2020 23:47:56 +0200
 
