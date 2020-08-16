@@ -3,6 +3,9 @@ dictd (1.13.0+dfsg-1~) UNRELEASED; urgency=medium
   * New upstream version.
   * Add 19-fix-typo-in-man-page.patch to fix double "or" in man page.
   * Build with debhelper v13.
+  * debian/control:
+    + Rules-Requires-Root: no;
+    + Standards-Version: 4.5.0.
 
  -- Robert Luberda <robert@debian.org>  Sun, 16 Aug 2020 23:47:56 +0200
 
