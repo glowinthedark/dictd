@@ -1,16 +1,14 @@
 From: Robert Luberda <robert@debian.org>
 Date: Sun, 20 Jan 2008 22:41:37 +0100
-Subject: 02 man hyphens
+Subject: Fix lintian's `hyphen-used-as-minus-sign'
 
-Fix lintian's `hyphen-used-as-minus-sign'
 ---
  colorit.1.in      |  6 +++---
- dict.1.in         |  4 ++--
  dictd.8.in        | 28 +++++++++++++--------------
  dictfmt.1.in      | 58 +++++++++++++++++++++++++++----------------------------
  dictl.1.in        |  2 +-
  dictunformat.1.in |  8 ++++----
- 6 files changed, 53 insertions(+), 53 deletions(-)
+ 5 files changed, 51 insertions(+), 51 deletions(-)
 
 diff --git a/colorit.1.in b/colorit.1.in
 index 4b27ee2..307a6ea 100644
@@ -42,33 +40,11 @@ index 4b27ee2..307a6ea 100644
  .I m4
  and
  .I cpp.
-diff --git a/dict.1.in b/dict.1.in
-index 6705cff..2e281b0 100644
---- a/dict.1.in
-+++ b/dict.1.in
-@@ -55,7 +55,7 @@ be specified in the configuration file.  If no servers are specified
- in the configuration file or or on the command line, 
- .B dict 
- will fail.  (This is a compile-time option, ./configure
----enable-dictorg, which is disabled by default.)  If IP lookup for a
-+\-\-enable\-dictorg, which is disabled by default.)  If IP lookup for a
- server expands to a list of IP addresses (as dict.org does currently),
- then each IP will be tried in the order listed.
- .TP
-@@ -252,7 +252,7 @@ authentication to this particular server.
- .P
- Servers are tried in the order listed until a connection is made.  If none
- of the specified servers are available, and the compile-time option
--(./configure --enable-dictorg) is enabled, then an attempt will be made to
-+(./configure \-\-enable\-dictorg) is enabled, then an attempt will be made to
- connect on
- .B localhost
- and on
 diff --git a/dictd.8.in b/dictd.8.in
-index 5007440..6d7f1f9 100644
+index 292c081..aa87987 100644
 --- a/dictd.8.in
 +++ b/dictd.8.in
-@@ -662,7 +662,7 @@ multiple invocations of this option may be made in configuration file
+@@ -669,7 +669,7 @@ multiple invocations of this option may be made in configuration file
  or dictd command
  line.  For instance:
  .br
@@ -77,7 +53,7 @@ index 5007440..6d7f1f9 100644
  .br
  is a valid command line, and sets three logging options.
  .RS
-@@ -818,7 +818,7 @@ then the dictd server will not be compliant to RFC 2229.
+@@ -825,7 +825,7 @@ then the dictd server will not be compliant to RFC 2229.
  .P
  .BI NOTE 
  If utf-8 or 8-bit dictionaries are included in the configuration file,
@@ -86,7 +62,7 @@ index 5007440..6d7f1f9 100644
  .B dictd
  will fail to start.  This implies that
  .B dictd 
-@@ -922,7 +922,7 @@ The database specification describes the database:
+@@ -935,7 +935,7 @@ The database specification describes the database:
  Specifies the filename for the flat text database.
  If the filename does not begin with '.' or '/', it is prepended with
  $datadir/. It is a compile time option. You can change this behaviour
@@ -95,7 +71,7 @@ index 5007440..6d7f1f9 100644
  .TP
  .BI index " string"
  Specifies the filename for the index file.
-@@ -931,14 +931,14 @@ Path matter is similar to that described above in "data" option .
+@@ -944,14 +944,14 @@ Path matter is similar to that described above in "data" option .
  .BI index_suffix " string"
  This is optional index file to make 'suffix'
  search strategy faster (binary search).
@@ -112,7 +88,7 @@ index 5007440..6d7f1f9 100644
  for more information.
  Path matter is similar to that described above in "data" option .
  .TP
-@@ -1329,33 +1329,33 @@ Some headwords are used by
+@@ -1342,33 +1342,33 @@ Some headwords are used by
  .I dictd
  especially
  .P

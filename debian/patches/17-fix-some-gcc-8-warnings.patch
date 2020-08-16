@@ -10,10 +10,10 @@ Subject: Fix some of gcc-8 warnings
  4 files changed, 26 insertions(+), 20 deletions(-)
 
 diff --git a/dict.c b/dict.c
-index 157f7af..240176f 100644
+index 5321c9c..9ef5192 100644
 --- a/dict.c
 +++ b/dict.c
-@@ -1238,7 +1238,7 @@ static const char *client_get_banner( void )
+@@ -1239,7 +1239,7 @@ static const char *client_get_banner( void )
     uname( &uts );
     buffer = xmalloc(256);
     snprintf( buffer, 256,
@@ -22,7 +22,7 @@ index 157f7af..240176f 100644
  	     uts.sysname, uts.release );
     return buffer;
  }
-@@ -1327,7 +1327,7 @@ int main( int argc, char **argv )
+@@ -1330,7 +1330,7 @@ int main( int argc, char **argv )
     const char         *word       = NULL;
     int                doauth      = 1;
     int                docorrect   = 1;
@@ -31,7 +31,7 @@ index 157f7af..240176f 100644
     int                i;
     enum { DEFINE = 0x0001,
  	  MATCH  = 0x0002,
-@@ -1515,11 +1515,11 @@ int main( int argc, char **argv )
+@@ -1526,11 +1526,11 @@ int main( int argc, char **argv )
  	    case 5: *p = '\0'; word = cpy(s);            ++state; s=p+1; break;
  	    case 6: *p = '\0'; database = cpy(s);        ++state; s=p+1; break;
  	    case 7: *p = '\0';
@@ -46,10 +46,10 @@ index 157f7af..240176f 100644
  	    default:
  	       PRINTF(DBG_URL,("State = %d, s = %s\n",state,s));
 diff --git a/dictd.c b/dictd.c
-index edc1f42..7e93335 100644
+index 3073ace..954a6cc 100644
 --- a/dictd.c
 +++ b/dictd.c
-@@ -330,6 +330,7 @@ static void xsigprocmask (int how, const sigset_t *set, sigset_t *oset)
+@@ -333,6 +333,7 @@ static void xsigprocmask (int how, const sigset_t *set, sigset_t *oset)
     }
  }
  
@@ -57,7 +57,7 @@ index edc1f42..7e93335 100644
  static void block_signals (void)
  {
     sigset_t set;
-@@ -340,6 +341,7 @@ static void block_signals (void)
+@@ -343,6 +344,7 @@ static void block_signals (void)
  
     xsigprocmask (SIG_BLOCK, &set, NULL);
  }
@@ -65,7 +65,7 @@ index edc1f42..7e93335 100644
  
  static void unblock_signals (void)
  {
-@@ -1151,12 +1153,12 @@ const char *dict_get_banner( int shortFlag )
+@@ -1154,12 +1156,12 @@ const char *dict_get_banner( int shortFlag )
     shortBuffer = xmalloc(256);
     snprintf(
        shortBuffer, 256,
@@ -80,7 +80,7 @@ index edc1f42..7e93335 100644
        uts.sysname,
        uts.release );
  
-@@ -1256,6 +1258,8 @@ void set_minimal( void )
+@@ -1258,6 +1260,8 @@ void set_minimal( void )
     flg_set("-min");
  }
  
@@ -89,7 +89,7 @@ index edc1f42..7e93335 100644
  static void release_root_privileges( void )
  /* At the spring 1999 Linux Expo in Raleigh, Rik Faith told me that he
   * did not want dictd to be allowed to run as root for any reason.
-@@ -1270,17 +1274,17 @@ static void release_root_privileges( void )
+@@ -1272,17 +1276,17 @@ static void release_root_privileges( void )
        struct passwd *pwd;
  
        if ((pwd = getpwnam("dictd"))) {
@@ -126,7 +126,7 @@ index edc1f42..7e93335 100644
  }
  
  int main (int argc, char **argv, char **envp)
-@@ -1702,7 +1706,7 @@ int main (int argc, char **argv, char **envp)
+@@ -1713,7 +1717,7 @@ int main (int argc, char **argv, char **envp)
  
     if (detach){
        /* become a daemon */
@@ -136,10 +136,10 @@ index edc1f42..7e93335 100644
  
        /* after fork from daemon(3) */
 diff --git a/dictfmt.c b/dictfmt.c
-index aec48bb..d9d2c30 100644
+index b8b7aa9..1cff05e 100644
 --- a/dictfmt.c
 +++ b/dictfmt.c
-@@ -1151,6 +1151,8 @@ static int xatoi (const char *nptr)
+@@ -1136,6 +1136,8 @@ static int xatoi (const char *nptr)
     return (int) ret;
  }
  
@@ -148,7 +148,7 @@ index aec48bb..d9d2c30 100644
  int main( int argc, char **argv )
  {
     int        c;
-@@ -1516,8 +1518,8 @@ int main( int argc, char **argv )
+@@ -1500,8 +1502,8 @@ int main( int argc, char **argv )
  	    buf++;
  	 } else if (strncmp(buffer, "_____",5) == 0) {
  	    buf = (unsigned char *) buffer;

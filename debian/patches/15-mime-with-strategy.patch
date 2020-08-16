@@ -22,10 +22,10 @@ Bugs-Debian: https://bugs.debian.org/892253
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dict.c b/dict.c
-index 3bcee46..157f7af 100644
+index 1f26877..5321c9c 100644
 --- a/dict.c
 +++ b/dict.c
-@@ -1090,7 +1090,7 @@ static void process( void )
+@@ -1091,7 +1091,7 @@ static void process( void )
  	       err_internal( __func__,
  			     "%d matches, but no list\n", cmd_reply.matches );
  

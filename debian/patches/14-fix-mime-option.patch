@@ -17,10 +17,10 @@ Bugs-Debian: https://bugs.debian.org/890948
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dict.c b/dict.c
-index 2b831ec..3bcee46 100644
+index 0635414..1f26877 100644
 --- a/dict.c
 +++ b/dict.c
-@@ -1363,7 +1363,7 @@ int main( int argc, char **argv )
+@@ -1366,7 +1366,7 @@ int main( int argc, char **argv )
        { "debug",      1, 0, 502 },
        { "pipesize",   1, 0, 504 },
        { "client",     1, 0, 505 },

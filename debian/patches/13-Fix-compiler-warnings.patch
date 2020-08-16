@@ -27,10 +27,10 @@ index f4162e6..d1960e3 100644
  static dictServer *s;
  %}
 diff --git a/daemon.c b/daemon.c
-index 5d9af85..72c411f 100644
+index d63e753..445c8c6 100644
 --- a/daemon.c
 +++ b/daemon.c
-@@ -129,23 +129,23 @@ static void daemon_log( int type, const char *format, ... )
+@@ -131,23 +131,23 @@ static void daemon_log( int type, const char *format, ... )
  
     switch (type) {
     case DICT_LOG_TERM:
@@ -64,10 +64,10 @@ index 5d9af85..72c411f 100644
  
     if (dbg_test(DBG_PORT))
 diff --git a/dictd.c b/dictd.c
-index fccfeee..edc1f42 100644
+index fe27e42..3073ace 100644
 --- a/dictd.c
 +++ b/dictd.c
-@@ -315,6 +315,7 @@ static void reload_config (void)
+@@ -318,6 +318,7 @@ static void reload_config (void)
     dict_init_databases (DictConfig);
  }
  
@@ -75,7 +75,7 @@ index fccfeee..edc1f42 100644
  static void xsigaddset (sigset_t *set, int signo)
  {
     if (sigaddset (set, signo)){
-@@ -350,6 +351,7 @@ static void unblock_signals (void)
+@@ -353,6 +354,7 @@ static void unblock_signals (void)
  
     xsigprocmask (SIG_UNBLOCK, &set, NULL);
  }
@@ -134,7 +134,7 @@ index 1cdaf91..b6d1099 100644
           pclose( tmp );
        }
 diff --git a/servparse.y b/servparse.y
-index f6a0304..aedee9d 100644
+index 4d4e0bc..12dd532 100644
 --- a/servparse.y
 +++ b/servparse.y
 @@ -27,6 +27,9 @@

@@ -9,10 +9,10 @@ dpkg-reconfigure
  1 file changed, 4 insertions(+)
 
 diff --git a/dictd.c b/dictd.c
-index 74597e3..fccfeee 100644
+index e91dcd9..fe27e42 100644
 --- a/dictd.c
 +++ b/dictd.c
-@@ -1529,6 +1529,10 @@ int main (int argc, char **argv, char **envp)
+@@ -1528,6 +1528,10 @@ int main (int argc, char **argv, char **envp)
        { 0,                  0, 0, 0  }
     };
  
