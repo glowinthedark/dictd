@@ -3,7 +3,7 @@ Section: text
 Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: bison,
-               debhelper (>= 11),
+               debhelper-compat (= 13),
                flex,
                libltdl-dev,
                libmaa-dev (>= 1.4.2),
@@ -39,6 +39,7 @@ Depends: adduser,
          update-inetd,
          ${misc:Depends},
          ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Recommends: dict | dict-client
 Suggests: dict-foldoc, dict-gcide | dictd-dictionary, dict-jargon, dict-wn
 Provides: dict-server
@@ -63,6 +64,7 @@ Description: dictionary client
  This package also provides dictl, which allows using UTF-8 encoded dictionaries
  with terminals that do not support UTF-8.
 Depends: netbase, recode, ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Suggests: dictd | dict-server, gawk, m4
 Provides: dict-client
 
@@ -77,6 +79,7 @@ Description: compression utility for dictionary databases
  This package also includes dictunzip, to decompress dictzipped files,
  and dictzcat, for viewing dictzipped files.
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Replaces: dictd (<< 1.7.1-1)
 
 Package: dictfmt
@@ -90,4 +93,5 @@ Description: utility to format a file for use by a dictd server
  The package also provides dictunformat, which creates a raw database
  from a dictionary index and a dictionary database.
 Depends: ${misc:Depends}, ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Recommends: dictzip
