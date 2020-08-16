@@ -1,3 +1,9 @@
+dictd (1.13.0+dfsg-1~) UNRELEASED; urgency=medium
+
+  * New upstream version.
+
+ -- Robert Luberda <robert@debian.org>  Sun, 16 Aug 2020 23:47:56 +0200
+
 dictd (1.12.1+dfsg-8) unstable; urgency=medium
 
   * Ignore errors of update-inetd --disable/--remove, as update-inetd has
