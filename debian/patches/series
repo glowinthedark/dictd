@@ -17,3 +17,4 @@
 16-combining-greek-ypogegrammeni.patch
 17-fix-some-gcc-8-warnings.patch
 18-colorit-missing-packages.patch
+19-fix-typo-in-man-page.patch
