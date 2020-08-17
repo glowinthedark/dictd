@@ -1,6 +1,7 @@
-dictd (1.13.0+dfsg-1~) UNRELEASED; urgency=medium
+dictd (1.13.0+dfsg-1) unstable; urgency=low
 
-  * New upstream version.
+  * New upstream version:
+    + contains IPv6 support (closes: #709820, LP: #381324).
   * Add 19-fix-typo-in-man-page.patch to fix double "or" in man page.
   * Build with debhelper v13.
   * debian/control:
@@ -9,7 +10,7 @@ dictd (1.13.0+dfsg-1~) UNRELEASED; urgency=medium
   * Update debian/copyright file.
   * Remove unused debian/doc/dictd.8 file.
 
- -- Robert Luberda <robert@debian.org>  Sun, 16 Aug 2020 23:47:56 +0200
+ -- Robert Luberda <robert@debian.org>  Mon, 17 Aug 2020 09:16:25 +0200
 
 dictd (1.12.1+dfsg-8) unstable; urgency=medium
 
