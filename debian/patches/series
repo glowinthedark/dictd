@@ -18,3 +18,5 @@
 17-fix-some-gcc-8-warnings.patch
 18-colorit-missing-packages.patch
 19-fix-typo-in-man-page.patch
+20-use-bash-in-scripts.patch
+21-fix-acute-accent-in-man.patch

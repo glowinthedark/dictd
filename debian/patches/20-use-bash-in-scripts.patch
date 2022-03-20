@@ -1,0 +1,53 @@
+From: Robert Luberda <robert@debian.org>
+Date: Sun, 20 Mar 2022 12:59:17 +0100
+Subject: Use #/bin/bash in a few shell scripts
+
+Fix the following lintian warnings by forcing bash as a shell:
+
+I: dict: bash-term-in-posix-shell 'function do_esc' [usr/bin/colorit:117]
+I: dict: bash-term-in-posix-shell 'function do_unquote' [usr/bin/colorit:122]
+I: dict: bash-term-in-posix-shell 'function process_config' [usr/bin/colorit:183]
+I: dict: bash-term-in-posix-shell 'function process_config_gensub' [usr/bin/colorit:146]
+I: dict: bash-term-in-posix-shell 'function process_config_line' [usr/bin/colorit:162]
+I: dict: bash-term-in-posix-shell 'function process_config_mark' [usr/bin/colorit:130]
+I: dictfmt: bash-term-in-posix-shell '${PIPESTATUS' [usr/bin/dictfmt_index2suffix:41]
+I: dictfmt: bash-term-in-posix-shell '${PIPESTATUS' [usr/bin/dictfmt_index2word:36]
+I: dictfmt: bash-term-in-posix-shell '${PIPESTATUS[@]}' [usr/bin/dictfmt_index2suffix:41]
+I: dictfmt: bash-term-in-posix-shell '${PIPESTATUS[@]}' [usr/bin/dictfmt_index2word:36]
+I: dictfmt: bash-term-in-posix-shell 'function charlen_utf8' [usr/bin/dictfmt_index2suffix:47]
+---
+ colorit.in              | 2 +-
+ dictfmt_index2suffix.in | 2 +-
+ dictfmt_index2word.in   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/colorit.in b/colorit.in
+index 1d034c1..4e4add0 100755
+--- a/colorit.in
++++ b/colorit.in
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ #
+ # Written by Aleksey Cheusov <vle@gmx.net>
+diff --git a/dictfmt_index2suffix.in b/dictfmt_index2suffix.in
+index fffe5ec..7ca6d30 100644
+--- a/dictfmt_index2suffix.in
++++ b/dictfmt_index2suffix.in
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ #
+ # By Aleksey Cheusov <vle@gmx.net>
+diff --git a/dictfmt_index2word.in b/dictfmt_index2word.in
+index 2791a53..de83c14 100755
+--- a/dictfmt_index2word.in
++++ b/dictfmt_index2word.in
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ #
+ # By Aleksey Cheusov (vle@gmx.net)

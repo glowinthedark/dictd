@@ -1,0 +1,42 @@
+From: Robert Luberda <robert@debian.org>
+Date: Sun, 20 Mar 2022 13:14:42 +0100
+Subject: Fix incorrect acute in dictfmt(1)
+
+Fix the following lintian warnings:
+
+I: dictfmt: acute-accent-in-manual-page usr/share/man/man1/dictfmt.1.gz:195
+I: dictfmt: acute-accent-in-manual-page usr/share/man/man1/dictfmt.1.gz:271
+I: dictfmt: acute-accent-in-manual-page usr/share/man/man1/dictfmt.1.gz:272
+---
+ dictfmt.1.in | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/dictfmt.1.in b/dictfmt.1.in
+index 867ee62..0c0cdc1 100644
+--- a/dictfmt.1.in
++++ b/dictfmt.1.in
+@@ -188,11 +188,11 @@ purpose. ed, awk, or perl scripts are also possible.)
+ .BI \-p 
+ .I
+ FILE 
+-is formatted with `%h' in column 0, followed by a blank, followed by the 
++is formatted with '%h' in column 0, followed by a blank, followed by the
+ .B headword,
+ optionally followed by a line containing `%d' in column 0.  The
+ definition starts on the following line.  The first line beginning
+-\'%h\' and any lines beginning '%d' are stripped from the .dict
++\&'%h' and any lines beginning '%d' are stripped from the .dict
+ file, and '%h ' is stripped from in front of the headword.  All
+ text before the first headword is included in the headers.
+ .B The second line beginning '%h' is taken as the first headword.  
+@@ -268,8 +268,8 @@ Creates the special entry 00-database-case-sensitive.
+ .TP
+ .BI \-\-headword\-separator " sep"
+ sets the headword separator, which allows several words to have the same
+-definition.  For example, if \'\-\-headword\-separator %%%' is given,
+-and the input file contains \'autumn%%%fall', both 'autumn' and 'fall'
++definition.  For example, if '\-\-headword\-separator %%%' is given,
++and the input file contains 'autumn%%%fall', both 'autumn' and 'fall'
+ will be indexed as  headwords, with the same definition.
+ .TP
+ .BI \-\-index\-data\-separator " sep"
