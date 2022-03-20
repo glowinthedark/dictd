@@ -1,3 +1,12 @@
+dictd (1.13.0+dfsg-2) UNRELEASED; urgency=medium
+
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on libmaa-dev.
+    + dictd: Drop versioned constraint on lsb-base and ucf in Depends.
+    + dictzip: Drop versioned constraint on dictd in Replaces.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Mon, 11 Oct 2021 15:03:35 -0000
+
 dictd (1.13.0+dfsg-1) unstable; urgency=low
 
   * New upstream version:

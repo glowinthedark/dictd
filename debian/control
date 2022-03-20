@@ -6,7 +6,7 @@ Build-Depends: bison,
                debhelper-compat (= 13),
                flex,
                libltdl-dev,
-               libmaa-dev (>= 1.4.2),
+               libmaa-dev,
                libtool-bin,
                zlib1g-dev
 Standards-Version: 4.5.0
@@ -34,9 +34,9 @@ Description: dictionary server
  machines that will use the server.
 Depends: adduser,
          dictzip (>= ${source:Upstream-Version}),
-         lsb-base (>= 3.2-13),
+         lsb-base,
          netbase,
-         ucf (>= 3),
+         ucf,
          update-inetd,
          ${misc:Depends},
          ${shlibs:Depends}
@@ -81,7 +81,6 @@ Description: compression utility for dictionary databases
  and dictzcat, for viewing dictzipped files.
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Pre-Depends: ${misc:Pre-Depends}
-Replaces: dictd (<< 1.7.1-1)
 
 Package: dictfmt
 Section: utils
