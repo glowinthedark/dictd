@@ -11,6 +11,7 @@ dictd (1.13.1+dfsg-1~) UNRELEASED; urgency=low
   * Add the following patches to fix lintian warnings:
     + 20-use-bash-in-scripts.patch;
     + 21-fix-acute-accent-in-man.patch.
+  * Add Romanian translation of debconf templates (closes: #1031608).
 
  -- Robert Luberda <robert@debian.org>  Sun, 20 Mar 2022 12:43:45 +0100
 
