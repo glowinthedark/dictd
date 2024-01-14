@@ -1,4 +1,4 @@
-dictd (1.13.1+dfsg-1~) UNRELEASED; urgency=low
+dictd (1.13.1+dfsg-1) unstable; urgency=low
 
   [ Debian Janitor ]
   * Remove constraints unnecessary since buster:
@@ -15,8 +15,9 @@ dictd (1.13.1+dfsg-1~) UNRELEASED; urgency=low
   * Drop dependency on obsolete lsb-base package (lintian).
   * Update 11-dict_lookup.patch and 18-colorit-missing-packages.patch to
     use 'command -v' instead of 'which'. Do the same in maintainer scripts.
+  * Standards-Version: 4.6.2 (no changes).
 
- -- Robert Luberda <robert@debian.org>  Sun, 20 Mar 2022 12:43:45 +0100
+ -- Robert Luberda <robert@debian.org>  Sun, 14 Jan 2024 21:49:53 +0100
 
 dictd (1.13.0+dfsg-1) unstable; urgency=low
 
