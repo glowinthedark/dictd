@@ -34,7 +34,6 @@ Description: dictionary server
  machines that will use the server.
 Depends: adduser,
          dictzip (>= ${source:Upstream-Version}),
-         lsb-base,
          netbase,
          ucf,
          update-inetd,
