@@ -22,7 +22,7 @@ I: dictfmt: bash-term-in-posix-shell 'function charlen_utf8' [usr/bin/dictfmt_in
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/colorit.in b/colorit.in
-index 1d034c1..4e4add0 100755
+index 4d94ad2..188405c 100755
 --- a/colorit.in
 +++ b/colorit.in
 @@ -1,4 +1,4 @@

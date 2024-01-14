@@ -13,7 +13,7 @@ Bugs-Ubuntu: https://bugs.launchpad.net/1048062
  1 file changed, 13 insertions(+)
 
 diff --git a/colorit.in b/colorit.in
-index 27f5481..1d034c1 100755
+index 27f5481..4d94ad2 100755
 --- a/colorit.in
 +++ b/colorit.in
 @@ -76,6 +76,19 @@ if test "_$pp" = "_-"; then
@@ -21,8 +21,8 @@ index 27f5481..1d034c1 100755
  fi
  
 +missing_pkg=""
-+which gawk > /dev/null || missing_pkg="$missing_pkg gawk"
-+[ "$pp" != m4 ] || which m4 > /dev/null || missing_pkg="$missing_pkg m4"
++command -v gawk > /dev/null || missing_pkg="$missing_pkg gawk"
++[ "$pp" != m4 ] || command -v m4 > /dev/null || missing_pkg="$missing_pkg m4"
 +if [ -n "$missing_pkg" ]; then
 +  echo "*********************************************************************"  >&2
 +  echo >&2

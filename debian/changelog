@@ -13,6 +13,8 @@ dictd (1.13.1+dfsg-1~) UNRELEASED; urgency=low
     + 21-fix-acute-accent-in-man.patch.
   * Add Romanian translation of debconf templates (closes: #1031608).
   * Drop dependency on obsolete lsb-base package (lintian).
+  * Update 11-dict_lookup.patch and 18-colorit-missing-packages.patch to
+    use 'command -v' instead of 'which'. Do the same in maintainer scripts.
 
  -- Robert Luberda <robert@debian.org>  Sun, 20 Mar 2022 12:43:45 +0100
 

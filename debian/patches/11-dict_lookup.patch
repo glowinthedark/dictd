@@ -11,7 +11,7 @@ Use colorit with its default configuration.
  2 files changed, 45 insertions(+), 15 deletions(-)
 
 diff --git a/dict_lookup b/dict_lookup
-index 38a311e..0080b08 100644
+index 38a311e..ba61c6b 100644
 --- a/dict_lookup
 +++ b/dict_lookup
 @@ -30,7 +30,7 @@
@@ -57,7 +57,7 @@ index 38a311e..0080b08 100644
 +check_system() {
 +  err=0
 +  for cmd in $D_XTERM_CMD $D_XCLIP_PROG; do
-+		if ! which "$cmd" > /dev/null; then
++		if ! command -v "$cmd" > /dev/null; then
 +		missing="$missing $cmd"
 +	fi
 +  done

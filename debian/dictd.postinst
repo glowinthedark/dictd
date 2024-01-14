@@ -50,7 +50,7 @@ case "$1" in
         updateRunMode "$RET"
 
         # Run our config script
-        ! which dictdconfig >/dev/null || dictdconfig -w
+        ! command -v dictdconfig >/dev/null || dictdconfig -w
 
         ;;
 

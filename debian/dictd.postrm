@@ -15,8 +15,8 @@ cleanupUcf()
     for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist .dpkg-tmp '';  do
         rm -f "${DEFAULTSFILE}${ext}"
     done
-    ! which ucf  >/dev/null || ucf  --purge "$DEFAULTSFILE"
-    ! which ucfr >/dev/null || ucfr --purge "$PACKAGE" "$DEFAULTSFILE"
+    ! command -v ucf  >/dev/null || ucf  --purge "$DEFAULTSFILE"
+    ! command -v ucfr >/dev/null || ucfr --purge "$PACKAGE" "$DEFAULTSFILE"
 }
 
 #DEBHELPER# 
@@ -38,7 +38,7 @@ case "$1" in
         cleanupUcf
 
         # remove inetd entry
-        ! which update-inetd >/dev/null || update-inetd --remove "dict" >/dev/null 2>&1 || true
+        ! command -v update-inetd >/dev/null || update-inetd --remove "dict" >/dev/null 2>&1 || true
 
         # remove user, group and home directory dictd
         deluser --remove-home dictd >/dev/null 2>&1 || true
