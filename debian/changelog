@@ -16,6 +16,9 @@ dictd (1.13.1+dfsg-1.1) unstable; urgency=medium
     - RUN_MODE=inetd enables dictd.socket (socket activation) and disables
       dictd.service.
     - RUN_MODE=disabled disables both units.
+  * Preserve inetd integration on non-systemd systems while avoiding direct
+    systemctl calls from maintainer scripts by using deb-systemd-invoke
+    instead.
 
  -- Kevin Mueller <kevin@urbanfields.net>  Fri, 21 Nov 2025 08:14:35 +0100
 
