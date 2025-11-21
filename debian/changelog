@@ -10,6 +10,13 @@ dictd (1.13.1+dfsg-1.1) unstable; urgency=medium
     - Use a dedicated runtime directory /run/dictd via RuntimeDirectory=.
     (Closes: #1039171)
 
+  [ Kevin Mueller ]
+  * Integrate debconf RUN_MODE with systemd
+    - RUN_MODE=daemon enables dictd.service and disables dictd.socket.
+    - RUN_MODE=inetd enables dictd.socket (socket activation) and disables
+      dictd.service.
+    - RUN_MODE=disabled disables both units.
+
  -- Kevin Mueller <kevin@urbanfields.net>  Fri, 21 Nov 2025 08:14:35 +0100
 
 dictd (1.13.1+dfsg-1) unstable; urgency=low
