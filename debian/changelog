@@ -1,4 +1,6 @@
-dictd (1.13.1+dfsg-2) UNRELEASED; urgency=medium
+dictd (1.13.1+dfsg-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
 
   [ Kevin Mueller ]
   * systemd integration:
@@ -11,7 +13,7 @@ dictd (1.13.1+dfsg-2) UNRELEASED; urgency=medium
   * systemd integration: allow burst service restarts (for upgrades)
     (Closes: #1066189, #1121708)
 
- -- Kevin Mueller <kevin@urbanfields.net>  Fri, 05 Dec 2025 08:27:08 +0100
+ -- Didier Raboud <odyx@debian.org>  Fri, 05 Dec 2025 09:16:15 +0100
 
 dictd (1.13.1+dfsg-1.1) unstable; urgency=medium
 
