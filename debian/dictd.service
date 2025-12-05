@@ -18,6 +18,8 @@ ExecStart=/usr/sbin/dictd $DICTD_ARGS --pid-file=/run/dictd/dictd.pid
 ExecReload=/bin/kill -HUP $MAINPID
 
 Restart=on-failure
+# Allow burst service restarts (useful in upgrades)
+StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target
