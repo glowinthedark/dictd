@@ -1,3 +1,11 @@
+dictd (1.13.1+dfsg-2) UNRELEASED; urgency=medium
+
+  * systemd integration:
+    - drop User= / Group= to reinstate privilege logic the init script always
+      had
+
+ -- Kevin Mueller <kevin@urbanfields.net>  Fri, 05 Dec 2025 08:27:08 +0100
+
 dictd (1.13.1+dfsg-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
