@@ -23,17 +23,53 @@ updateRunMode()
     DICTD_ARGS=""
     . "$DEFAULTSFILE"
 
-    if [ "$RUN_MODE" = "inetd" ] ; then
-        # Add service to /etc/inetd.conf
-        update-inetd \
-            --group OTHER \
-            --add "dict\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd" && \
-        update-inetd --enable dict
+    # systemd present?
+    if [ -d /run/systemd/system ] && command -v deb-systemd-invoke >/dev/null; then
+        case "$RUN_MODE" in
+            daemon)
+                # daemon mode: regular service, no socket
+                deb-systemd-invoke stop dictd.socket >/dev/null 2>&1 || true
+                deb-systemd-invoke disable dictd.socket >/dev/null 2>&1 || true
+
+                deb-systemd-invoke enable dictd.service >/dev/null 2>&1 || true
+                deb-systemd-invoke restart dictd.service >/dev/null 2>&1 || true
+                ;;
+            inetd)
+                # on-demand mode: socket activation only
+                deb-systemd-invoke stop dictd.service >/dev/null 2>&1 || true
+                deb-systemd-invoke disable dictd.service >/dev/null 2>&1 || true
+
+                deb-systemd-invoke enable dictd.socket >/dev/null 2>&1 || true
+                deb-systemd-invoke restart dictd.socket >/dev/null 2>&1 || true
+                ;;
+            disabled)
+                # fully disabled
+                deb-systemd-invoke stop dictd.service dictd.socket >/dev/null 2>&1 || true
+                deb-systemd-invoke disable dictd.service dictd.socket >/dev/null 2>&1 || true
+                ;;
+        esac
+
+        # On systemd, inetd is no longer used for dictd; make sure it’s off.
+        if command -v update-inetd >/dev/null; then
+            update-inetd --disable dict >/dev/null 2>&1 || true
+        fi
     else
-        (
-          [ -r /etc/inetd.conf ] || exec 2>/dev/null
-          update-inetd --disable dict || true
-        )
+
+        # Non-systemd: keep the old inetd behaviour
+        if command -v update-inetd >/dev/null; then
+            if [ "$RUN_MODE" = "inetd" ] ; then
+                # Add service to /etc/inetd.conf
+                update-inetd \
+                    --group OTHER \
+                    --add "dict\tstream\ttcp\tnowait\tdictd.dictd\t/usr/sbin/tcpd\t/usr/sbin/dictd $DICTD_ARGS --inetd" && \
+                update-inetd --enable dict
+            else
+                (
+                  [ -r /etc/inetd.conf ] || exec 2>/dev/null
+                  update-inetd --disable dict || true
+                )
+            fi
+        fi
     fi
 }
 

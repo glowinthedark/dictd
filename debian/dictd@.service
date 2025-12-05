@@ -1,0 +1,14 @@
+[Unit]
+Description=Dictd dictionary server (socket-activated instance)
+
+[Service]
+User=dictd
+Group=dictd
+
+# inetd-style mode
+ExecStart=/usr/sbin/dictd --inetd
+StandardInput=socket
+StandardOutput=socket
+StandardError=journal
+
+KillMode=process
