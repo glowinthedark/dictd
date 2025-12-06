@@ -1,0 +1,26 @@
+[Unit]
+Description=Dictd dictionary server daemon
+Documentation=man:dictd(8) man:dictdconfig(8)
+After=network.target
+# Allow burst service restarts (useful in upgrades)
+StartLimitIntervalSec=0
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/default/dictd
+
+# Let systemd create /run/dictd owned by dictd:dictd
+RuntimeDirectory=dictd
+RuntimeDirectoryMode=0755
+
+PIDFile=/run/dictd/dictd.pid
+
+# DICTD_ARGS comes from /etc/default/dictd
+ExecStart=/usr/sbin/dictd $DICTD_ARGS --pid-file=/run/dictd/dictd.pid
+ExecReload=/bin/kill -HUP $MAINPID
+SuccessExitStatus=143
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

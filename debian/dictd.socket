@@ -1,0 +1,11 @@
+[Unit]
+Description=Dictd dictionary server socket
+Before=dictd.service
+Conflicts=dictd.service
+
+[Socket]
+ListenStream=2628
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

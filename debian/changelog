@@ -1,3 +1,54 @@
+dictd (1.13.1+dfsg-1.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * systemd integration:
+    - Put StartLimitIntervalSec=0 in [Unit] section, not in [Service]
+      (Fixes #1066189, #1121708 correctly)
+    - Mark 143 as SuccessExitStatus (SIGTERM, as sent by systemd)
+
+ -- Didier Raboud <odyx@debian.org>  Sat, 06 Dec 2025 13:53:17 +0100
+
+dictd (1.13.1+dfsg-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Kevin Mueller ]
+  * systemd integration:
+    - drop User= / Group= to reinstate privilege logic the init script always
+      had
+    - in dictd.config: replace systemctl with deb-systemd-invoke and keep
+      invoke-rc.d fallback (fixes autopkgtests' regression)
+
+  [ Didier Raboud ]
+  * systemd integration: allow burst service restarts (for upgrades)
+    (Closes: #1066189, #1121708)
+
+ -- Didier Raboud <odyx@debian.org>  Fri, 05 Dec 2025 09:16:15 +0100
+
+dictd (1.13.1+dfsg-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Sven Joachim ]
+  * Add native systemd units for dictd
+    - dictd.service for the long-running daemon.
+    - dictd.socket and dictd@.service for socket-activated, inetd-style
+      per-connection instances.
+    - Use a dedicated runtime directory /run/dictd via RuntimeDirectory=.
+    (Closes: #1039171)
+
+  [ Kevin Mueller ]
+  * Integrate debconf RUN_MODE with systemd
+    - RUN_MODE=daemon enables dictd.service and disables dictd.socket.
+    - RUN_MODE=inetd enables dictd.socket (socket activation) and disables
+      dictd.service.
+    - RUN_MODE=disabled disables both units.
+  * Preserve inetd integration on non-systemd systems while avoiding direct
+    systemctl calls from maintainer scripts by using deb-systemd-invoke
+    instead.
+
+ -- Kevin Mueller <kevin@urbanfields.net>  Fri, 21 Nov 2025 08:14:35 +0100
+
 dictd (1.13.1+dfsg-1) unstable; urgency=low
 
   [ Debian Janitor ]
