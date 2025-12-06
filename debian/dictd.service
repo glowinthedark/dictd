@@ -18,6 +18,7 @@ PIDFile=/run/dictd/dictd.pid
 # DICTD_ARGS comes from /etc/default/dictd
 ExecStart=/usr/sbin/dictd $DICTD_ARGS --pid-file=/run/dictd/dictd.pid
 ExecReload=/bin/kill -HUP $MAINPID
+SuccessExitStatus=143
 
 Restart=on-failure
 

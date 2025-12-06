@@ -3,6 +3,7 @@ dictd (1.13.1+dfsg-1.3) UNRELEASED; urgency=medium
   * systemd integration:
     - Put StartLimitIntervalSec=0 in [Unit] section, not in [Service]
       (Fixes #1066189, #1121708 correctly)
+    - Mark 143 as SuccessExitStatus (SIGTERM, as sent by systemd)
 
  -- Didier Raboud <odyx@debian.org>  Fri, 05 Dec 2025 22:36:20 +0100
 
