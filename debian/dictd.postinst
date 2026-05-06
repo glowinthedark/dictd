@@ -41,11 +41,6 @@ updateRunMode()
 
 case "$1" in
      configure)
-        # Create dictd system user
-        getent passwd dictd >/dev/null || \
-            adduser --quiet --system --home /var/lib/dictd  --no-create-home \
-            --gecos 'Dictd Server' --group dictd
-
         db_get dictd/run_mode || true
         updateRunMode "$RET"
 

@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Robert Luberda <robert@debian.org>
 Build-Depends: bison,
                debhelper-compat (= 13),
+               dh-sequence-installsysusers,
                flex,
                libltdl-dev,
                libmaa-dev,
@@ -32,8 +33,7 @@ Description: dictionary server
  .
  The client program, dict, is packaged separately and is needed on all
  machines that will use the server.
-Depends: adduser,
-         dictzip (>= ${source:Upstream-Version}),
+Depends: dictzip (>= ${source:Upstream-Version}),
          netbase,
          ucf,
          update-inetd,
