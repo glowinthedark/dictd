@@ -517,7 +517,7 @@ static void dict_plugin_dlsym (dictPlugin *plugin)
        !plugin -> dictdb_error ||
        !plugin -> dictdb_close)
    {
-      PRINTF(DBG_INIT, (":I:     faild\n"));
+      PRINTF(DBG_INIT, (":I:     failed\n"));
       exit (1);
    }
 }
@@ -543,7 +543,7 @@ static dictPlugin *create_plugin (
    PRINTF(DBG_INIT, (":I:     opening plugin\n"));
    plugin -> handle = lt_dlopen (plugin_filename);
    if (!plugin -> handle){
-      PRINTF(DBG_INIT, (":I:     faild: %s\n", dlerror ()));
+      PRINTF(DBG_INIT, (":I:     failed: %s\n", dlerror ()));
       exit (1);
    }
 

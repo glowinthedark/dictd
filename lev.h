@@ -118,7 +118,7 @@ static int dict_search_lev_utf8 (
    mbstate_t ps;
    int       count = 0;
    const char *pt;
-   dictWord   *datum;
+   /*dictWord   *datum;*/
 
    const char *p;
    char *d;
@@ -127,7 +127,7 @@ static int dict_search_lev_utf8 (
    size_t i;
    set_Set    s    = set_create (NULL,NULL);
 
-   LEV_VARS
+   /*LEV_VARS*/
 
    assert (alphabet);
 

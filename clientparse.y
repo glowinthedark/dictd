@@ -22,6 +22,9 @@
 #include "dict.h"
 #define YYDEBUG 1
 #define YYERROR_VERBOSE
+extern int  yylex( void );
+extern int  yydebug;
+extern void yyerror( const char *message );
 
 static dictServer *s;
 %}

@@ -1091,7 +1091,7 @@ static void process( void )
 	       err_internal( __func__,
 			     "%d matches, but no list\n", cmd_reply.matches );
 
-	    for (i = cmd_reply.matches; i > 0; --i) {
+	    for (i = cmd_reply.matches + option_mime; i > 0; --i) {
 	       /* skip MIME header */
 	       const char *line = lst_nth_get( cmd_reply.data, i );
 	       arg_List   a;
@@ -1239,7 +1239,7 @@ static const char *client_get_banner( void )
    uname( &uts );
    buffer = xmalloc(256);
    snprintf( buffer, 256,
-	     "%s %s/rf on %s %s", err_program_name (), id_string (),
+	     "%s %.50s/rf on %s %s", err_program_name (), id_string (),
 	     uts.sysname, uts.release );
    return buffer;
 }
@@ -1330,7 +1330,7 @@ int main( int argc, char **argv )
    const char         *word       = NULL;
    int                doauth      = 1;
    int                docorrect   = 1;
-   int                offset      = 0;
+   /*int                offset      = 0;*/
    int                i;
    enum { DEFINE = 0x0001,
 	  MATCH  = 0x0002,
@@ -1366,7 +1366,7 @@ int main( int argc, char **argv )
       { "debug",      1, 0, 502 },
       { "pipesize",   1, 0, 504 },
       { "client",     1, 0, 505 },
-      { "mime",       1, 0, 'M' },
+      { "mime",       0, 0, 'M' },
       { "formatted",  0, 0, 'f' },
       { "flush",      0, 0, 'F' },
       { 0,            0, 0,  0  }
@@ -1526,11 +1526,11 @@ int main( int argc, char **argv )
 	    case 5: *p = '\0'; word = cpy(s);            ++state; s=p+1; break;
 	    case 6: *p = '\0'; database = cpy(s);        ++state; s=p+1; break;
 	    case 7: *p = '\0';
-	       if (function == DEFINE) offset = atoi(s);
+	       if (function == DEFINE) /*offset = atoi(s)*/;
 	       else                    strategy = cpy(s);
 	                                                 ++state; s=p+1; break;
 	    case 8: *p = '\0';
-	       if (function == MATCH) offset = atoi(s); ++state; s=p+1; break;
+	       if (function == MATCH) { /*offset = atoi(s)*/; ++state; s=p+1; break; }
 				/* FALLTHROUGH */
 	    default:
 	       PRINTF(DBG_URL,("State = %d, s = %s\n",state,s));

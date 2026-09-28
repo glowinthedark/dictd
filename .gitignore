@@ -3,3 +3,4 @@
 .pc
 BUILD
 autom4te.cache
+/.applied-patches

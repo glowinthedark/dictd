@@ -127,7 +127,8 @@ void dict_data_print_header( FILE *str, dictData *header )
 }
 
 int dict_data_zip( const char *inFilename, const char *outFilename,
-		   const char *preFilter, const char *postFilter )
+		   const char *preFilter, const char *postFilter,
+		   int nonameFlag )
 {
    char          inBuffer[IN_BUFFER_SIZE];
    char          outBuffer[OUT_BUFFER_SIZE];
@@ -162,11 +163,16 @@ int dict_data_zip( const char *inFilename, const char *outFilename,
       err_fatal_errno( __func__,
 		       "Cannot open \"%s\"for write\n", outFilename );
 
-   origFilename = xmalloc( strlen( inFilename ) + 1 );
-   if ((pt = strrchr( inFilename, '/' )))
-      strcpy( origFilename, pt + 1 );
-   else
-      strcpy( origFilename, inFilename );
+   if (nonameFlag) {
+      origFilename = xmalloc( 1 );
+      origFilename[0] = '\0';
+   } else {
+      origFilename = xmalloc( strlen( inFilename ) + 1 );
+      if ((pt = strrchr( inFilename, '/' )))
+         strcpy( origFilename, pt + 1 );
+      else
+         strcpy( origFilename, inFilename );
+   }
 
    /* Initialize compression engine */
    zStream.zalloc    = NULL;
@@ -210,10 +216,12 @@ int dict_data_zip( const char *inFilename, const char *outFilename,
 #if HEADER_CRC
    header[GZ_FLG]        |= GZ_FHCRC;
 #endif
-   header[GZ_MTIME+3]    = (st.st_mtime & 0xff000000) >> 24;
-   header[GZ_MTIME+2]    = (st.st_mtime & 0x00ff0000) >> 16;
-   header[GZ_MTIME+1]    = (st.st_mtime & 0x0000ff00) >>  8;
-   header[GZ_MTIME+0]    = (st.st_mtime & 0x000000ff) >>  0;
+   if (!nonameFlag) {
+      header[GZ_MTIME+3]    = (st.st_mtime & 0xff000000) >> 24;
+      header[GZ_MTIME+2]    = (st.st_mtime & 0x00ff0000) >> 16;
+      header[GZ_MTIME+1]    = (st.st_mtime & 0x0000ff00) >>  8;
+      header[GZ_MTIME+0]    = (st.st_mtime & 0x000000ff) >>  0;
+   }
    header[GZ_XFL]        = GZ_MAX;
    header[GZ_OS]         = GZ_OS_UNIX;
    header[GZ_XLEN+1]     = (extraLength & 0xff00) >> 8;
@@ -328,10 +336,8 @@ int dict_data_zip( const char *inFilename, const char *outFilename,
 static const char *id_string (void)
 {
    static char buffer[BUFFERSIZE];
-   char        *pt;
 
    snprintf( buffer, BUFFERSIZE, "%s", DICT_VERSION );
-   pt = buffer + strlen( buffer );
 
    return buffer;
 }
@@ -376,6 +382,7 @@ static void help( void )
       "",
       "-d --decompress      decompress",
       "-f --force           force overwrite of output file",
+      "-n --no-name         don't save the original filename and timestamp",
       "-h --help            give this help",
       "-k --keep            do not delete original file",
       "-l --list            list compressed file contents",
@@ -409,6 +416,7 @@ int main( int argc, char **argv )
    int           listFlag       = 0;
    int           stdoutFlag     = 0;
    int           testFlag       = 0;
+   int           nonameFlag     = 0;
    char          buffer[BUFFERSIZE];
    char          *buf;
    char          *pre           = NULL;
@@ -426,6 +434,7 @@ int main( int argc, char **argv )
       { "stdout",       0, 0, 'c' },
       { "decompress",   0, 0, 'd' },
       { "force",        0, 0, 'f' },
+      { "no-name",      0, 0, 'n' },
       { "help",         0, 0, 'h' },
       { "keep",         0, 0, 'k' },
       { "list",         0, 0, 'l' },
@@ -463,11 +472,12 @@ int main( int argc, char **argv )
 #endif
 
    while ((c = getopt_long( argc, argv,
-			    "cdfhklLe:E:s:S:tvVD:p:P:",
+			    "cdfnhklLe:E:s:S:tvVD:p:P:",
 			    longopts, NULL )) != EOF)
       switch (c) {
       case 'd': ++decompressFlag;                                      break;
       case 'f': ++forceFlag;                                           break;
+      case 'n': ++nonameFlag;                                          break;
       case 'k': ++keepFlag;                                            break;
       case 'l': ++listFlag;                                            break;
       case 'L': license(); exit( 1 );                                  break;
@@ -542,7 +552,7 @@ int main( int argc, char **argv )
 	 }
       } else {
 	 snprintf( buffer,BUFFERSIZE-1, "%s.dz", argv[i] );
-	 if (!dict_data_zip( argv[i], buffer, pre, post )) {
+	 if (!dict_data_zip( argv[i], buffer, pre, post, nonameFlag )) {
 	    if (!keepFlag && unlink( argv[i] ))
 		err_fatal_errno( __func__, "Cannot unlink %s\n", argv[i] );
 	 } else {

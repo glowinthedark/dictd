@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #
 # Written by Aleksey Cheusov <vle@gmx.net>
@@ -75,6 +75,19 @@ fi
 if test "_$pp" = "_-"; then
    pp=
 fi
+
+missing_pkg=""
+command -v gawk > /dev/null || missing_pkg="$missing_pkg gawk"
+[ "$pp" != m4 ] || command -v m4 > /dev/null || missing_pkg="$missing_pkg m4"
+if [ -n "$missing_pkg" ]; then
+  echo "*********************************************************************"  >&2
+  echo >&2
+  echo " To use 'colorit', please install the following package(s):$missing_pkg" >&2
+  echo >&2
+  echo "*********************************************************************"  >&2
+  exit 1
+fi
+
 
 convert_files_to_stdout (){
     gawk -v config_file="$config_file" -v pp="$pp" '
@@ -169,6 +182,7 @@ convert_files_to_stdout (){
 
     function process_config (){
 	if (pp == ""){
+	    pipe = "cat < \"" config_file "\""
 	    while (0 < (ret = (pipe | getline))){
 		process_config_line()
 	    }

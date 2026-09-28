@@ -95,7 +95,7 @@ void prs_file( const char *filename )
                                  "/usr/ccs/lib/cpp",	/* Solaris */
                                  "/usr/lang/cpp",
                                  0 };
-   static const char *extra_options = "";
+   /*static const char *extra_options = "";*/
    FILE              *tmp;
    
    if (!filename)
@@ -116,7 +116,7 @@ void prs_file( const char *filename )
             if ((t = strchr( buf, '\n' ))) *t = '\0';
             PRINTF(MAA_PARSE,("%s: Using GNU cpp from %s\n", __func__, buf));
             cpp = str_find( buf );
-            extra_options = "-nostdinc -nostdinc++";
+            /*extra_options = "-nostdinc -nostdinc++";*/
          }
          pclose( tmp );
       }
