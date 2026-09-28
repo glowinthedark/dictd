@@ -1,0 +1,244 @@
+name: Release binaries
+
+# Builds dictd for Linux, macOS and Windows from the source of the most
+# recently created release tag and publishes a GitHub release under that tag.
+# Tag selection is chronological (see .github/scripts/resolve-tag.sh).
+
+on:
+  push:
+    # GitHub filter globs: `*` stops at '/', `**` crosses it. Keep in sync
+    # with TAG_PATTERN below (DEP-14 Debian release tags).
+    tags: ['debian/[0-9]**']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Explicit tag to release (empty = latest created tag matching the pattern)'
+        required: false
+        default: ''
+      tag_pattern:
+        description: 'Shell glob for candidate tags; `*` matches `/`'
+        required: false
+        default: 'debian/[0-9]*'
+
+permissions:
+  contents: read
+
+env:
+  TAG_PATTERN: ${{ inputs.tag_pattern || 'debian/[0-9]*' }}
+  LIBMAA_VERSION: '1.5.1'
+  LIBMAA_SHA256: '3a30e25f038e99c4715125545516490d991fe3a505825cc832b1a956e31bf669'
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.r.outputs.tag }}
+      safe: ${{ steps.r.outputs.safe }}
+      sha: ${{ steps.r.outputs.sha }}
+      version: ${{ steps.r.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # full history + all tags for creatordate ordering
+          fetch-tags: true
+      - id: r
+        env:
+          TAG_OVERRIDE: ${{ inputs.tag }}
+        run: sh .github/scripts/resolve-tag.sh
+      - run: echo "Releasing \`${{ steps.r.outputs.tag }}\` @ \`${{ steps.r.outputs.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    needs: resolve
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            cc: gcc
+            shell: bash
+          - os: macos-latest
+            platform: macos
+            cc: cc
+            shell: bash
+          - os: windows-latest
+            platform: windows
+            cc: gcc
+            shell: msys2 {0}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    env:
+      TAG: ${{ needs.resolve.outputs.tag }}
+      SAFE: ${{ needs.resolve.outputs.safe }}
+      # Read by the Makefile (PREFIX ?=, CC via $(origin)) and libmaa script.
+      CC: ${{ matrix.cc }}
+      PREFIX: /usr/local
+    steps:
+      # Sources come from the tag; build tooling (Makefile, scripts) from the
+      # workflow commit, since older tags predate them.
+      - name: Checkout tagged source
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.resolve.outputs.sha }}
+          path: src
+      - name: Checkout build tooling
+        uses: actions/checkout@v7
+        with:
+          path: ci
+          sparse-checkout: |
+            Makefile
+            .github/scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Install toolchain (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential bison flex libtool-bin zlib1g-dev patch curl
+
+      - name: Install toolchain (macOS)
+        if: matrix.platform == 'macos'
+        # glibtool; Apple's /usr/bin/libtool is not GNU libtool. Xcode CLT
+        # provides cc, bison, flex, zlib.
+        run: brew install libtool
+
+      - name: Install toolchain (Windows / MSYS2)
+        if: matrix.platform == 'windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MSYS   # POSIX (Cygwin-derived) runtime: dictd needs fork/syslog
+          update: true
+          install: >-
+            gcc make bison flex libtool autoconf patch curl tar zip
+            zlib-devel binutils
+
+      - name: Prepare tree
+        run: |
+          set -eu
+          [ -f src/Makefile ] || cp ci/Makefile src/Makefile
+          # POSIX form of the temp dir (RUNNER_TEMP is a Windows path in MSYS2).
+          tmp=$RUNNER_TEMP
+          command -v cygpath >/dev/null 2>&1 && tmp=$(cygpath -u "$tmp")
+          maa="$tmp/maa"
+          # Persist identical flags for every later make call: a change would
+          # alter the recorded configure args and force a reconfigure.
+          # Only libmaa.a exists under $maa, so -lmaa links statically.
+          {
+            echo "MAA_PREFIX=$maa"
+            echo "CPPFLAGS=-I$maa/include"
+            echo "LDFLAGS=-L$maa/lib"
+          } >> "$GITHUB_ENV"
+
+      - name: Build static libmaa
+        run: sh ci/.github/scripts/build-libmaa.sh "$MAA_PREFIX"
+
+      - name: Build
+        working-directory: src
+        run: |
+          set -eu
+          make check-deps
+          make -j"$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 2)" build
+
+      - name: Test
+        id: test
+        working-directory: src
+        continue-on-error: true   # upstream suite has host-dependent banner checks
+        run: make test
+
+      - name: Stage and package
+        id: pkg
+        working-directory: src
+        run: |
+          set -eu
+          arch=$(uname -m)
+          case $arch in aarch64) arch=arm64 ;; amd64) arch=x86_64 ;; esac
+          name="dictd-$SAFE-${{ matrix.platform }}-$arch"
+          stage="$RUNNER_TEMP/stage"
+          root="$stage/$name"
+          rm -rf "$stage"
+          make install DESTDIR="$stage/destdir"
+          mkdir -p "$root"
+          cp -R "$stage/destdir$PREFIX/." "$root/"
+          # Plugin SDK is irrelevant to end users (Debian drops it too).
+          rm -rf "$root/include" "$root/bin/dictdplugin-config"
+          find "$root" -type d -empty -delete
+          cp COPYING README NEWS "$root/" 2>/dev/null || true
+
+          bins=$(find "$root/bin" "$root/sbin" -type f \( -name '*.exe' -o -perm -u+x \) 2>/dev/null)
+          case "${{ matrix.platform }}" in
+            linux)
+              for b in $bins; do file "$b" | grep -q ELF || continue
+                ! ldd "$b" | grep -i maa || { echo "::error::$b links libmaa dynamically"; exit 1; }
+              done ;;
+            macos)
+              for b in $bins; do file "$b" | grep -q Mach-O || continue
+                ! otool -L "$b" | grep -i maa || { echo "::error::$b links libmaa dynamically"; exit 1; }
+              done ;;
+            windows)
+              # Windows has no sbin convention and DLLs must sit beside the exe.
+              if [ -d "$root/sbin" ]; then mv "$root/sbin/"* "$root/bin/"; rmdir "$root/sbin"; fi
+              for b in "$root"/bin/*.exe; do
+                ldd "$b" | awk '$3 ~ /^\/usr\/bin\// {print $3}'
+              done | sort -u | while read -r dll; do cp "$dll" "$root/bin/"; done
+              ls "$root/bin" ;;
+          esac
+
+          cd "$stage"
+          if [ "${{ matrix.platform }}" = windows ]; then
+            asset="$name.zip"; zip -qr "$asset" "$name"
+          else
+            asset="$name.tar.gz"; tar -czf "$asset" "$name"
+          fi
+          echo "asset=$stage/$asset" >> "$GITHUB_OUTPUT"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "- \`$asset\` (tests: ${{ steps.test.outcome }})" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Warn on test failure
+        if: steps.test.outcome == 'failure'
+        shell: bash
+        run: echo "::warning::upstream test suite failed on ${{ matrix.platform }}; see Test step"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.pkg.outputs.name }}   # '/'-free by construction
+          path: ${{ steps.pkg.outputs.asset }}
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    needs: [resolve, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-${{ needs.resolve.outputs.safe }}
+      cancel-in-progress: false
+    env:
+      TAG: ${{ needs.resolve.outputs.tag }}
+      SHA: ${{ needs.resolve.outputs.sha }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum -- * > SHA256SUMS && cat SHA256SUMS
+      - name: Publish
+        run: |
+          set -eu
+          # Tag names with '/' are valid release tags; always quote them and
+          # never interpolate into paths or artifact names.
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* \
+              --verify-tag \
+              --title "dictd ${{ needs.resolve.outputs.version }}" \
+              --notes "Binaries built from \`$TAG\` (\`$SHA\`) with Debian patches applied. libmaa is linked statically. Windows builds use the MSYS2 runtime (bundled DLLs)."
+          fi
