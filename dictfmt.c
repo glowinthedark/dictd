@@ -838,7 +838,7 @@ static void help( FILE *out_stream )
                      Example: autumn%%%fall can be used\n\
                      if '--headword-separator %%%' is supplied",
 "--index-data-separator <sep> sets index/data separator which allows\n\
-                     one to explicitly set fourth column in .index file,\n\
+                     to explicitly set fourth column in .index file,\n\
                      the default is \"\\034\"",
 "--break-headwords    multiple headwords will be written on separate lines\n\
                      in the .dict file.  For use with '--headword-separator.",
@@ -1135,8 +1135,6 @@ static int xatoi (const char *nptr)
 
    return (int) ret;
 }
-
-#define CHECK_LIBCALL(x) do { if ((x) == NULL) { fprintf(stderr, #x " failed\n"); exit(1); }} while (0)
 
 int main( int argc, char **argv )
 {
@@ -1502,8 +1500,8 @@ int main( int argc, char **argv )
 	    buf++;
 	 } else if (strncmp(buffer, "_____",5) == 0) {
 	    buf = (unsigned char *) buffer;
-	    CHECK_LIBCALL(fgets (buffer,BSIZE-1,stdin)); /* empty line */
-	    CHECK_LIBCALL(fgets (buffer,BSIZE-1,stdin));
+	    fgets (buffer,BSIZE-1,stdin); /* empty line */
+	    fgets (buffer,BSIZE-1,stdin);
 	    if (strlen(buffer))
 	       buffer[strlen(buffer)-1] = '\0'; /* remove newline */
 

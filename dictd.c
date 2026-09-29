@@ -318,7 +318,6 @@ static void reload_config (void)
    dict_init_databases (DictConfig);
 }
 
-/*
 static void xsigaddset (sigset_t *set, int signo)
 {
    if (sigaddset (set, signo)){
@@ -333,7 +332,6 @@ static void xsigprocmask (int how, const sigset_t *set, sigset_t *oset)
    }
 }
 
-#if 0
 static void block_signals (void)
 {
    sigset_t set;
@@ -344,7 +342,6 @@ static void block_signals (void)
 
    xsigprocmask (SIG_BLOCK, &set, NULL);
 }
-#endif
 
 static void unblock_signals (void)
 {
@@ -356,7 +353,6 @@ static void unblock_signals (void)
 
    xsigprocmask (SIG_UNBLOCK, &set, NULL);
 }
-*/
 
 static void handler( int sig )
 {
@@ -1156,12 +1152,12 @@ const char *dict_get_banner( int shortFlag )
    shortBuffer = xmalloc(256);
    snprintf(
       shortBuffer, 256,
-      "%s %.50s", err_program_name(), id_string () );
+      "%s %s", err_program_name(), id_string () );
 
    longBuffer = xmalloc(256);
    snprintf(
       longBuffer, 256,
-      "%s %.50s/rf on %s %s", err_program_name(), id_string (),
+      "%s %s/rf on %s %s", err_program_name(), id_string (),
       uts.sysname,
       uts.release );
 
@@ -1260,8 +1256,6 @@ void set_minimal( void )
    flg_set("-min");
 }
 
-#define CHECK_SYSCALL(x) do { if ((x) < 0) { perror(#x); exit(1); }} while (0)
-
 static void release_root_privileges( void )
 /* At the spring 1999 Linux Expo in Raleigh, Rik Faith told me that he
  * did not want dictd to be allowed to run as root for any reason.
@@ -1276,17 +1270,17 @@ static void release_root_privileges( void )
       struct passwd *pwd;
 
       if ((pwd = getpwnam("dictd"))) {
-         CHECK_SYSCALL(setgid(pwd->pw_gid));
+         setgid(pwd->pw_gid);
          initgroups("dictd",pwd->pw_gid);
-         CHECK_SYSCALL(setuid(pwd->pw_uid));
+         setuid(pwd->pw_uid);
       } else if ((pwd = getpwnam("nobody"))) {
-         CHECK_SYSCALL(setgid(pwd->pw_gid));
+         setgid(pwd->pw_gid);
          initgroups("nobody",pwd->pw_gid);
-         CHECK_SYSCALL(setuid(pwd->pw_uid));
+         setuid(pwd->pw_uid);
       } else {
-         CHECK_SYSCALL(setgid(GID_NOGROUP));
+         setgid(GID_NOGROUP);
          initgroups("nobody", GID_NOGROUP);
-         CHECK_SYSCALL(setuid(UID_NOBODY));
+         setuid(UID_NOBODY);
       }
    }
 }
@@ -1477,9 +1471,9 @@ static void reopen_012 (void)
    close (1);
    close (2);
 
-   CHECK_SYSCALL(dup (fd));
-   CHECK_SYSCALL(dup (fd));
-   CHECK_SYSCALL(dup (fd));
+   dup (fd);
+   dup (fd);
+   dup (fd);
 }
 
 int main (int argc, char **argv, char **envp)
@@ -1533,10 +1527,6 @@ int main (int argc, char **argv, char **envp)
       { "address-family",   1, 0, 523 },
       { 0,                  0, 0, 0  }
    };
-
-   /* close all file descriptors except for the standard ones */
-   for (i=getdtablesize()-1; i > 2; --i)
-     close(i);
 
    set_umask ();
    init (argv[0]);
@@ -1717,7 +1707,7 @@ int main (int argc, char **argv, char **envp)
 
    if (detach){
       /* become a daemon */
-      CHECK_SYSCALL(daemon (0, 1));
+      daemon (0, 1);
       reopen_012 ();
 
       /* after fork from daemon(3) */

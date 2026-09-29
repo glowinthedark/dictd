@@ -131,23 +131,23 @@ static void daemon_log( int type, const char *format, ... )
 
    switch (type) {
    case DICT_LOG_TERM:
-      if (!flg_test(LOG_STATS))    { return; } marker = 'I'; break;
+      if (!flg_test(LOG_STATS))    return; marker = 'I'; break;
    case DICT_LOG_TRACE:
-      if (!flg_test(LOG_SERVER))   { return; } marker = 'I'; break;
+      if (!flg_test(LOG_SERVER))   return; marker = 'I'; break;
    case DICT_LOG_CLIENT:
-      if (!flg_test(LOG_CLIENT))   { return; } marker = 'C'; break;
+      if (!flg_test(LOG_CLIENT))   return; marker = 'C'; break;
    case DICT_LOG_CONNECT:
-      if (!flg_test(LOG_CONNECT))  { return; } marker = 'K'; break;
+      if (!flg_test(LOG_CONNECT))  return; marker = 'K'; break;
    case DICT_LOG_DEFINE:
-      if (!flg_test(LOG_FOUND))    { return; } marker = 'D'; break;
+      if (!flg_test(LOG_FOUND))    return; marker = 'D'; break;
    case DICT_LOG_MATCH:
-      if (!flg_test(LOG_FOUND))    { return; } marker = 'M'; break;
+      if (!flg_test(LOG_FOUND))    return; marker = 'M'; break;
    case DICT_LOG_NOMATCH:
-      if (!flg_test(LOG_NOTFOUND)) { return; } marker = 'N'; break;
+      if (!flg_test(LOG_NOTFOUND)) return; marker = 'N'; break;
    case DICT_LOG_COMMAND:
-      if (!flg_test(LOG_COMMAND))  { return; } marker = 'T'; break;
+      if (!flg_test(LOG_COMMAND))  return; marker = 'T'; break;
    case DICT_LOG_AUTH:
-      if (!flg_test(LOG_AUTH))     { return; } marker = 'A'; break;
+      if (!flg_test(LOG_AUTH))     return; marker = 'A'; break;
    }
 
    if (dbg_test(DBG_PORT))
@@ -255,7 +255,7 @@ static int daemon_check_range(const char *spec, const char *ip)
       return DICT_DENY;
    }
    if (!*pt) {
-      log_info( ":E: Malformed range %s, denying access to %s\n", spec, ip);
+      log_info( ":E: Misformed range %s, denying access to %s\n", spec, ip);
       return DICT_DENY;
    }
    

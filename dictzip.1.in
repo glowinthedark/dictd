@@ -172,9 +172,6 @@ license and quit.
 Check the compressed file integrity.  This option is not implemented.
 Instead, it will list the header information.
 .TP
-.BR \-n " or " \-\-no-name
-Don't save the original filename and timestamp.
-.TP
 .BR \-v " or " \-\-verbose
 Verbose. Display extra information during compression.
 .TP

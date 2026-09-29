@@ -376,8 +376,7 @@ clean:
 	-rm -f *.dict *.index
 	-rm -f *.exe *.dll
 	-rm -f test/_* test/testdb.t.txt test/log.txt
-	-rm -f $(patsubst %.in,%,$(wildcard examples/*.in))
-	#-rm -f ChangeLog*
+	-rm -f ChangeLog*
 
 recursive-clean: clean
 	@for subdir in `echo $(subdirs)`; do \

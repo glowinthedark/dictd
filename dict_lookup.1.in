@@ -52,7 +52,7 @@ xterm or equivalent terminal emulator.
 .TP
 .B D_UTF8_LOCALE
 UTF-8 locale.
-.RI [ "first available UTF-8 locale on system" ]
+.RI [ en_US.UTF-8 ]
 .TP
 .B D_DICT_PROG
 Dictionary client program.
@@ -85,7 +85,6 @@ Option for terminal emulator specifying the title.
 .B D_TEXT_WIDTH
 Program calculating text width for given text.
 .RI [ cyrillic_text_width ]
-.br
 cyrillic_text_width doesn't work correctly for Japanese, Korean, Chinese
 and some other languages.
 .TP
@@ -103,7 +102,7 @@ Terminal emulator height.
 .TP
 .B D_PAGER
 Pager.
-.RI [ "less -R" ]
+.RI [ less ]
 .SH "SEE ALSO"
 .BR dict (1),
 .BR less (1),

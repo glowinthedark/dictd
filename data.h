@@ -33,8 +33,7 @@ extern void dict_data_close (
 extern void     dict_data_print_header( FILE *str, dictData *data );
 extern int      dict_data_zip(
    const char *inFilename, const char *outFilename,
-   const char *preFilter, const char *postFilter,
-   int nonameFlag );
+   const char *preFilter, const char *postFilter );
 
 extern char *dict_data_obtain (
    const dictDatabase *db,
